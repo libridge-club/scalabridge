@@ -39,12 +39,7 @@ public class CreateTableElement {
     this.elementWidth = 200;
 
     this.texts = new ArrayList<TextWithColorAndFont>();
-    texts.add(new TextWithColorAndFont("Cagando no Bequinho"));
-    texts.add(new TextWithColorAndFont("King"));
     texts.add(new TextWithColorAndFont("Minibridge"));
-    texts.add(new TextWithColorAndFont("Mini-Minibridge"));
-    texts.add(new TextWithColorAndFont("TenCards-Minibridge"));
-    texts.add(new TextWithColorAndFont("Positive King"));
 
     int initialX = FrameConstants.getHalfWidth();
     int initialY = FrameConstants.getHalfHeight();

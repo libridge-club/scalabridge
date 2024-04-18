@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import br.com.sbk.sbking.core.comparators.CardInsideHandWithSuitComparator;
 import br.com.sbk.sbking.core.exceptions.DoesNotFollowSuitException;
 import br.com.sbk.sbking.core.exceptions.PlayedCardInAnotherPlayersTurnException;
-import br.com.sbk.sbking.core.exceptions.PlayedHeartsWhenProhibitedException;
 import br.com.sbk.sbking.core.rulesets.abstractrulesets.Ruleset;
 
 public class Deal {
@@ -59,7 +58,7 @@ public class Deal {
     public void setRuleset(Ruleset ruleset) {
         this.ruleset = ruleset;
         this.board.sortAllHands(ruleset.getComparator());
-        this.score = new Score(ruleset);
+        this.score = new Score();
     }
 
     public Player getPlayerOf(Direction direction) {
@@ -95,11 +94,11 @@ public class Deal {
     }
 
     public int getNorthSouthPoints() {
-        return this.score.getNorthSouthPoints();
+        return this.score.getNorthSouthTricks();
     }
 
     public int getEastWestPoints() {
-        return this.score.getEastWestPoints();
+        return this.score.getEastWestTricks();
     }
 
     public Ruleset getRuleset() {
@@ -107,13 +106,7 @@ public class Deal {
     }
 
     public boolean isFinished() {
-        return allPointsPlayed() || allTricksPlayed();
-    }
-
-    private boolean allPointsPlayed() {
-        int totalPoints = this.ruleset.getTotalPoints();
-        int pointsPlayed = this.score.getAlreadyPlayedPoints();
-        return pointsPlayed == totalPoints;
+        return allTricksPlayed() || allTricksPlayed();
     }
 
     private boolean allTricksPlayed() {
@@ -134,7 +127,6 @@ public class Deal {
         Hand handOfCurrentPlayer = getHandOfCurrentPlayer();
 
         throwExceptionIfCardIsNotFromCurrentPlayer(handOfCurrentPlayer, card);
-        throwExceptionIfStartingATrickWithHeartsWhenRulesetProhibitsIt(card, handOfCurrentPlayer);
         if (currentTrickHasCards()) {
             throwExceptionIfCardDoesNotFollowSuit(card, handOfCurrentPlayer);
         }
@@ -162,14 +154,6 @@ public class Deal {
     private void throwExceptionIfCardIsNotFromCurrentPlayer(Hand handOfCurrentPlayer, Card card) {
         if (!handOfCurrentPlayer.containsCard(card)) {
             throw new PlayedCardInAnotherPlayersTurnException();
-        }
-    }
-
-    private void throwExceptionIfStartingATrickWithHeartsWhenRulesetProhibitsIt(Card card, Hand handOfCurrentPlayer) {
-        HandEvaluations handEvaluations = handOfCurrentPlayer.getHandEvaluations();
-        if (this.currentTrickNotStartedYet() && this.ruleset.prohibitsHeartsUntilOnlySuitLeft() && card.isHeart()
-                && !handEvaluations.onlyHasHearts()) {
-            throw new PlayedHeartsWhenProhibitedException();
         }
     }
 
@@ -460,7 +444,7 @@ public class Deal {
     }
 
     private void finishScore(Direction winner) {
-        int totalPoints = this.ruleset.getTotalPoints();
+        int totalPoints = this.startingNumberOfCardsInTheHand;
         this.score.finishScore(winner, totalPoints);
     }
 

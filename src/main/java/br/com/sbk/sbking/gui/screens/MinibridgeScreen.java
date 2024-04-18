@@ -49,17 +49,17 @@ public class MinibridgeScreen extends GameScreen {
         } else {
           if (!sbkingClient.isRulesetValidSet()) {
             LOGGER.debug("Suit not selected yet!");
-            if (sbkingClient.getDirection() == null || !sbkingClient.isGameModeOrStrainChooserSet()) {
+            if (sbkingClient.getDirection() == null || !sbkingClient.isStrainChooserSet()) {
               LOGGER.trace("Direction not set yet.");
               LOGGER.trace("or Chooser not set yet.");
               continue;
             } else {
-              LOGGER.trace("paintWaitingForChoosingGameModeOrStrainScreen!");
+              LOGGER.trace("paintWaitingForChoosingStrainScreen!");
               LOGGER.trace("My direction: {}", sbkingClient.getDirection());
-              LOGGER.trace("Chooser: {}", sbkingClient.getGameModeOrStrainChooser());
+              LOGGER.trace("Chooser: {}", sbkingClient.getStrainChooser());
 
-              Painter painter = this.painterFactory.getWaitingForChoosingGameModeOrStrainPainter(
-                  sbkingClient.getDirection(), sbkingClient.getGameModeOrStrainChooser(), true);
+              Painter painter = this.painterFactory.getWaitingForChoosingStrainPainter(
+                  sbkingClient.getDirection(), sbkingClient.getStrainChooser());
               sbkingClientJFrame.paintPainter(painter);
               while (!sbkingClient.isRulesetValidSet()) {
                 sleepFor(WAIT_FOR_SERVER_MESSAGE_IN_MILISECONDS);

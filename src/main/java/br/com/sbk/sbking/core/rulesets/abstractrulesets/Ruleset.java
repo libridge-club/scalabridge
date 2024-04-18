@@ -8,17 +8,13 @@ import br.com.sbk.sbking.core.Hand;
 import br.com.sbk.sbking.core.Trick;
 import br.com.sbk.sbking.core.comparators.CardInsideHandComparator;
 import br.com.sbk.sbking.core.rulesets.interfaces.CardComparable;
-import br.com.sbk.sbking.core.rulesets.interfaces.Descriptionable;
-import br.com.sbk.sbking.core.rulesets.interfaces.HeartsProhibitable;
-import br.com.sbk.sbking.core.rulesets.interfaces.Scoreable;
 import br.com.sbk.sbking.core.rulesets.interfaces.SuitFollowable;
 import br.com.sbk.sbking.core.rulesets.interfaces.Winnable;
 
 public abstract class Ruleset
-        implements SuitFollowable, Scoreable, Descriptionable, HeartsProhibitable, Winnable, CardComparable {
+        implements SuitFollowable, Winnable, CardComparable {
 
     protected SuitFollowable suitFollowable;
-    protected HeartsProhibitable heartsProhibitable;
     protected Winnable winnable;
     protected Comparator<Card> cardComparator;
 
@@ -30,11 +26,6 @@ public abstract class Ruleset
     @Override
     public boolean followsSuit(Trick trick, Hand hand, Card card) {
         return suitFollowable.followsSuit(trick, hand, card);
-    }
-
-    @Override
-    public boolean prohibitsHeartsUntilOnlySuitLeft() {
-        return heartsProhibitable.prohibitsHeartsUntilOnlySuitLeft();
     }
 
     @Override

@@ -125,22 +125,11 @@ class AppController {
         this.getServer().undo(getUUID(playerUUID));
     }
 
-    @PostMapping("/choosePositiveOrNegative/{positiveOrNegative}")
-    public void choosePositiveOrNegative(@RequestHeader("PlayerUUID") String playerUUID,
-            @PathVariable String positiveOrNegative) {
-        LOGGER.trace("choosePositiveOrNegative");
-        if ("+".equals(positiveOrNegative)) {
-            this.getServer().choosePositive(getUUID(playerUUID));
-        } else {
-            this.getServer().chooseNegative(getUUID(playerUUID));
-        }
-    }
-
-    @PostMapping("/chooseGameModeOrStrain")
-    public void chooseGameModeOrStrain(@RequestHeader("PlayerUUID") String playerUUID,
+    @PostMapping("/chooseStrain")
+    public void chooseStrain(@RequestHeader("PlayerUUID") String playerUUID,
             @RequestBody RequestWithString requestWithString) {
-        LOGGER.trace("chooseGameModeOrStrain");
-        this.getServer().chooseGameModeOrStrain(requestWithString.getContent(), getUUID(playerUUID));
+        LOGGER.trace("chooseStrain");
+        this.getServer().chooseStrain(requestWithString.getContent(), getUUID(playerUUID));
     }
 
     @GetMapping("/spectators")

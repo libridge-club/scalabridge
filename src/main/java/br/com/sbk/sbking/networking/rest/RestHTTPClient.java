@@ -118,19 +118,9 @@ public class RestHTTPClient extends BaseRestHTTPClient {
         post(url);
     }
 
-    public void choosePositive() {
-        String url = this.baseUrl + "choosePositiveOrNegative/" + "+";
-        post(url);
-    }
-
-    public void chooseNegative() {
-        String url = this.baseUrl + "choosePositiveOrNegative/" + "-";
-        post(url);
-    }
-
-    public void chooseGameModeOrStrain(String gameModeOrStrain) {
-        String url = this.baseUrl + "chooseGameModeOrStrain";
-        String body = createBodyFromContent(gameModeOrStrain);
+    public void chooseStrain(String strain) {
+        String url = this.baseUrl + "chooseStrain";
+        String body = createBodyFromContent(strain);
         post(url, body);
     }
 

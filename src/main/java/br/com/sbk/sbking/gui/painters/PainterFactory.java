@@ -31,14 +31,8 @@ public class PainterFactory {
     }
   }
 
-  public Painter getWaitingForChoosingGameModeOrStrainPainter(Direction direction, Direction chooser,
-      boolean isPositive) {
-    return new WaitingForChoosingGameModeOrStrainPainter(direction, chooser, isPositive, this.sbkingClient);
-  }
-
-  public Painter getWaitingForChoosingPositiveOrNegativePainter(Direction direction, Direction chooser) {
-    return new WaitingForChoosingPositiveOrNegativePainter(direction, chooser, this.sbkingClient,
-        this.sbkingClient.getCurrentGameScoreboard());
+  public Painter getWaitingForChoosingStrainPainter(Direction direction, Direction chooser) {
+    return new WaitingForChoosingStrainPainter(direction, chooser, this.sbkingClient);
   }
 
   public Painter getDealWithDummyPainter(Deal deal, Direction direction, ActionListener actionListener) {

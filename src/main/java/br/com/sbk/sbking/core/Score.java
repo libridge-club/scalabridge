@@ -1,75 +1,44 @@
 package br.com.sbk.sbking.core;
 
-import br.com.sbk.sbking.core.rulesets.interfaces.Scoreable;
-
 public class Score {
 
-    /**
-     * @deprecated Kryo needs a no-arg constructor
-     */
-    @Deprecated
-    @SuppressWarnings("unused")
-    private Score() {
+    private int northSouthTricks = 0;
+    private int eastWestTricks = 0;
+
+    public int getNorthSouthTricks() {
+        return northSouthTricks;
     }
 
-    private int northSouthPoints = 0;
-    private int eastWestPoints = 0;
-    private Scoreable scoreable;
-
-    public Score(Scoreable scoreable) {
-        this.scoreable = scoreable;
-    }
-
-    public int getNorthSouthPoints() {
-        return northSouthPoints;
-    }
-
-    public int getEastWestPoints() {
-        return eastWestPoints;
+    public int getEastWestTricks() {
+        return eastWestTricks;
     }
 
     public void addTrickToDirection(Trick trick, Direction winner) {
         if (winner.isNorthSouth()) {
-            addNorthSouth(trick);
+            this.northSouthTricks++;
         } else {
-            addEastWest(trick);
+            this.eastWestTricks++;
         }
-    }
-
-    private void addNorthSouth(Trick trick) {
-        northSouthPoints += this.scoreable.getPoints(trick);
-    }
-
-    private void addEastWest(Trick trick) {
-        eastWestPoints += this.scoreable.getPoints(trick);
     }
 
     public void subtractTrickFromDirection(Trick trick, Direction winner) {
         if (winner.isNorthSouth()) {
-            this.northSouthPoints -= this.scoreable.getPoints(trick);
+            this.northSouthTricks--;
         } else {
-            this.eastWestPoints -= this.scoreable.getPoints(trick);
+            this.eastWestTricks--;
         }
     }
 
-    public int getAlreadyPlayedPoints() {
-        return this.eastWestPoints + this.northSouthPoints;
-    }
-
-    public int getFinalPunctuation() {
-        int points = (getNorthSouthPoints() - getEastWestPoints()) * scoreable.getScoreMultiplier();
-        if (scoreable.isNegative()) {
-            points *= -1;
-        }
-        return points;
+    public int getAlreadyPlayedTricks() {
+        return this.eastWestTricks + this.northSouthTricks;
     }
 
     public void finishScore(Direction winner, int totalPoints) {
-        int remainingPoints = totalPoints - this.getAlreadyPlayedPoints();
+        int remainingPoints = totalPoints - this.getAlreadyPlayedTricks();
         if (winner.isNorthSouth()) {
-            this.northSouthPoints += remainingPoints;
+            this.northSouthTricks += remainingPoints;
         } else {
-            this.eastWestPoints += remainingPoints;
+            this.eastWestTricks += remainingPoints;
         }
     }
 
@@ -77,9 +46,8 @@ public class Score {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + eastWestPoints;
-        result = prime * result + northSouthPoints;
-        result = prime * result + ((scoreable == null) ? 0 : scoreable.hashCode());
+        result = prime * result + eastWestTricks;
+        result = prime * result + northSouthTricks;
         return result;
     }
 
@@ -95,17 +63,10 @@ public class Score {
             return false;
         }
         Score other = (Score) obj;
-        if (eastWestPoints != other.eastWestPoints) {
+        if (eastWestTricks != other.eastWestTricks) {
             return false;
         }
-        if (northSouthPoints != other.northSouthPoints) {
-            return false;
-        }
-        if (scoreable == null) {
-            if (other.scoreable != null) {
-                return false;
-            }
-        } else if (!(scoreable.getClass() == other.scoreable.getClass())) {
+        if (northSouthTricks != other.northSouthTricks) {
             return false;
         }
         return true;

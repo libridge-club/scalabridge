@@ -13,19 +13,17 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
 import br.com.sbk.sbking.core.Strain;
-import br.com.sbk.sbking.core.rulesets.NegativeRulesetsEnum;
 import br.com.sbk.sbking.core.rulesets.concrete.PositiveWithTrumpsRuleset;
 import br.com.sbk.sbking.gui.constants.FrameConstants;
 import br.com.sbk.sbking.gui.jelements.SBKingLabel;
 import br.com.sbk.sbking.gui.models.TextWithColorAndFont;
 import br.com.sbk.sbking.networking.client.SBKingClient;
 
-public class ChooseGameModeOrStrainElement {
+public class ChooseStrainElement {
 
     private Container container;
     private List<JRadioButton> radioButtons;
     private SBKingClient sbKingClient;
-    private boolean isPositive;
 
     private int numberOfElements;
     private int elementWidth;
@@ -35,15 +33,10 @@ public class ChooseGameModeOrStrainElement {
 
     private static final int BUTTON_WIDTH = 80;
 
-    public ChooseGameModeOrStrainElement(Container container, SBKingClient sbKingClient, boolean isPositive) {
+    public ChooseStrainElement(Container container, SBKingClient sbKingClient) {
         this.container = container;
         this.sbKingClient = sbKingClient;
-        this.isPositive = isPositive;
-        if (isPositive) {
-            this.numberOfElements = Strain.values().length;
-        } else {
-            this.numberOfElements = NegativeRulesetsEnum.values().length;
-        }
+        this.numberOfElements = Strain.values().length;
         this.elementWidth = 60;
     }
 
@@ -73,23 +66,21 @@ public class ChooseGameModeOrStrainElement {
         int x = buttonsPosition.x;
 
         List<TextWithColorAndFont> texts = new ArrayList<TextWithColorAndFont>();
-        if (this.isPositive) {
-            for (Strain strain : Strain.values()) {
-                String newText = strain.getPositiveRuleset().getShortDescription();
-                if (strain.getPositiveRuleset() instanceof PositiveWithTrumpsRuleset) {
-                    PositiveWithTrumpsRuleset positiveWithTrumpsRuleset = (PositiveWithTrumpsRuleset) strain
-                            .getPositiveRuleset();
-                    java.awt.Color textColor = positiveWithTrumpsRuleset.getTrumpSuit().getColor();
-                    texts.add(new TextWithColorAndFont(newText, textColor, 22, strain.getName()));
-                } else {
-                    texts.add(new TextWithColorAndFont(newText, strain.getName()));
-                }
+        for (Strain strain : Strain.values()) {
+            String newText = strain.getName();
+            java.awt.Color textColor = FrameConstants.BLACK_SUIT_COLOR;
+
+            if (Strain.NOTRUMPS != strain) {
+                PositiveWithTrumpsRuleset positiveWithTrumpsRuleset = (PositiveWithTrumpsRuleset) strain
+                        .getPositiveRuleset();
+                textColor = positiveWithTrumpsRuleset.getTrumpSuit().getColor();
+                newText = "" + positiveWithTrumpsRuleset.getTrumpSuit().getUnicodeSymbol();
+            } else {
+                textColor = FrameConstants.BLACK_SUIT_COLOR;
+                newText = "NT";
             }
-        } else {
-            for (NegativeRulesetsEnum negativeRulesetEnumElement : NegativeRulesetsEnum.values()) {
-                String newText = negativeRulesetEnumElement.getNegativeRuleset().getShortDescription();
-                texts.add(new TextWithColorAndFont(newText, newText));
-            }
+            texts.add(new TextWithColorAndFont(newText, textColor, 22, strain.getName()));
+            System.out.println("Added new text for " + strain.getName());
         }
 
         SBKingRadioButtonGroupCreator sbKingRadioButtonGroupCreator = new SBKingRadioButtonGroupCreator();
@@ -120,7 +111,7 @@ public class ChooseGameModeOrStrainElement {
                 }
             }
             if (selectedOnRadio != null) {
-                sbKingClient.sendChooseGameModeOrStrain(selectedOnRadio.getToolTipText());
+                sbKingClient.sendChooseStrain(selectedOnRadio.getToolTipText());
             }
         }
 

@@ -6,22 +6,22 @@ import java.util.Deque;
 
 import br.com.sbk.sbking.core.Card;
 import br.com.sbk.sbking.core.Direction;
+import br.com.sbk.sbking.core.Strain;
 import br.com.sbk.sbking.core.boarddealer.Complete52CardDeck;
 import br.com.sbk.sbking.core.exceptions.PlayedCardInAnotherPlayersTurnException;
-import br.com.sbk.sbking.core.exceptions.SelectedPositiveOrNegativeInAnotherPlayersTurnException;
+import br.com.sbk.sbking.core.exceptions.SelectedStrainInAnotherPlayersTurnException;
 import br.com.sbk.sbking.core.game.MinibridgeGame;
-import br.com.sbk.sbking.core.rulesets.abstractrulesets.Ruleset;
+import br.com.sbk.sbking.core.rulesets.concrete.PositiveRuleset;
 import br.com.sbk.sbking.core.rulesets.concrete.PositiveWithTrumpsRuleset;
 import br.com.sbk.sbking.networking.server.notifications.CardPlayNotification;
-import br.com.sbk.sbking.networking.server.notifications.GameModeOrStrainNotification;
+import br.com.sbk.sbking.networking.server.notifications.StrainNotification;
 
 public class MinibridgeGameServer extends GameServer {
 
-  private GameModeOrStrainNotification gameModeOrStrainNotification;
-  private Ruleset currentGameModeOrStrain;
-  private boolean isRulesetPermitted;
-
+  private StrainNotification strainNotification;
+  private Strain currentStrain;
   private MinibridgeGame minibridgeGame;
+  private boolean isRulesetPermitted;
 
   public MinibridgeGameServer() {
     this.setGameWithCardDeck(new Complete52CardDeck().getDeck());
@@ -39,15 +39,15 @@ public class MinibridgeGameServer extends GameServer {
         this.sendInitializeDealAll();
         this.sendDealAll();
 
-        this.gameModeOrStrainNotification = new GameModeOrStrainNotification();
-        synchronized (gameModeOrStrainNotification) {
+        this.strainNotification = new StrainNotification();
+        synchronized (strainNotification) {
           // wait until object notifies - which relinquishes the lock on the object too
-          while (!shouldStop && gameModeOrStrainNotification.getGameModeOrStrain() == null) {
-            LOGGER.debug("getGameModeOrStrain: {}", gameModeOrStrainNotification.getGameModeOrStrain());
+          while (!shouldStop && strainNotification.getStrain() == null) {
+            LOGGER.debug("getStrain: {}", strainNotification.getStrain());
             try {
               LOGGER.debug("I am waiting for some thread to notify that it wants to choose game Mode Or Strain");
-              gameModeOrStrainNotification.wait(3000);
-              this.sendGameModeOrStrainChooserAll();
+              strainNotification.wait(3000);
+              this.sendStrainChooserAll();
             } catch (InterruptedException e) {
               LOGGER.error(e);
             }
@@ -57,17 +57,16 @@ public class MinibridgeGameServer extends GameServer {
           return;
         }
         LOGGER.info("I received that is going to be "
-            + gameModeOrStrainNotification.getGameModeOrStrain().getShortDescription());
-        this.currentGameModeOrStrain = gameModeOrStrainNotification.getGameModeOrStrain();
+            + strainNotification.getStrain().getName());
+        this.currentStrain = strainNotification.getStrain();
 
-        isRulesetPermitted = this.minibridgeGame.isGameModePermitted(this.currentGameModeOrStrain,
-            this.getCurrentGameModeOrStrainChooser());
-
-        if (!isRulesetPermitted) {
+        if (this.currentStrain == null) {
           LOGGER.warn("This ruleset is not permitted. Restarting choose procedure");
           this.sendInvalidRulesetAll();
+          this.isRulesetPermitted = false;
         } else {
           this.sendValidRulesetAll();
+          this.isRulesetPermitted = true;
         }
 
       } while (!shouldStop && !isRulesetPermitted);
@@ -76,10 +75,11 @@ public class MinibridgeGameServer extends GameServer {
       }
 
       LOGGER.info("Everything selected! Game commencing!");
-      this.minibridgeGame.setRuleset(currentGameModeOrStrain);
+      this.minibridgeGame.setRuleset(currentStrain.getPositiveRuleset());
 
-      if (currentGameModeOrStrain instanceof PositiveWithTrumpsRuleset) {
-        PositiveWithTrumpsRuleset positiveWithTrumpsRuleset = (PositiveWithTrumpsRuleset) currentGameModeOrStrain;
+      PositiveRuleset currentRuleset = currentStrain.getPositiveRuleset();
+      if (currentRuleset instanceof PositiveWithTrumpsRuleset) {
+        PositiveWithTrumpsRuleset positiveWithTrumpsRuleset = (PositiveWithTrumpsRuleset) currentRuleset;
         this.game.getCurrentDeal().sortAllHandsByTrumpSuit(positiveWithTrumpsRuleset.getTrumpSuit());
       }
 
@@ -157,22 +157,22 @@ public class MinibridgeGameServer extends GameServer {
     }
   }
 
-  public void notifyChooseGameModeOrStrain(Ruleset gameModeOrStrain, Direction direction) {
-    synchronized (gameModeOrStrainNotification) {
-      if (this.getCurrentGameModeOrStrainChooser() == direction) {
-        this.gameModeOrStrainNotification.notifyAllWithGameModeOrStrain(gameModeOrStrain);
+  public void notifyChooseStrain(Strain strain, Direction direction) {
+    synchronized (strainNotification) {
+      if (this.getCurrentStrainChooser() == direction) {
+        this.strainNotification.notifyAllWithStrain(strain);
       } else {
-        throw new SelectedPositiveOrNegativeInAnotherPlayersTurnException();
+        throw new SelectedStrainInAnotherPlayersTurnException();
       }
     }
   }
 
-  private Direction getCurrentGameModeOrStrainChooser() {
+  private Direction getCurrentStrainChooser() {
     return this.minibridgeGame.getDeclarer();
   }
 
-  private void sendGameModeOrStrainChooserAll() {
-    this.sbkingServer.sendGameModeOrStrainChooserToTable(this.getCurrentGameModeOrStrainChooser(), this.table);
+  private void sendStrainChooserAll() {
+    this.sbkingServer.sendStrainChooserToTable(this.getCurrentStrainChooser(), this.table);
   }
 
   protected void setGameWithCardDeck(Deque<Card> deck) {

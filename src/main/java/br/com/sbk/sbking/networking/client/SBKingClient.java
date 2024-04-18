@@ -17,24 +17,18 @@ import br.com.sbk.sbking.core.Deal;
 import br.com.sbk.sbking.core.Direction;
 import br.com.sbk.sbking.dto.LobbyScreenTableDTO;
 import br.com.sbk.sbking.gui.listeners.ClientActionListener;
-import br.com.sbk.sbking.gui.models.KingGameScoreboard;
-import br.com.sbk.sbking.gui.models.PositiveOrNegative;
 import br.com.sbk.sbking.networking.rest.RestHTTPClient;
 
 public class SBKingClient {
 
     private Direction direction;
 
-    private Direction positiveOrNegativeChooser;
-    private Direction gameModeOrStrainChooser;
-    private PositiveOrNegative positiveOrNegative;
+    private Direction strainChooser;
 
     private Deal currentDeal;
     private boolean dealHasChanged = true;
 
     private Boolean rulesetValid = null;
-
-    private KingGameScoreboard currentGameScoreboard = new KingGameScoreboard();
 
     private ClientActionListener actionListener;
 
@@ -108,17 +102,13 @@ public class SBKingClient {
     }
 
     private void initializeEverythingToNextDeal() {
-        this.unsetPositiveOrNegativeChooser();
-        this.unsetPositiveOrNegative();
-        this.unsetGameModeOrStrainChooser();
+        this.unsetStrainChooser();
         this.unsetCurrentDeal();
         this.unsetRulesetValid();
     }
 
     public void resetBeforeEnteringTable() {
-        this.unsetPositiveOrNegativeChooser();
-        this.unsetPositiveOrNegative();
-        this.unsetGameModeOrStrainChooser();
+        this.unsetStrainChooser();
         this.unsetRulesetValid();
     }
 
@@ -130,61 +120,20 @@ public class SBKingClient {
         return this.direction != null || this.spectator;
     }
 
-    public void setPositiveOrNegativeChooser(Direction direction) {
-        this.positiveOrNegativeChooser = direction;
+    public void setStrainChooser(Direction direction) {
+        this.strainChooser = direction;
     }
 
-    public boolean isPositiveOrNegativeChooserSet() {
-        return this.positiveOrNegativeChooser != null;
+    private void unsetStrainChooser() {
+        this.strainChooser = null;
     }
 
-    private void unsetPositiveOrNegativeChooser() {
-        this.positiveOrNegativeChooser = null;
+    public boolean isStrainChooserSet() {
+        return this.strainChooser != null;
     }
 
-    public Direction getPositiveOrNegativeChooser() {
-        return this.positiveOrNegativeChooser;
-    }
-
-    public void setGameModeOrStrainChooser(Direction direction) {
-        this.gameModeOrStrainChooser = direction;
-    }
-
-    private void unsetGameModeOrStrainChooser() {
-        this.gameModeOrStrainChooser = null;
-    }
-
-    public boolean isGameModeOrStrainChooserSet() {
-        return this.gameModeOrStrainChooser != null;
-    }
-
-    public Direction getGameModeOrStrainChooser() {
-        return this.gameModeOrStrainChooser;
-    }
-
-    public void selectedPositive() {
-        this.positiveOrNegative = new PositiveOrNegative();
-        this.positiveOrNegative.setPositive();
-    }
-
-    public void selectedNegative() {
-        this.positiveOrNegative = new PositiveOrNegative();
-        this.positiveOrNegative.setNegative();
-    }
-
-    public boolean isPositiveOrNegativeSelected() {
-        if (this.positiveOrNegative == null) {
-            return false;
-        }
-        return this.positiveOrNegative.isSelected();
-    }
-
-    public boolean isPositive() {
-        return this.positiveOrNegative.isPositive();
-    }
-
-    private void unsetPositiveOrNegative() {
-        this.positiveOrNegative = null;
+    public Direction getStrainChooser() {
+        return this.strainChooser;
     }
 
     public void setRulesetValid(boolean valid) {
@@ -225,24 +174,12 @@ public class SBKingClient {
         return this.spectator;
     }
 
-    public KingGameScoreboard getCurrentGameScoreboard() {
-        return this.currentGameScoreboard;
-    }
-
     public void setSpectator(boolean spectator) {
         this.spectator = spectator;
     }
 
-    public void sendChooseGameModeOrStrain(String gameModeOrStrain) {
-        this.restHTTPClient.chooseGameModeOrStrain(gameModeOrStrain);
-    }
-
-    public void sendPositive() {
-        this.restHTTPClient.choosePositive();
-    }
-
-    public void sendNegative() {
-        this.restHTTPClient.chooseNegative();
+    public void sendChooseStrain(String strain) {
+        this.restHTTPClient.chooseStrain(strain);
     }
 
     public void sendNickname() {
@@ -255,18 +192,6 @@ public class SBKingClient {
             this.initializeTables();
         } else {
             this.setTables(tablesFromServer);
-        }
-    }
-
-    public void setPositiveOrNegative(String content) {
-        String positive = "POSITIVE";
-        String negative = "NEGATIVE";
-        if (positive.equals(content)) {
-            this.selectedPositive();
-        } else if (negative.equals(content)) {
-            this.selectedNegative();
-        } else {
-            throw new IllegalArgumentException("Content must be POSITIVE or NEGATIVE");
         }
     }
 

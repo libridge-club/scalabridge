@@ -1,11 +1,15 @@
 package br.com.sbk.sbking.core;
 
-import br.com.sbk.sbking.core.rulesets.abstractrulesets.PositiveRuleset;
+import java.util.HashMap;
+import java.util.Map;
+
 import br.com.sbk.sbking.core.rulesets.concrete.PositiveNoTrumpsRuleset;
+import br.com.sbk.sbking.core.rulesets.concrete.PositiveRuleset;
 import br.com.sbk.sbking.core.rulesets.concrete.PositiveWithTrumpsRuleset;
 
 /**
- * The Laws of Bridge use "Denomination" but we will use Strain as it is more common.
+ * The Laws of Bridge use "Denomination" but we will use Strain as it is more
+ * common.
  */
 public enum Strain {
     CLUBS("Clubs", new PositiveWithTrumpsRuleset(Suit.CLUBS)),
@@ -32,6 +36,19 @@ public enum Strain {
 
     public String getSymbol() {
         return String.valueOf(this.name.charAt(0));
+    }
+
+    private static Map<String, Strain> mapFromName = new HashMap<String, Strain>();
+    // Static initialization block to avoid doing this calculation every time
+    // identify(..) is called.
+    static {
+        for (Strain strain : Strain.values()) {
+            mapFromName.put(strain.getName(), strain);
+        }
+    }
+
+    public static Strain fromName(String name) {
+        return Strain.mapFromName.get(name);
     }
 
 }

@@ -2,11 +2,9 @@ package br.com.sbk.sbking.clientapp;
 
 import static br.com.sbk.sbking.core.MessageTypes.DEAL_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.FINISH_DEAL_MESSAGE;
-import static br.com.sbk.sbking.core.MessageTypes.GAME_MODE_OR_STRAIN_CHOOSER_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.INITIALIZE_DEAL_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.INVALID_RULESET_MESSAGE;
-import static br.com.sbk.sbking.core.MessageTypes.POSITIVE_OR_NEGATIVE_CHOOSER_MESSAGE;
-import static br.com.sbk.sbking.core.MessageTypes.POSITIVE_OR_NEGATIVE_MESSAGE;
+import static br.com.sbk.sbking.core.MessageTypes.STRAIN_CHOOSER_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.VALID_RULESET_MESSAGE;
 import static br.com.sbk.sbking.logging.SBKingLogger.LOGGER;
 
@@ -50,15 +48,9 @@ public class TableMessageFrameHandler implements StompFrameHandler {
         } else if (VALID_RULESET_MESSAGE.equals(messageType)) {
             LOGGER.trace("Received message: --TableMessage:{}--", VALID_RULESET_MESSAGE);
             this.sbkingClient.setRulesetValid(true);
-        } else if (POSITIVE_OR_NEGATIVE_MESSAGE.equals(messageType)) {
-            LOGGER.trace("Received message: --TableMessage:{}--", POSITIVE_OR_NEGATIVE_MESSAGE);
-            this.sbkingClient.setPositiveOrNegative(tableDealDTO.getContent());
-        } else if (POSITIVE_OR_NEGATIVE_CHOOSER_MESSAGE.equals(messageType)) {
-            LOGGER.trace("Received message: --TableMessage:{}--", POSITIVE_OR_NEGATIVE_CHOOSER_MESSAGE);
-            this.sbkingClient.setPositiveOrNegativeChooser(tableDealDTO.getDirection());
-        } else if (GAME_MODE_OR_STRAIN_CHOOSER_MESSAGE.equals(messageType)) {
-            LOGGER.trace("Received message: --TableMessage:{}--", GAME_MODE_OR_STRAIN_CHOOSER_MESSAGE);
-            this.sbkingClient.setGameModeOrStrainChooser(tableDealDTO.getDirection());
+        } else if (STRAIN_CHOOSER_MESSAGE.equals(messageType)) {
+            LOGGER.trace("Received message: --TableMessage:{}--", STRAIN_CHOOSER_MESSAGE);
+            this.sbkingClient.setStrainChooser(tableDealDTO.getDirection());
         } else {
             LOGGER.error("Could not understand message.");
             LOGGER.error(headers);

@@ -17,15 +17,11 @@ import br.com.sbk.sbking.core.Card;
 import br.com.sbk.sbking.core.Deal;
 import br.com.sbk.sbking.core.Direction;
 import br.com.sbk.sbking.core.Player;
-import br.com.sbk.sbking.core.rulesets.RulesetFromShortDescriptionIdentifier;
-import br.com.sbk.sbking.core.rulesets.abstractrulesets.Ruleset;
+import br.com.sbk.sbking.core.Strain;
 import br.com.sbk.sbking.dto.LobbyScreenTableDTO;
-import br.com.sbk.sbking.gui.models.PositiveOrNegative;
 import br.com.sbk.sbking.networking.messages.GameNameFromGameServerIdentifier;
 import br.com.sbk.sbking.networking.server.gameserver.GameServer;
-import br.com.sbk.sbking.networking.server.gameserver.KingGameServer;
 import br.com.sbk.sbking.networking.server.gameserver.MinibridgeGameServer;
-import br.com.sbk.sbking.networking.server.gameserver.PositiveKingGameServer;
 import br.com.sbk.sbking.networking.websockets.PlayerDTO;
 import br.com.sbk.sbking.networking.websockets.PlayerListDTO;
 
@@ -89,51 +85,19 @@ public class SBKingServer {
     table.moveToSeat(player, direction);
   }
 
-  public void choosePositive(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    KingGameServer kingGameServer = (KingGameServer) table.getGameServer();
-    PositiveOrNegative positiveOrNegative = new PositiveOrNegative();
-    positiveOrNegative.setPositive();
-    kingGameServer.notifyChoosePositiveOrNegative(positiveOrNegative,
-        this.getDirectionFromIdentifier(playerIdentifier));
-  }
-
-  public void chooseNegative(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    KingGameServer kingGameServer = (KingGameServer) table.getGameServer();
-    PositiveOrNegative positiveOrNegative = new PositiveOrNegative();
-    positiveOrNegative.setNegative();
-    kingGameServer.notifyChoosePositiveOrNegative(positiveOrNegative,
-        this.getDirectionFromIdentifier(playerIdentifier));
-  }
-
-  public void chooseGameModeOrStrain(String gameModeOrStrainString, UUID playerIdentifier) {
+  public void chooseStrain(String strainString, UUID playerIdentifier) {
     Player player = identifierToPlayerMap.get(playerIdentifier);
     Table table = playersTable.get(player);
     if (player == null || table == null) {
       return;
     }
     GameServer gameServer = table.getGameServer();
-    Ruleset gameModeOrStrain = RulesetFromShortDescriptionIdentifier.identify(gameModeOrStrainString);
+    Strain strain = Strain.fromName(strainString);
     Direction directionFromIdentifier = this.getDirectionFromIdentifier(playerIdentifier);
-    if (gameModeOrStrain != null && directionFromIdentifier != null) {
+    if (strain != null && directionFromIdentifier != null) {
       if (gameServer instanceof MinibridgeGameServer) {
         MinibridgeGameServer minibridgeGameServer = (MinibridgeGameServer) table.getGameServer();
-        minibridgeGameServer.notifyChooseGameModeOrStrain(gameModeOrStrain, directionFromIdentifier);
-      } else if (gameServer instanceof KingGameServer) {
-        KingGameServer kingGameServer = (KingGameServer) table.getGameServer();
-        kingGameServer.notifyChooseGameModeOrStrain(gameModeOrStrain, directionFromIdentifier);
-      } else if (gameServer instanceof PositiveKingGameServer) {
-        PositiveKingGameServer positiveKingGameServer = (PositiveKingGameServer) table.getGameServer();
-        positiveKingGameServer.notifyChooseGameModeOrStrain(gameModeOrStrain, directionFromIdentifier);
+        minibridgeGameServer.notifyChooseStrain(strain, directionFromIdentifier);
       }
     }
   }
@@ -176,16 +140,8 @@ public class SBKingServer {
     this.webSocketTableMessageServerSender.sendValidRulesetToTable(table);
   }
 
-  public void sendPositiveOrNegativeToTable(PositiveOrNegative positiveOrNegative, Table table) {
-    this.webSocketTableMessageServerSender.sendPositiveOrNegativeToTable(positiveOrNegative, table);
-  }
-
-  public void sendPositiveOrNegativeChooserToTable(Direction direction, Table table) {
-    this.webSocketTableMessageServerSender.sendPositiveOrNegativeChooserToTable(direction, table);
-  }
-
-  public void sendGameModeOrStrainChooserToTable(Direction direction, Table table) {
-    this.webSocketTableMessageServerSender.sendGameModeOrStrainChooserToTable(direction, table);
+  public void sendStrainChooserToTable(Direction direction, Table table) {
+    this.webSocketTableMessageServerSender.sendStrainChooserToTable(direction, table);
   }
 
   public void setNickname(UUID identifier, String nickname) {

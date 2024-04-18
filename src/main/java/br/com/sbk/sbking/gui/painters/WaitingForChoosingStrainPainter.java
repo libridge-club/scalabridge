@@ -3,23 +3,21 @@ package br.com.sbk.sbking.gui.painters;
 import java.awt.Container;
 
 import br.com.sbk.sbking.core.Direction;
-import br.com.sbk.sbking.gui.elements.ChooseGameModeOrStrainElement;
+import br.com.sbk.sbking.gui.elements.ChooseStrainElement;
 import br.com.sbk.sbking.gui.elements.EssentialDirectionBoardElements;
 import br.com.sbk.sbking.gui.elements.WaitingForChooserElement;
 import br.com.sbk.sbking.networking.client.SBKingClient;
 
-public class WaitingForChoosingGameModeOrStrainPainter implements Painter {
+public class WaitingForChoosingStrainPainter implements Painter {
 
     private Direction myDirection;
     private Direction chooserDirection;
-    private boolean isPositive;
     private SBKingClient sbKingClient;
 
-    public WaitingForChoosingGameModeOrStrainPainter(Direction myDirection, Direction chooserDirection,
-            boolean isPositive, SBKingClient sbKingClient) {
+    public WaitingForChoosingStrainPainter(Direction myDirection, Direction chooserDirection,
+            SBKingClient sbKingClient) {
         this.myDirection = myDirection;
         this.chooserDirection = chooserDirection;
-        this.isPositive = isPositive;
         this.sbKingClient = sbKingClient;
     }
 
@@ -28,8 +26,8 @@ public class WaitingForChoosingGameModeOrStrainPainter implements Painter {
         if (myDirection != chooserDirection) {
             WaitingForChooserElement.add(contentPane, chooserDirection, "Game Mode or Strain.");
         } else {
-            ChooseGameModeOrStrainElement chooseGameModeOrStrainElement = new ChooseGameModeOrStrainElement(contentPane,
-                    this.sbKingClient, this.isPositive);
+            ChooseStrainElement chooseGameModeOrStrainElement = new ChooseStrainElement(contentPane,
+                    this.sbKingClient);
             chooseGameModeOrStrainElement.add();
         }
 

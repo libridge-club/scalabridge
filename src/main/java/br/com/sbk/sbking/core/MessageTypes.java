@@ -7,8 +7,6 @@ public final class MessageTypes {
     public static final String INITIALIZE_DEAL_MESSAGE = "initializeDeal";
     public static final String INVALID_RULESET_MESSAGE = "invalidRuleset";
     public static final String VALID_RULESET_MESSAGE = "validRuleset";
-    public static final String POSITIVE_OR_NEGATIVE_MESSAGE = "positiveOrNegative";
-    public static final String POSITIVE_OR_NEGATIVE_CHOOSER_MESSAGE = "positiveOrNegativeChooser";
-    public static final String GAME_MODE_OR_STRAIN_CHOOSER_MESSAGE = "gameModeOrStrainChooser";
+    public static final String STRAIN_CHOOSER_MESSAGE = "strainChooser";
 
 }

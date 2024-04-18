@@ -1,16 +1,12 @@
 package br.com.sbk.sbking.core.rulesets.concrete;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.sbk.sbking.core.Suit;
-import br.com.sbk.sbking.core.Trick;
 import br.com.sbk.sbking.core.comparators.CardInsideHandWithSuitComparator;
 
 public class PositiveWithTrumpsRulesetTest {
@@ -26,33 +22,6 @@ public class PositiveWithTrumpsRulesetTest {
     public void createPositiveNoTrumpsRuleset() {
         trumpSuit = Suit.SPADES;
         this.positiveWithTrumpRuleset = new PositiveWithTrumpsRuleset(trumpSuit);
-    }
-
-    @Test
-    public void shouldHaveTheCorrectScoreMultiplier() {
-        assertEquals(POSITIVE_WITH_TRUMPS_SCORE_MULTIPLIER, this.positiveWithTrumpRuleset.getScoreMultiplier());
-    }
-
-    @Test
-    public void shouldHaveTheCorrectPointsPerTrick() {
-        Trick anyTrick = mock(Trick.class);
-        assertEquals(POSITIVE_POINTS_PER_TRICK, this.positiveWithTrumpRuleset.getPoints(anyTrick));
-        verifyNoInteractions(anyTrick);
-    }
-
-    @Test
-    public void shouldGetShortDescription() {
-        assertEquals(POSITIVE_SPADES_SHORT_DESCRIPTION, this.positiveWithTrumpRuleset.getShortDescription());
-    }
-
-    @Test
-    public void shouldGetCompleteDescription() {
-        assertEquals(POSITIVE_SPADES_COMPLETE_DESCRIPTION, this.positiveWithTrumpRuleset.getCompleteDescription());
-    }
-
-    @Test
-    public void shouldNotProhibitsHeartsUntilOnlySuitLeft() {
-        assertFalse(this.positiveWithTrumpRuleset.prohibitsHeartsUntilOnlySuitLeft());
     }
 
     @Test

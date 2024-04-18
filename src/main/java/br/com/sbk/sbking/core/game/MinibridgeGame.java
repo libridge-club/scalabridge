@@ -7,9 +7,7 @@ import br.com.sbk.sbking.core.Deal;
 import br.com.sbk.sbking.core.Direction;
 import br.com.sbk.sbking.core.boarddealer.BoardDealer;
 import br.com.sbk.sbking.core.boarddealer.MinibridgeBoardDealer;
-import br.com.sbk.sbking.core.rulesets.abstractrulesets.PositiveRuleset;
-import br.com.sbk.sbking.core.rulesets.abstractrulesets.Ruleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NoRuleset;
+import br.com.sbk.sbking.core.rulesets.concrete.PositiveRuleset;
 
 public class MinibridgeGame extends TrickGame {
 
@@ -23,7 +21,7 @@ public class MinibridgeGame extends TrickGame {
   @Override
   public void dealNewBoard() {
     this.currentBoard = boardDealer.dealBoard(this.dealer, this.gameDeck);
-    this.currentDeal = new Deal(currentBoard, new NoRuleset(), this.getLeader(), true);
+    this.currentDeal = new Deal(currentBoard, new PositiveRuleset(), this.getLeader(), true);
     this.currentDeal.setCurrentPlayer(this.dealer.next());
     this.currentDeal.setDummy(this.dealer.next(2));
   }
@@ -44,10 +42,6 @@ public class MinibridgeGame extends TrickGame {
 
   public Direction getDummy() {
     return this.currentDeal.getDummy();
-  }
-
-  public boolean isGameModePermitted(Ruleset ruleset, Direction chooser) {
-    return (ruleset instanceof PositiveRuleset);
   }
 
   @Override

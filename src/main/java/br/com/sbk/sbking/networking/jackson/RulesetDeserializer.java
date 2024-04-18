@@ -14,14 +14,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import br.com.sbk.sbking.core.Suit;
 import br.com.sbk.sbking.core.rulesets.abstractrulesets.Ruleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NegativeHeartsRuleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NegativeKingRuleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NegativeLastTwoRuleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NegativeMenRuleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NegativeTricksRuleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NegativeWomenRuleset;
-import br.com.sbk.sbking.core.rulesets.concrete.NoRuleset;
 import br.com.sbk.sbking.core.rulesets.concrete.PositiveNoTrumpsRuleset;
+import br.com.sbk.sbking.core.rulesets.concrete.PositiveRuleset;
 import br.com.sbk.sbking.core.rulesets.concrete.PositiveWithTrumpsRuleset;
 
 public class RulesetDeserializer extends StdDeserializer<Ruleset> {
@@ -32,13 +26,7 @@ public class RulesetDeserializer extends StdDeserializer<Ruleset> {
     // Static initialization block to avoid doing this calculation every
     // deserialization
     static {
-        simpleNameToClass.put("NegativeHeartsRuleset", NegativeHeartsRuleset.class);
-        simpleNameToClass.put("NegativeKingRuleset", NegativeKingRuleset.class);
-        simpleNameToClass.put("NegativeLastTwoRuleset", NegativeLastTwoRuleset.class);
-        simpleNameToClass.put("NegativeMenRuleset", NegativeMenRuleset.class);
-        simpleNameToClass.put("NegativeTricksRuleset", NegativeTricksRuleset.class);
-        simpleNameToClass.put("NegativeWomenRuleset", NegativeWomenRuleset.class);
-        simpleNameToClass.put("NoRuleset", NoRuleset.class);
+        simpleNameToClass.put("NoRuleset", PositiveRuleset.class);
         simpleNameToClass.put("PositiveNoTrumpsRuleset", PositiveNoTrumpsRuleset.class);
         simpleNameToClass.put("PositiveWithTrumpsRuleset", PositiveWithTrumpsRuleset.class);
 
@@ -63,7 +51,7 @@ public class RulesetDeserializer extends StdDeserializer<Ruleset> {
         String rulesetName = node.get("rulesetName").asText();
         String trumpSuit = node.get("trumpSuit").asText();
         Class<? extends Ruleset> class1 = simpleNameToClass.get(rulesetName);
-        Ruleset response = new NoRuleset();
+        Ruleset response = new PositiveRuleset();
         if (PositiveWithTrumpsRuleset.class.equals(class1)) {
             response = new PositiveWithTrumpsRuleset(suitNameToSuit.get(trumpSuit));
         } else {

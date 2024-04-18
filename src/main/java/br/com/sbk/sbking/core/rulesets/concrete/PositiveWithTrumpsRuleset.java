@@ -2,9 +2,7 @@ package br.com.sbk.sbking.core.rulesets.concrete;
 
 import br.com.sbk.sbking.core.Suit;
 import br.com.sbk.sbking.core.comparators.CardInsideHandWithSuitComparator;
-import br.com.sbk.sbking.core.rulesets.abstractrulesets.PositiveRuleset;
 import br.com.sbk.sbking.core.rulesets.implementations.DefaultSuitFollowable;
-import br.com.sbk.sbking.core.rulesets.implementations.DontProhibitsHearts;
 import br.com.sbk.sbking.core.rulesets.implementations.TrumpSuitWinnable;
 
 public class PositiveWithTrumpsRuleset extends PositiveRuleset {
@@ -22,20 +20,9 @@ public class PositiveWithTrumpsRuleset extends PositiveRuleset {
     public PositiveWithTrumpsRuleset(Suit trumpSuit) {
         super();
         this.suitFollowable = new DefaultSuitFollowable();
-        this.heartsProhibitable = new DontProhibitsHearts();
         this.winnable = new TrumpSuitWinnable(trumpSuit);
         this.trumpSuit = trumpSuit;
         this.cardComparator = new CardInsideHandWithSuitComparator(this.trumpSuit);
-    }
-
-    @Override
-    public String getShortDescription() {
-        return "" + trumpSuit.getUnicodeSymbol();
-    }
-
-    @Override
-    public String getCompleteDescription() {
-        return "Make the most tricks with " + trumpSuit.getName().toLowerCase() + " as trump suit";
     }
 
     public Suit getTrumpSuit() {

@@ -91,19 +91,11 @@ public class DirectionTest {
     }
 
     @Test
-    public void shouldGetPositiveOrNegativeChooserWhenDealer() {
-        assertEquals(east, north.getPositiveOrNegativeChooserWhenDealer());
-        assertEquals(south, east.getPositiveOrNegativeChooserWhenDealer());
-        assertEquals(west, south.getPositiveOrNegativeChooserWhenDealer());
-        assertEquals(north, west.getPositiveOrNegativeChooserWhenDealer());
-    }
-
-    @Test
-    public void shouldGetGameModeOrStrainChooserWhenDealer() {
-        assertEquals(west, north.getGameModeOrStrainChooserWhenDealer());
-        assertEquals(north, east.getGameModeOrStrainChooserWhenDealer());
-        assertEquals(east, south.getGameModeOrStrainChooserWhenDealer());
-        assertEquals(south, west.getGameModeOrStrainChooserWhenDealer());
+    public void shouldGetStrainChooserWhenDealer() {
+        assertEquals(west, north.getStrainChooserWhenDealer());
+        assertEquals(north, east.getStrainChooserWhenDealer());
+        assertEquals(east, south.getStrainChooserWhenDealer());
+        assertEquals(south, west.getStrainChooserWhenDealer());
     }
 
     @Test

@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import br.com.sbk.sbking.core.comparators.CardInsideHandWithSuitComparator;
 import br.com.sbk.sbking.core.exceptions.DoesNotFollowSuitException;
 import br.com.sbk.sbking.core.exceptions.PlayedCardInAnotherPlayersTurnException;
-import br.com.sbk.sbking.core.exceptions.PlayedHeartsWhenProhibitedException;
 import br.com.sbk.sbking.core.rulesets.abstractrulesets.Ruleset;
 
 public class DealTest {
@@ -135,28 +134,6 @@ public class DealTest {
 
         Deal deal = new Deal(board, ruleset, currentPlayer, null);
         Assertions.assertThrows(PlayedCardInAnotherPlayersTurnException.class, () -> {
-            deal.playCard(card);
-        });
-    }
-
-    @Test
-    public void playCardShouldThrowExceptionIfStartingATrickWithHeartsWhenRulesetProhibitsIt() {
-        Direction currentPlayer = leader;
-        Card card = mock(Card.class);
-
-        when(board.getDealer()).thenReturn(dealer);
-        when(board.getHandOf(currentPlayer)).thenReturn(hand);
-        when(hand.containsCard(card)).thenReturn(true);
-
-        when(ruleset.prohibitsHeartsUntilOnlySuitLeft()).thenReturn(true);
-        when(card.isHeart()).thenReturn(true);
-        HandEvaluations handEvaluations = mock(HandEvaluations.class);
-        when(hand.getHandEvaluations()).thenReturn(handEvaluations);
-        when(handEvaluations.onlyHasHearts()).thenReturn(false);
-
-        Deal deal = new Deal(board, ruleset, currentPlayer, null);
-
-        Assertions.assertThrows(PlayedHeartsWhenProhibitedException.class, () -> {
             deal.playCard(card);
         });
     }
@@ -283,7 +260,6 @@ public class DealTest {
         when(ruleset.followsSuit(any(), any(), any())).thenReturn(true);
 
         when(ruleset.getWinner(any())).thenReturn(winner);
-        when(ruleset.getPoints(any())).thenReturn(trickPoints);
 
         Deal deal = new Deal(board, ruleset, leader, null);
 
@@ -596,29 +572,28 @@ public class DealTest {
     public void acceptClaimShouldFinishDealIfAllPlayersAcceptedClaimAndItIsPartnershipGame() {
         Deal deal = this.initDeal(hand, ruleset, true);
         Direction claimer = deal.getCurrentPlayer();
-        int totalPoints = 20;
-        when(ruleset.getTotalPoints()).thenReturn(totalPoints);
+        int totalPoints = NUMBER_OF_TRICKS_IN_A_COMPLETE_HAND;
+        ;
 
         deal.claim(claimer);
         deal.acceptClaim(claimer.next());
         deal.acceptClaim(claimer.next(3));
 
-        assertEquals(totalPoints, deal.getScore().getNorthSouthPoints());
+        assertEquals(totalPoints, deal.getScore().getNorthSouthTricks());
     }
 
     @Test
     public void acceptClaimShouldFinishDealIfAllPlayersAcceptedClaimAndItIsNotPartnershipGame() {
         Deal deal = this.initDeal(hand, ruleset, false);
         Direction claimer = deal.getCurrentPlayer();
-        int totalPoints = 20;
-        when(ruleset.getTotalPoints()).thenReturn(totalPoints);
+        int totalPoints = NUMBER_OF_TRICKS_IN_A_COMPLETE_HAND;
 
         deal.claim(claimer);
         deal.acceptClaim(claimer.next());
         deal.acceptClaim(claimer.next(2));
         deal.acceptClaim(claimer.next(3));
 
-        assertEquals(totalPoints, deal.getScore().getNorthSouthPoints());
+        assertEquals(totalPoints, deal.getScore().getNorthSouthTricks());
     }
 
     @Test

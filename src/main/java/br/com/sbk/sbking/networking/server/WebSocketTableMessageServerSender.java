@@ -2,17 +2,14 @@ package br.com.sbk.sbking.networking.server;
 
 import static br.com.sbk.sbking.core.MessageTypes.DEAL_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.FINISH_DEAL_MESSAGE;
-import static br.com.sbk.sbking.core.MessageTypes.GAME_MODE_OR_STRAIN_CHOOSER_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.INITIALIZE_DEAL_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.INVALID_RULESET_MESSAGE;
-import static br.com.sbk.sbking.core.MessageTypes.POSITIVE_OR_NEGATIVE_CHOOSER_MESSAGE;
-import static br.com.sbk.sbking.core.MessageTypes.POSITIVE_OR_NEGATIVE_MESSAGE;
+import static br.com.sbk.sbking.core.MessageTypes.STRAIN_CHOOSER_MESSAGE;
 import static br.com.sbk.sbking.core.MessageTypes.VALID_RULESET_MESSAGE;
 
 import br.com.sbk.sbking.app.TableController;
 import br.com.sbk.sbking.core.Deal;
 import br.com.sbk.sbking.core.Direction;
-import br.com.sbk.sbking.gui.models.PositiveOrNegative;
 import br.com.sbk.sbking.networking.websockets.TableMessageDTO;
 import br.com.sbk.sbking.networking.websockets.TableMessageDTO.Builder;
 
@@ -60,25 +57,9 @@ public class WebSocketTableMessageServerSender {
         this.tableController.sendMessage(tableDealDTO);
     }
 
-    public void sendPositiveOrNegativeToTable(PositiveOrNegative positiveOrNegative, Table table) {
+    public void sendStrainChooserToTable(Direction direction, Table table) {
         TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(POSITIVE_OR_NEGATIVE_MESSAGE)
-                .withContent(positiveOrNegative.toString().toUpperCase())
-                .build();
-        this.tableController.sendMessage(tableDealDTO);
-    }
-
-    public void sendPositiveOrNegativeChooserToTable(Direction direction, Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(POSITIVE_OR_NEGATIVE_CHOOSER_MESSAGE)
-                .withDirection(direction)
-                .build();
-        this.tableController.sendMessage(tableDealDTO);
-    }
-
-    public void sendGameModeOrStrainChooserToTable(Direction direction, Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(GAME_MODE_OR_STRAIN_CHOOSER_MESSAGE)
+                .withMessage(STRAIN_CHOOSER_MESSAGE)
                 .withDirection(direction)
                 .build();
         this.tableController.sendMessage(tableDealDTO);
