@@ -1,10 +1,10 @@
-APP_NAME=rulojuka/sbking
+APP_NAME=rulojuka/libridge
 
 all: package
 
 clean:
 	mvn clean
-	rm -f ./sbking-client.jar ./sbking-server.jar
+	rm -f ./libridge-client.jar ./libridge-server.jar
 	docker rmi $(APP_NAME); true
 
 package: server client
@@ -12,13 +12,13 @@ package: server client
 server: kill_server package_server copy_server
 
 kill_server:
-	@./kill_sbking_server.sh
+	@./kill_server.sh
 
 package_server:
 	mvn -f pom-server.xml clean package
 
 copy_server:
-	cp target/sbking-server-1.0.0-alpha.jar ./sbking-server.jar
+	cp target/libridgebackend-server-1.0.0-alpha.jar ./libridge-server.jar
 
 client: kill_server package_client copy_client
 
@@ -26,7 +26,7 @@ package_client:
 	mvn -f pom-client.xml clean package
 
 copy_client:
-	cp target/sbking-client-1.0.0-alpha.jar ./sbking-client.jar && chmod +x ./sbking-client.jar
+	cp target/libridgebackend-client-1.0.0-alpha.jar ./libridge-client.jar && chmod +x ./libridge-client.jar
 
 build:
 	docker build -t $(APP_NAME) .

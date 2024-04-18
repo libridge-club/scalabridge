@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>br.com.sbk</groupId>
-	<artifactId>sbking-server</artifactId>
+	<groupId>club.libridge</groupId>
+	<artifactId>libridgebackend-server</artifactId>
 	<version>1.0.0-alpha</version>
-	<name>SBKing</name>
-	<description>More information at https://github.com/rulojuka/sbking</description>
+	<name>libridge backend server</name>
+	<description>More information at https://github.com/rulojuka/libridge-backend</description>
 
 	<!-- Adds the base pom from spring boot -->
 	<parent>
@@ -31,62 +31,62 @@
 		<sonar.issue.ignore.multicriteria.e3.ruleKey>java:S2142</sonar.issue.ignore.multicriteria.e3.ruleKey> <!--ignoredInterruptedException-->
 		<sonar.issue.ignore.multicriteria.e3.resourceKey>**/*</sonar.issue.ignore.multicriteria.e3.resourceKey>
 		<java.version>17</java.version> <!-- For spring-boot-maven-plugin -->
-		<sbking.commons-beanutils.version>1.9.4</sbking.commons-beanutils.version>
-		<sbking.commons-configuration2.version>2.9.0</sbking.commons-configuration2.version>
-		<sbking.hibernate-core.version>6.2.2.Final</sbking.hibernate-core.version>
-		<sbking.httpclient.version>5.2.1</sbking.httpclient.version>
-		<sbking.jackson.version>2.15.2</sbking.jackson.version>
+		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
+		<libridge.commons-configuration2.version>2.9.0</libridge.commons-configuration2.version>
+		<libridge.hibernate-core.version>6.2.2.Final</libridge.hibernate-core.version>
+		<libridge.httpclient.version>5.2.1</libridge.httpclient.version>
+		<libridge.jackson.version>2.15.2</libridge.jackson.version>
 		<!-- https://github.com/junit-team/junit5/issues/2881 will have to upgrade spring boot first -->
 		<!-- before bringing the most recent junit version (5.9.3)-->
-		<sbking.junit.version>5.7.0</sbking.junit.version>
-		<sbking.log4j-core.version>2.20.0</sbking.log4j-core.version>
-		<sbking.mockito-core.version>5.4.0</sbking.mockito-core.version>
-		<sbking.mysql-connector-j.version>8.0.33</sbking.mysql-connector-j.version>
-		<sbking.plugin.maven-checkstyle-plugin.version>3.3.0</sbking.plugin.maven-checkstyle-plugin.version>
-		<sbking.plugin.maven-compiler-plugin.version>3.11.0</sbking.plugin.maven-compiler-plugin.version>
-		<sbking.plugin.maven-surefire-plugin.version>3.1.2</sbking.plugin.maven-surefire-plugin.version>
-		<sbking.plugin.jacoco-maven-plugin.version>0.8.10</sbking.plugin.jacoco-maven-plugin.version>
-		<sbking.plugin.spotbugs-maven-plugin.version>4.7.3.5</sbking.plugin.spotbugs-maven-plugin.version>
+		<libridge.junit.version>5.7.0</libridge.junit.version>
+		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
+		<libridge.mockito-core.version>5.4.0</libridge.mockito-core.version>
+		<libridge.mysql-connector-j.version>8.0.33</libridge.mysql-connector-j.version>
+		<libridge.plugin.maven-checkstyle-plugin.version>3.3.0</libridge.plugin.maven-checkstyle-plugin.version>
+		<libridge.plugin.maven-compiler-plugin.version>3.11.0</libridge.plugin.maven-compiler-plugin.version>
+		<libridge.plugin.maven-surefire-plugin.version>3.1.2</libridge.plugin.maven-surefire-plugin.version>
+		<libridge.plugin.jacoco-maven-plugin.version>0.8.10</libridge.plugin.jacoco-maven-plugin.version>
+		<libridge.plugin.spotbugs-maven-plugin.version>4.7.3.5</libridge.plugin.spotbugs-maven-plugin.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${sbking.junit.version}</version>
+			<version>${libridge.junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>${sbking.mockito-core.version}</version>
+			<version>${libridge.mockito-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>${sbking.log4j-core.version}</version>
+			<version>${libridge.log4j-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-configuration2</artifactId>
-			<version>${sbking.commons-configuration2.version}</version>
+			<version>${libridge.commons-configuration2.version}</version>
 		</dependency>
 		<!-- This commons-beanutils is needed for commons-configuration2 because the maven package is broken. -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>${sbking.commons-beanutils.version}</version>
+			<version>${libridge.commons-beanutils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>${sbking.hibernate-core.version}</version>
+			<version>${libridge.hibernate-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>${sbking.mysql-connector-j.version}</version>
+			<version>${libridge.mysql-connector-j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,22 +104,22 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>${sbking.jackson.version}</version>
+			<version>${libridge.jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId> 
-			<version>${sbking.jackson.version}</version>
+			<version>${libridge.jackson.version}</version>
 		</dependency>
 		<dependency> <!-- This should not be here (client only), but compile exclusion does not work correctly -->
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
-			<version>${sbking.httpclient.version}</version>
+			<version>${libridge.httpclient.version}</version>
 		</dependency>
 		<dependency> <!-- This should not be here (client only), but compile exclusion does not work correctly -->
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5-fluent</artifactId>
-			<version>${sbking.httpclient.version}</version>
+			<version>${libridge.httpclient.version}</version>
 		</dependency>
 
 	</dependencies>
@@ -133,9 +133,9 @@
 				<!-- We bind it to: validate -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${sbking.plugin.maven-checkstyle-plugin.version}</version>
+				<version>${libridge.plugin.maven-checkstyle-plugin.version}</version>
 				<configuration>
-					<configLocation>checkstyle/sbking_checkstyle.xml</configLocation>
+					<configLocation>checkstyle/libridge_checkstyle.xml</configLocation>
 					<encoding>UTF-8</encoding>
 					<failOnViolation>true</failOnViolation>
 					<enableFilesSummary>false</enableFilesSummary>
@@ -169,24 +169,24 @@
 				<!-- Here, we exclude the client-only related files -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${sbking.plugin.maven-compiler-plugin.version}</version>
+				<version>${libridge.plugin.maven-compiler-plugin.version}</version>
 				<configuration>
 					<release>17</release> <!-- Target release -->
 					<includes> <!-- Just being explicit -->
-						<include>br/com/sbk/sbking/**/*.java</include>
+						<include>club/libridge/libridgebackend/**/*.java</include>
 					</includes>
 					<excludes> <!-- sadly, this does not work sometimes. https://issues.apache.org/jira/browse/MCOMPILER-174 -->
-						<exclude>br/com/sbk/sbking/gui/**/*.java</exclude> <!-- Client only -->
-						<exclude>br/com/sbk/sbking/networking/client/*.java</exclude> <!-- Client only -->
-						<exclude>br/com/sbk/sbking/clientapp/*.java</exclude> <!-- Client only -->
-						<exclude>br/com/sbk/sbking/persistence/**/*.java</exclude> <!-- Not using it yet -->
+						<exclude>club/libridge/libridgebackend/gui/**/*.java</exclude> <!-- Client only -->
+						<exclude>club/libridge/libridgebackend/networking/client/*.java</exclude> <!-- Client only -->
+						<exclude>club/libridge/libridgebackend/clientapp/*.java</exclude> <!-- Client only -->
+						<exclude>club/libridge/libridgebackend/persistence/**/*.java</exclude> <!-- Not using it yet -->
 					</excludes>
 					<testIncludes> <!-- Just being explicit -->
-						<include>br/com/sbk/sbking/**/*.java</include>
+						<include>club/libridge/libridgebackend/**/*.java</include>
 					</testIncludes>
 					<testExcludes>
-						<exclude>br/com/sbk/sbking/gui/**/*.java</exclude> <!-- Client only -->
-						<exclude>br/com/sbk/sbking/persistence/**/*.java</exclude> <!-- Not using it yet -->
+						<exclude>club/libridge/libridgebackend/gui/**/*.java</exclude> <!-- Client only -->
+						<exclude>club/libridge/libridgebackend/persistence/**/*.java</exclude> <!-- Not using it yet -->
 					</testExcludes>
 				</configuration>
 			</plugin>
@@ -197,10 +197,10 @@
 				<!-- Bound by default to lifecycle phase: test -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${sbking.plugin.maven-surefire-plugin.version}</version>
+				<version>${libridge.plugin.maven-surefire-plugin.version}</version>
 				<configuration>
 					<excludes>
-						<exclude>br/com/sbk/sbking/persistence/*.java</exclude> <!-- This should run on the integration-test phase -->
+						<exclude>club/libridge/libridgebackend/persistence/*.java</exclude> <!-- This should run on the integration-test phase -->
 					</excludes>
 				</configuration>
 			</plugin>
@@ -224,7 +224,7 @@
 				<!-- Goal: jacoco-maven-plugin:report -->
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${sbking.plugin.jacoco-maven-plugin.version}</version>
+				<version>${libridge.plugin.jacoco-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>jacoco-prepare-agent</id>
@@ -246,7 +246,7 @@
 				<!-- Goal: spotbugs:spotbugs -->
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>${sbking.plugin.spotbugs-maven-plugin.version}</version>
+				<version>${libridge.plugin.spotbugs-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>spotbugs-spotbugs</id>
