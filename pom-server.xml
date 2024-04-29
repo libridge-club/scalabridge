@@ -258,7 +258,29 @@
 						</goals>
 					</execution>
 				</executions>
+			<!-- For more info: https://pitest.org/quickstart/maven/ -->
+			<!-- mvn -f pom-server.xml test-compile org.pitest:pitest-maven:mutationCoverage -->
 			</plugin>
+				<plugin>
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>1.15.2</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.pitest</groupId>
+							<artifactId>pitest-junit5-plugin</artifactId>
+							<version>1.2.1</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<verbose>true</verbose>
+						<targetClasses>
+							<param>club.libridge.libridgebackend.core.*</param>
+						</targetClasses>
+						<timeoutConstant>500</timeoutConstant>
+						<timestampedReports>true</timestampedReports>
+					</configuration>
+				</plugin>
 		</plugins>
 	</build>
 

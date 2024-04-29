@@ -4,7 +4,7 @@ public class PassingCall extends Call {
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && (obj instanceof PassingCall);
+        return obj instanceof PassingCall;
     }
 
     @Override

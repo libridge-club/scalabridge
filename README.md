@@ -28,17 +28,29 @@ make client
 
 You can also run checks to verify the package is valid and meets quality criteria.
 
+### JaCoCo
+
 ```
-mvn verify
+mvn -f pom-server.xml verify
 ```
 
 This will include [JaCoCo](https://www.jacoco.org/jacoco/)'s code coverage report at `target/site/jacoco/index.html`
 
-And you can also see potential bugs with [SpotBugs](https://spotbugs.github.io/) running:
+### SpotBugs
+You can see potential bugs with [SpotBugs](https://spotbugs.github.io/) running:
 
 ```
-mvn spotbugs:gui
+mvn -f pom-server.xml spotbugs:gui
 ```
+
+### pitest
+To execute mutation tests using [pitest](https://pitest.org/) run:  
+
+```
+mvn -f pom-server.xml test-compile org.pitest:pitest-maven:mutationCoverage
+```
+
+and see the coverage report at `target/pit-reports/`
 
 ## Using Docker
 
