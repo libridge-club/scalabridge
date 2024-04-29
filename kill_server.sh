@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Linux specific function to kill a process given its id.
 function linux_kill_server() {
