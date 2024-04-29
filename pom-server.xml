@@ -32,21 +32,23 @@
 		<sonar.issue.ignore.multicriteria.e3.resourceKey>**/*</sonar.issue.ignore.multicriteria.e3.resourceKey>
 		<java.version>17</java.version> <!-- For spring-boot-maven-plugin -->
 		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
-		<libridge.commons-configuration2.version>2.9.0</libridge.commons-configuration2.version>
+		<libridge.commons-configuration2.version>2.10.1</libridge.commons-configuration2.version>
+		<!-- FIXME Update this when focusing again on database -->
 		<libridge.hibernate-core.version>6.2.2.Final</libridge.hibernate-core.version>
-		<libridge.httpclient.version>5.2.1</libridge.httpclient.version>
-		<libridge.jackson.version>2.15.2</libridge.jackson.version>
-		<!-- https://github.com/junit-team/junit5/issues/2881 will have to upgrade spring boot first -->
+		<libridge.httpclient.version>5.3.1</libridge.httpclient.version>
+		<libridge.jackson.version>2.17.0</libridge.jackson.version>
+		<!-- FIXME https://github.com/junit-team/junit5/issues/2881 will have to upgrade spring boot first -->
 		<!-- before bringing the most recent junit version (5.9.3)-->
-		<libridge.junit.version>5.7.0</libridge.junit.version>
+		<libridge.junit.version>5.9.2</libridge.junit.version>
+		<!-- FIXME Most updated version (2.23.0) breaks at server launch -->
 		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
-		<libridge.mockito-core.version>5.4.0</libridge.mockito-core.version>
-		<libridge.mysql-connector-j.version>8.0.33</libridge.mysql-connector-j.version>
-		<libridge.plugin.maven-checkstyle-plugin.version>3.3.0</libridge.plugin.maven-checkstyle-plugin.version>
-		<libridge.plugin.maven-compiler-plugin.version>3.11.0</libridge.plugin.maven-compiler-plugin.version>
-		<libridge.plugin.maven-surefire-plugin.version>3.1.2</libridge.plugin.maven-surefire-plugin.version>
-		<libridge.plugin.jacoco-maven-plugin.version>0.8.10</libridge.plugin.jacoco-maven-plugin.version>
-		<libridge.plugin.spotbugs-maven-plugin.version>4.7.3.5</libridge.plugin.spotbugs-maven-plugin.version>
+		<libridge.mockito-core.version>5.11.0</libridge.mockito-core.version>
+		<libridge.mysql-connector-j.version>8.3.0</libridge.mysql-connector-j.version>
+		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
+		<libridge.plugin.maven-compiler-plugin.version>3.13.0</libridge.plugin.maven-compiler-plugin.version>
+		<libridge.plugin.maven-surefire-plugin.version>3.2.5</libridge.plugin.maven-surefire-plugin.version>
+		<libridge.plugin.jacoco-maven-plugin.version>0.8.12</libridge.plugin.jacoco-maven-plugin.version>
+		<libridge.plugin.spotbugs-maven-plugin.version>4.8.4.0</libridge.plugin.spotbugs-maven-plugin.version>
 	</properties>
 
 	<dependencies>

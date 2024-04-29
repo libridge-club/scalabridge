@@ -21,16 +21,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version> <!-- For spring-boot-maven-plugin -->
 		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
-		<libridge.commons-configuration2.version>2.9.0</libridge.commons-configuration2.version>
-		<libridge.httpclient.version>5.2.1</libridge.httpclient.version>
-		<libridge.junit.version>5.9.3</libridge.junit.version>
+		<libridge.commons-configuration2.version>2.10.1</libridge.commons-configuration2.version>
+		<libridge.httpclient.version>5.3.1</libridge.httpclient.version>
+		<libridge.junit.version>5.9.2</libridge.junit.version>
 		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
-		<libridge.mockito-core.version>5.4.0</libridge.mockito-core.version>
-		<libridge.plugin.maven-checkstyle-plugin.version>3.3.0</libridge.plugin.maven-checkstyle-plugin.version>
-		<libridge.plugin.maven-compiler-plugin.version>3.11.0</libridge.plugin.maven-compiler-plugin.version>
-		<libridge.plugin.maven-surefire-plugin.version>3.1.2</libridge.plugin.maven-surefire-plugin.version>
-		<libridge.plugin.jacoco-maven-plugin.version>0.8.10</libridge.plugin.jacoco-maven-plugin.version>
-		<libridge.plugin.spotbugs-maven-plugin.version>4.7.3.5</libridge.plugin.spotbugs-maven-plugin.version>
+		<libridge.mockito-core.version>5.11.0</libridge.mockito-core.version>
+		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
+		<libridge.plugin.maven-compiler-plugin.version>3.13.0</libridge.plugin.maven-compiler-plugin.version>
+		<libridge.plugin.maven-surefire-plugin.version>3.2.5</libridge.plugin.maven-surefire-plugin.version>
+		<libridge.plugin.jacoco-maven-plugin.version>0.8.12</libridge.plugin.jacoco-maven-plugin.version>
+		<libridge.plugin.spotbugs-maven-plugin.version>4.8.4.0</libridge.plugin.spotbugs-maven-plugin.version>
 	</properties>
 
 	<dependencies>
