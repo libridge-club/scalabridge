@@ -55,6 +55,7 @@
 		<libridge.plugin.spotbugs-maven-plugin.version>4.8.5.0</libridge.plugin.spotbugs-maven-plugin.version>
 		<libridge.plugin.pitest-maven-plugin.version>1.16.0</libridge.plugin.pitest-maven-plugin.version>
 		<libridge.plugin.pitest-maven-plugin-junit.version>1.2.1</libridge.plugin.pitest-maven-plugin-junit.version>
+		<libridge.plugin.maven-pmd-plugin.version>3.22.0</libridge.plugin.maven-pmd-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -283,29 +284,52 @@
 						</goals>
 					</execution>
 				</executions>
-			<!-- For more info: https://pitest.org/quickstart/maven/ -->
-			<!-- mvn test-compile org.pitest:pitest-maven:mutationCoverage -->
 			</plugin>
-				<plugin>
-					<groupId>org.pitest</groupId>
-					<artifactId>pitest-maven</artifactId>
-					<version>${libridge.plugin.pitest-maven-plugin.version}</version>
-					<dependencies>
-						<dependency>
-							<groupId>org.pitest</groupId>
-							<artifactId>pitest-junit5-plugin</artifactId>
-							<version>${libridge.plugin.pitest-maven-plugin-junit.version}</version>
-						</dependency>
-					</dependencies>
-					<configuration>
-						<verbose>true</verbose>
-						<targetClasses>
-							<param>club.libridge.libridgebackend.core.*</param>
-						</targetClasses>
-						<timeoutConstant>500</timeoutConstant>
-						<timestampedReports>true</timestampedReports>
-					</configuration>
-				</plugin>
+			<plugin>
+				<!-- For more info: https://pitest.org/quickstart/maven/ -->
+				<!-- mvn test-compile org.pitest:pitest-maven:mutationCoverage -->
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>${libridge.plugin.pitest-maven-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>${libridge.plugin.pitest-maven-plugin-junit.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<verbose>true</verbose>
+					<targetClasses>
+						<param>club.libridge.libridgebackend.core.*</param>
+					</targetClasses>
+					<timeoutConstant>500</timeoutConstant>
+					<timestampedReports>true</timestampedReports>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- There are many different goals for pmd-->
+				<!-- Here, we bind pmd:pmd to: verify -->
+				<!-- Goal: pmd:pmd -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${libridge.plugin.maven-pmd-plugin.version}</version>
+				<configuration>
+					<linkXRef>true</linkXRef>
+					<rulesets>
+						<ruleset>/rulesets/java/quickstart.xml</ruleset>
+					</rulesets>
+				</configuration>
+				<executions>
+					<execution>
+						<id>pmd-pmd</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>pmd</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
