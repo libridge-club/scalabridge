@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.1</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -35,26 +35,25 @@
 
 		<java.version>17</java.version> <!-- For spring-boot-maven-plugin -->
 
-		<!-- FIXME https://github.com/junit-team/junit5/issues/2881 will have to upgrade spring boot first -->
-		<!-- before bringing the most recent junit version (5.9.3)-->
-		<libridge.junit.version>5.9.2</libridge.junit.version>
+		<libridge.junit.version>5.10.2</libridge.junit.version>
 		<libridge.mockito-core.version>5.11.0</libridge.mockito-core.version>
-		<!-- FIXME Most updated version (2.23.0) breaks at server launch -->
+		<!-- FIXME Most updated version (2.23.0 and 2.23.1 ) breaks at server launch -->
 		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
 		<libridge.commons-configuration2.version>2.10.1</libridge.commons-configuration2.version>
 		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
 		<!-- FIXME Update this when focusing again on database -->
 		<libridge.hibernate-core.version>6.2.2.Final</libridge.hibernate-core.version>
+		<!-- FIXME Update this when focusing again on database -->
 		<libridge.mysql-connector-j.version>8.3.0</libridge.mysql-connector-j.version>
-		<libridge.jackson.version>2.17.0</libridge.jackson.version>
+		<libridge.jackson.version>2.16.2</libridge.jackson.version>
 
 		<libridge.plugin.maven-enforcer-plugin.version>3.4.1</libridge.plugin.maven-enforcer-plugin.version>
 		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
 		<libridge.plugin.maven-compiler-plugin.version>3.13.0</libridge.plugin.maven-compiler-plugin.version>
 		<libridge.plugin.maven-surefire-plugin.version>3.2.5</libridge.plugin.maven-surefire-plugin.version>
 		<libridge.plugin.jacoco-maven-plugin.version>0.8.12</libridge.plugin.jacoco-maven-plugin.version>
-		<libridge.plugin.spotbugs-maven-plugin.version>4.8.4.0</libridge.plugin.spotbugs-maven-plugin.version>
-		<libridge.plugin.pitest-maven-plugin.version>1.15.2</libridge.plugin.pitest-maven-plugin.version>
+		<libridge.plugin.spotbugs-maven-plugin.version>4.8.5.0</libridge.plugin.spotbugs-maven-plugin.version>
+		<libridge.plugin.pitest-maven-plugin.version>1.16.0</libridge.plugin.pitest-maven-plugin.version>
 		<libridge.plugin.pitest-maven-plugin-junit.version>1.2.1</libridge.plugin.pitest-maven-plugin-junit.version>
 	</properties>
 
