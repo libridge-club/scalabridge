@@ -1,25 +1,19 @@
 package club.libridge.libridgebackend.core;
 
-import java.awt.Color;
-
-import club.libridge.libridgebackend.gui.constants.FrameConstants;
-
 public enum Suit {
-    DIAMONDS("Diamonds", "d", '\u2666', FrameConstants.RED_SUIT_COLOR),
-    CLUBS("Clubs", "c", '\u2663', FrameConstants.BLACK_SUIT_COLOR),
-    HEARTS("Hearts", "h", '\u2665', FrameConstants.RED_SUIT_COLOR),
-    SPADES("Spades", "s", '\u2660', FrameConstants.BLACK_SUIT_COLOR);
+    DIAMONDS("Diamonds", "d", '\u2666'),
+    CLUBS("Clubs", "c", '\u2663'),
+    HEARTS("Hearts", "h", '\u2665'),
+    SPADES("Spades", "s", '\u2660');
 
     private final String name;
     private final String symbol;
     private final char unicodeSymbol;
-    private final Color color;
 
-    Suit(String name, String symbol, char unicodeSymbol, Color color) {
+    Suit(String name, String symbol, char unicodeSymbol) {
         this.name = name;
         this.symbol = symbol;
         this.unicodeSymbol = unicodeSymbol;
-        this.color = color;
     }
 
     public String getName() {
@@ -32,10 +26,6 @@ public enum Suit {
 
     public char getUnicodeSymbol() {
         return this.unicodeSymbol;
-    }
-
-    public Color getColor() {
-        return this.color;
     }
 
 }

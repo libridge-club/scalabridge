@@ -43,6 +43,7 @@ public class HandEvaluationsTest {
 
   @BeforeEach
   public void setup() {
+    // FIXME
     MockitoAnnotations.initMocks(this);
 
     when(aceOfSpades.getRank()).thenReturn(Rank.ACE);

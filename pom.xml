@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>club.libridge</groupId>
-	<artifactId>libridgebackend-common</artifactId>
+	<artifactId>libridgebackend-server</artifactId>
 	<version>1.0.0-alpha</version>
-	<name>libridge backend common</name>
+	<name>libridge backend server</name>
 	<description>More information at https://github.com/rulojuka/libridge-backend</description>
 
 	<!-- Adds the base pom from spring boot -->
@@ -18,6 +18,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- FIXME change project name on sonar-->
 		<sonar.projectKey>rulojuka_sbking</sonar.projectKey>
 		<sonar.organization>rulojuka</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -30,22 +32,30 @@
 		<sonar.issue.ignore.multicriteria.e2.resourceKey>**/*</sonar.issue.ignore.multicriteria.e2.resourceKey>
 		<sonar.issue.ignore.multicriteria.e3.ruleKey>java:S2142</sonar.issue.ignore.multicriteria.e3.ruleKey> <!--ignoredInterruptedException-->
 		<sonar.issue.ignore.multicriteria.e3.resourceKey>**/*</sonar.issue.ignore.multicriteria.e3.resourceKey>
+
 		<java.version>17</java.version> <!-- For spring-boot-maven-plugin -->
-		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
-		<libridge.commons-configuration2.version>2.10.1</libridge.commons-configuration2.version>
-		<libridge.hibernate-core.version>6.2.2.Final</libridge.hibernate-core.version>
-		<libridge.httpclient.version>5.3.1</libridge.httpclient.version>
-		<libridge.jackson.version>2.17.0</libridge.jackson.version>
+
+		<!-- FIXME https://github.com/junit-team/junit5/issues/2881 will have to upgrade spring boot first -->
+		<!-- before bringing the most recent junit version (5.9.3)-->
 		<libridge.junit.version>5.9.2</libridge.junit.version>
-		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
 		<libridge.mockito-core.version>5.11.0</libridge.mockito-core.version>
+		<!-- FIXME Most updated version (2.23.0) breaks at server launch -->
+		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
+		<libridge.commons-configuration2.version>2.10.1</libridge.commons-configuration2.version>
+		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
+		<!-- FIXME Update this when focusing again on database -->
+		<libridge.hibernate-core.version>6.2.2.Final</libridge.hibernate-core.version>
 		<libridge.mysql-connector-j.version>8.3.0</libridge.mysql-connector-j.version>
-		<libridge.spring-websocket.version>5.3.27</libridge.spring-websocket.version>
+		<libridge.jackson.version>2.17.0</libridge.jackson.version>
+
+		<libridge.plugin.maven-enforcer-plugin.version>3.4.1</libridge.plugin.maven-enforcer-plugin.version>
 		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
 		<libridge.plugin.maven-compiler-plugin.version>3.13.0</libridge.plugin.maven-compiler-plugin.version>
 		<libridge.plugin.maven-surefire-plugin.version>3.2.5</libridge.plugin.maven-surefire-plugin.version>
 		<libridge.plugin.jacoco-maven-plugin.version>0.8.12</libridge.plugin.jacoco-maven-plugin.version>
 		<libridge.plugin.spotbugs-maven-plugin.version>4.8.4.0</libridge.plugin.spotbugs-maven-plugin.version>
+		<libridge.plugin.pitest-maven-plugin.version>1.15.2</libridge.plugin.pitest-maven-plugin.version>
+		<libridge.plugin.pitest-maven-plugin-junit.version>1.2.1</libridge.plugin.pitest-maven-plugin-junit.version>
 	</properties>
 
 	<dependencies>
@@ -71,7 +81,7 @@
 			<artifactId>commons-configuration2</artifactId>
 			<version>${libridge.commons-configuration2.version}</version>
 		</dependency>
-		<!-- This commons-beanutils is needed for commons-configuration2 because the maven package is broken. -->
+		<!-- WONTFIX This commons-beanutils is needed for commons-configuration2 because the maven package is broken. -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
@@ -101,14 +111,8 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-websocket</artifactId>
-			<version>${libridge.spring-websocket.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-messaging</artifactId>
-			<version>${libridge.spring-websocket.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -120,22 +124,39 @@
 			<artifactId>jackson-databind</artifactId> 
 			<version>${libridge.jackson.version}</version>
 		</dependency>
-		<!-- Client dependencies -->
-		<dependency>
-			<groupId>org.apache.httpcomponents.client5</groupId>
-			<artifactId>httpclient5</artifactId>
-			<version>${libridge.httpclient.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents.client5</groupId>
-			<artifactId>httpclient5-fluent</artifactId>
-			<version>${libridge.httpclient.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build> <!-- Run mvn fr.jcgay.maven.plugins:buildplan-maven-plugin:list-phase to see the phase and goals-->
 		<plugins>
+
 			<!-- Phase: validate - check if all information necessary for the build is available -->
+			<plugin>
+				<!-- Goal: enforcer:enforce -->
+				<!-- Bound by default to lifecycle phase: validate -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${libridge.plugin.maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-property</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireProperty>
+									<property>project.build.sourceEncoding</property>
+									<message>Encoding must be set and at UTF-8!</message>
+									<regex>UTF-8</regex>
+									<regexMessage>Encoding must be set and at UTF-8</regexMessage>
+								</requireProperty>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<!-- Goal: checkstyle:check -->
 				<!-- Bound by default to lifecycle phase: verify -->
@@ -145,7 +166,6 @@
 				<version>${libridge.plugin.maven-checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>checkstyle/libridge_checkstyle.xml</configLocation>
-					<encoding>UTF-8</encoding>
 					<failOnViolation>true</failOnViolation>
 					<enableFilesSummary>false</enableFilesSummary>
 					<logViolationsToConsole>true</logViolationsToConsole>
@@ -175,7 +195,6 @@
 			<plugin>
 				<!-- There are two goals done by maven-compiler-plugin: compiler:compile and compiler:testCompile -->
 				<!-- Bound by default to: compile and test-compile -->
-				<!-- Here, we exclude the client-only related files -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${libridge.plugin.maven-compiler-plugin.version}</version>
@@ -186,7 +205,6 @@
 					</includes>
 					<excludes> <!-- sadly, this does not work sometimes. https://issues.apache.org/jira/browse/MCOMPILER-174 -->
 						<exclude>club/libridge/libridgebackend/persistence/**/*.java</exclude> <!-- Not using it yet -->
-						<exclude>club/libridge/libridgebackend/clientapp/ClientApplication.java</exclude> <!-- For mvn verify to run -->
 					</excludes>
 					<testIncludes> <!-- Just being explicit -->
 						<include>club/libridge/libridgebackend/**/*.java</include>
@@ -262,7 +280,29 @@
 						</goals>
 					</execution>
 				</executions>
+			<!-- For more info: https://pitest.org/quickstart/maven/ -->
+			<!-- mvn test-compile org.pitest:pitest-maven:mutationCoverage -->
 			</plugin>
+				<plugin>
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>${libridge.plugin.pitest-maven-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.pitest</groupId>
+							<artifactId>pitest-junit5-plugin</artifactId>
+							<version>${libridge.plugin.pitest-maven-plugin-junit.version}</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<verbose>true</verbose>
+						<targetClasses>
+							<param>club.libridge.libridgebackend.core.*</param>
+						</targetClasses>
+						<timeoutConstant>500</timeoutConstant>
+						<timestampedReports>true</timestampedReports>
+					</configuration>
+				</plugin>
 		</plugins>
 	</build>
 

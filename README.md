@@ -1,28 +1,23 @@
-# SBKing - an online King card game
-
+# libridge - a free/libre, open-source bridge server
 
 ## About the project
 
-SBKing is a King card game software aimed to provide a rich and intuitive interface and an online experience to King players. It is still in early development and is licensed as GPL.
+libridge is a free/libre, open-source bridge server and it is (soon) available in [libridge.club](https://libridge.club/).
 
 ## Java version
 
-SBKing uses Java 17 in development. Also, the release version for the client is Java 8.
+libridge uses Java 17 in development.
 
 ## Compiling
 
-SBKing uses Makefile and [Maven](https://maven.apache.org/) to build. The following line should be enough:
+libridge uses Makefile and [Maven](https://maven.apache.org/) to build. The following line should be enough:
 
 ```
 make server
 ```
 
-This should clean your directory, compile, run all tests, package the final .jar at the `target/` directory and copy it into `./sbking-server.jar`. Use `java -jar ./sbking-server.jar` to run it.
+This should clean your directory, compile, run all tests, package the final .jar at the `target/` directory and copy it into `./libridge-server.jar`. Use `java -jar ./libridge-server.jar` to run it.
 
-To compile the client in the same fashion (`./sbking-client.jar`):
-```
-make client
-```
 
 ## Code quality
 
@@ -31,7 +26,7 @@ You can also run checks to verify the package is valid and meets quality criteri
 ### JaCoCo
 
 ```
-mvn -f pom-server.xml verify
+mvn verify
 ```
 
 This will include [JaCoCo](https://www.jacoco.org/jacoco/)'s code coverage report at `target/site/jacoco/index.html`
@@ -40,14 +35,14 @@ This will include [JaCoCo](https://www.jacoco.org/jacoco/)'s code coverage repor
 You can see potential bugs with [SpotBugs](https://spotbugs.github.io/) running:
 
 ```
-mvn -f pom-server.xml spotbugs:gui
+mvn spotbugs:gui
 ```
 
 ### pitest
 To execute mutation tests using [pitest](https://pitest.org/) run:  
 
 ```
-mvn -f pom-server.xml test-compile org.pitest:pitest-maven:mutationCoverage
+mvn test-compile org.pitest:pitest-maven:mutationCoverage
 ```
 
 and see the coverage report at `target/pit-reports/`

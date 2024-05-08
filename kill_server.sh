@@ -12,7 +12,7 @@ function windows_kill_server() {
 
 # Selects which killing process function to use depending on OS.
 function kill_server_by_os(){
-	echo "Killing SBKing server PID = $1"
+	echo "Killing libridge server PID = $1"
 	if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	    linux_kill_server "$1"
 	elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
@@ -22,9 +22,9 @@ function kill_server_by_os(){
 	fi
 }
 
-# This function kills the sbking-server.jar process regardless of OS.
+# This function kills the libridge-server.jar process regardless of OS.
 function main() {
-	PID=`jps -l | grep sbking-server.jar | cut -d ' ' -f1`
+	PID=`jps -l | grep libridge-server.jar | cut -d ' ' -f1`
 
 	if [ ! -z "$PID" ]; then
 		kill_server_by_os "${PID}"
