@@ -223,6 +223,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${libridge.plugin.maven-surefire-plugin.version}</version>
 				<configuration>
+					<runOrder>random</runOrder>
+					<!-- Use if you want to reproduce a previous random test. -->
+					<!-- Look just below the default-test goal for the seed. -->
+					<!-- <runOrderRandomSeed>1</runOrderRandomSeed> -->
 					<excludes>
 						<exclude>club/libridge/libridgebackend/persistence/*.java</exclude> <!-- This should run on the integration-test phase -->
 					</excludes>

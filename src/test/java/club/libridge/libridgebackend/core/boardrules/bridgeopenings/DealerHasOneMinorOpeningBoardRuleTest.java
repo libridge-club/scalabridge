@@ -7,14 +7,14 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import club.libridge.libridgebackend.TestWithMocks;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.core.HandEvaluations;
 
-public class DealerHasOneMinorOpeningBoardRuleTest {
+public class DealerHasOneMinorOpeningBoardRuleTest extends TestWithMocks {
 
     @Mock
     private Board board;
@@ -30,7 +30,6 @@ public class DealerHasOneMinorOpeningBoardRuleTest {
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
         dealer = Direction.SOUTH;
         when(board.getDealer()).thenReturn(dealer);
         when(board.getHandOf(dealer)).thenReturn(hand);

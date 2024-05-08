@@ -14,9 +14,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-public class HandEvaluationsTest {
+import club.libridge.libridgebackend.TestWithMocks;
+
+public class HandEvaluationsTest extends TestWithMocks {
 
   @Mock
   private Card aceOfSpades;
@@ -40,12 +41,9 @@ public class HandEvaluationsTest {
   private Hand emptyHand;
 
   private HandEvaluations emptyHandEvaluations;
-
+  
   @BeforeEach
   public void setup() {
-    // FIXME
-    MockitoAnnotations.initMocks(this);
-
     when(aceOfSpades.getRank()).thenReturn(Rank.ACE);
     when(aceOfSpades.getSuit()).thenReturn(Suit.SPADES);
 

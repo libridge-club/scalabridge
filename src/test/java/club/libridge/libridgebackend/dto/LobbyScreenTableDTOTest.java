@@ -10,13 +10,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import club.libridge.libridgebackend.TestWithMocks;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Player;
 import club.libridge.libridgebackend.networking.server.Table;
 
-public class LobbyScreenTableDTOTest {
+public class LobbyScreenTableDTOTest extends TestWithMocks {
 
     private UUID tableId;
     private String gameName;
@@ -28,7 +28,6 @@ public class LobbyScreenTableDTOTest {
 
     @BeforeEach
     public void setupMocks() {
-        MockitoAnnotations.initMocks(this);
         this.tableId = UUID.randomUUID();
         this.gameName = "Minibridge";
         this.numberOfSpectators = 4;
