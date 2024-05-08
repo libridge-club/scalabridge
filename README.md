@@ -1,5 +1,7 @@
 # libridge - a free/libre, open-source bridge server
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=rulojuka_libridge-backend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=rulojuka_libridge-backend)
+
 ## About the project
 
 libridge is a free/libre, open-source bridge server and it is (soon) available in [libridge.club](https://libridge.club/).
