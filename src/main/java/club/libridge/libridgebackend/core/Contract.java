@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.core;
 
-public class Contract {
+public final class Contract {
     private final int level;
     private final Strain strain;
     private final boolean doubled;

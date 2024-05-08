@@ -106,7 +106,7 @@ public class Deal {
     }
 
     public boolean isFinished() {
-        return allTricksPlayed() || allTricksPlayed();
+        return allTricksPlayed();
     }
 
     private boolean allTricksPlayed() {
