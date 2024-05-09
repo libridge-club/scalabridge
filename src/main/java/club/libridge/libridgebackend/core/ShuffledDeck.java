@@ -17,6 +17,12 @@ public class ShuffledDeck {
         this.iterator = this.deck.iterator();
     }
 
+    public ShuffledDeck(Deque<Card> deck, long seed) {
+        this.deck = new ArrayList<Card>(deck);
+        new RandomUtils().shuffleWithSeed(this.deck, seed);
+        this.iterator = this.deck.iterator();
+    }
+
     public Card dealCard() {
         if (this.iterator.hasNext()) {
             return this.iterator.next();

@@ -9,6 +9,7 @@ tmp
 target/
 TODO
 *.jar
+lib/
 
 # Log4j
 .factorypath
