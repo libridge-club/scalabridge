@@ -184,6 +184,10 @@
 					<configLocation>checkstyle/libridge_checkstyle.xml</configLocation>
 					<failOnViolation>true</failOnViolation>
 					<enableFilesSummary>false</enableFilesSummary>
+					<!-- TODO Increase this to 'warning' every once in a while. -->
+					<!-- Unfortunately, the plugin is not able to show them without failing -->
+					<!-- so we cannot put 'warning' here as default. -->
+					<violationSeverity>error</violationSeverity>
 					<logViolationsToConsole>true</logViolationsToConsole>
 				</configuration>
 				<executions>
