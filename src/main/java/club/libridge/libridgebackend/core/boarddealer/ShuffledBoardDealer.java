@@ -12,10 +12,9 @@ import club.libridge.libridgebackend.core.ShuffledDeck;
 
 public class ShuffledBoardDealer implements BoardDealer {
 
-  private Map<Direction, Hand> hands;
-
   @Override
   public Board dealBoard(Direction dealer, Deque<Card> deck) {
+    Map<Direction, Hand> hands;
     Direction currentDirection;
     Hand currentHand;
     ShuffledDeck currentDeck = new ShuffledDeck(deck);
@@ -24,7 +23,7 @@ public class ShuffledBoardDealer implements BoardDealer {
       hands.put(direction, new Hand());
     }
     for (currentDirection = dealer; currentDeck.hasCard(); currentDirection = currentDirection.next()) {
-      currentHand = this.hands.get(currentDirection);
+      currentHand = hands.get(currentDirection);
       currentHand.addCard(currentDeck.dealCard());
     }
     return new Board(hands, dealer);

@@ -8,16 +8,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
-import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealer;
 
 /*
  * This is an implementation of http://www.rpbridge.net/7z68.htm
  * It is a mapping between boards and numbers from 0 to N-1
  * where N = the number of different bridge deals or Boards, as modelled here.
  * N is also equal to 52! / (13! ^ 4) or 53644737765488792839237440000
- *
- * One important difference is the suit order,
+ * which is between 95 and 96 bits ( i.e. log2(N)~=95.4 )
+ * * One important difference is the suit order,
  * in which clubs and diamonds are swapped.
+ *
+ * Another implementation of the same algorithm:
+ * https://bridge.thomasoandrews.com/bridge/impossible/
+ * This one differs from mine in the minor suits. One of them is wrong.
+ * I don't know which one.
+ *
+ * For now, the important part is that f(f'(x)) = x and this works for the current
+ * purpose. In the future, it could be refactored and easily recalculated for every
+ * saved board.
  */
 
 public class PavlicekNumber {
@@ -43,16 +51,18 @@ public class PavlicekNumber {
     }
 
     public static void main(String[] args) {
-        Deque<Card> completeDeque = getReferenceDeque();
-        ShuffledBoardDealer dealer = new ShuffledBoardDealer();
-        Board board = dealer.dealBoard(Direction.NORTH, completeDeque);
+        // Deque<Card> completeDeque = getReferenceDeque();
+        // ShuffledBoardDealer dealer = new ShuffledBoardDealer();
+        // Board board = dealer.dealBoard(Direction.NORTH, completeDeque);
         PavlicekNumber pavlicekNumber = new PavlicekNumber();
-        printBoard(board);
-        BigInteger derivedNumber = pavlicekNumber.getNumberFromBoard(board);
-        System.out.println(derivedNumber);
-        Board derivedBoard = pavlicekNumber.getBoardFromNumber(BigInteger.ZERO);
-        printBoard(derivedBoard);
-        derivedBoard = pavlicekNumber.getBoardFromNumber(new BigInteger("53644737765488792839237439999"));
+        // printBoard(board);
+        // BigInteger derivedNumber = pavlicekNumber.getNumberFromBoard(board);
+        // System.out.println(derivedNumber);
+        String numberString = "25119193013129491541542678034";
+        BigInteger bigInt = new BigInteger(numberString);
+        Board derivedBoard = pavlicekNumber.getBoardFromNumber(bigInt);
+        // printBoard(derivedBoard);
+        derivedBoard = pavlicekNumber.getBoardFromNumber(new BigInteger("25119193013129491541542678034"));
         printBoard(derivedBoard);
     }
 

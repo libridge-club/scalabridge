@@ -3,6 +3,7 @@ package club.libridge.libridgebackend.networking.server;
 import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,17 @@ import java.util.stream.Collectors;
 
 import club.libridge.libridgebackend.app.PlayerController;
 import club.libridge.libridgebackend.app.TableController;
+import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
+import club.libridge.libridgebackend.core.Hand;
+import club.libridge.libridgebackend.core.HandBuilder;
 import club.libridge.libridgebackend.core.Player;
 import club.libridge.libridgebackend.core.Strain;
+import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
+import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealer;
+import club.libridge.libridgebackend.dto.BoardDTO;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.networking.messages.GameNameFromGameServerIdentifier;
 import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
@@ -310,6 +317,22 @@ public class SBKingServer {
 
   public void refreshTable(UUID tableId) {
     this.getTable(tableId).sendDealAll();
+  }
+
+  public BoardDTO getRandomBoardWithPavlicekNumberAndDoubleDummyTable() {
+      ShuffledBoardDealer shuffledBoardDealer = new ShuffledBoardDealer();
+      Board board = shuffledBoardDealer.dealBoard(Direction.NORTH, new Complete52CardDeck().getDeck());
+      return new BoardDTO(board);
+  }
+
+  public BoardDTO getUSBCBoard() {
+      Map<Direction, Hand> hands = new EnumMap<Direction, Hand>(Direction.class);
+      HandBuilder handBuilder = new HandBuilder();
+      hands.put(Direction.NORTH, handBuilder.buildFromDotSeparatedString("q5.kt85.qjt8632."));
+      hands.put(Direction.EAST, handBuilder.buildFromDotSeparatedString("8.aqj96.ak9.jt93"));
+      hands.put(Direction.SOUTH, handBuilder.buildFromDotSeparatedString("kt97643.4..ak652"));
+      hands.put(Direction.WEST, handBuilder.buildFromDotSeparatedString("aj2.732.754.q874"));
+      return new BoardDTO(new Board(hands, Direction.NORTH));
   }
 
 }

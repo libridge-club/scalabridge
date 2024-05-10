@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import club.libridge.libridgebackend.core.Direction;
+import club.libridge.libridgebackend.dto.BoardDTO;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.networking.messages.GameServerFromGameNameIdentifier;
 import club.libridge.libridgebackend.networking.server.SBKingServer;
@@ -142,6 +143,18 @@ class AppController {
     public List<LobbyScreenTableDTO> getTables() {
         LOGGER.trace("getTables");
         return this.getServer().getTablesDTO();
+    }
+
+    @GetMapping("/randomBoard")
+    public BoardDTO getRandomBoard() {
+        LOGGER.trace("getRandomBoard");
+        return this.getServer().getRandomBoardWithPavlicekNumberAndDoubleDummyTable();
+    }
+
+    @GetMapping("/usbcBoard")
+    public BoardDTO getUSBCBoard() {
+        LOGGER.trace("getUSBCBoard");
+        return this.getServer().getUSBCBoard();
     }
 
 }
