@@ -137,7 +137,7 @@
 		<dependency>
 			<groupId>club.libridge</groupId>
 			<artifactId>libridge-dds</artifactId>
-			<version>1.0.0-alpha</version>
+			<version>1.0.2</version>
 		</dependency>
 
 	</dependencies>

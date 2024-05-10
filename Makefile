@@ -1,4 +1,4 @@
-APP_NAME=rulojuka/libridge
+APP_NAME=rulojuka/libridge-backend
 
 all: package
 
@@ -25,7 +25,7 @@ build:
 
 deploy: build
 	docker login
-	docker push rulojuka/sbking
+	docker push $(APP_NAME)
 
 run:
 	docker run -p 8080:8080 --rm $(APP_NAME)
