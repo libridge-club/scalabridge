@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import club.libridge.libridgebackend.app.persistence.BoardRepository;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.dto.BoardDTO;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
@@ -30,6 +31,8 @@ class AppController {
     private static final String ACCEPT_CANNOT_BE_EMPTY = "Accept cannot be empty. It must be true or false.";
     @Autowired
     private ServerComponent serverComponent;
+    @Autowired
+    BoardRepository boardRepository;
 
     private SBKingServer getServer() {
         return this.serverComponent.getSbKingServer();
@@ -155,6 +158,18 @@ class AppController {
     public BoardDTO getUSBCBoard() {
         LOGGER.trace("getUSBCBoard");
         return this.getServer().getUSBCBoard();
+    }
+
+    @GetMapping("/newRandomBoard")
+    public BoardDTO getNewRandomBoard() {
+        LOGGER.trace("getNewRandomBoard");
+        return this.getServer().getNewRandomBoard(boardRepository);
+    }
+
+    @GetMapping("/createBoard")
+    public void getCreateBoard() {
+        LOGGER.trace("getCreateBoard");
+        this.getServer().getCreateBoard(boardRepository);
     }
 
 }

@@ -2,6 +2,7 @@ package club.libridge.libridgebackend.networking.server;
 
 import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 
 import club.libridge.libridgebackend.app.PlayerController;
 import club.libridge.libridgebackend.app.TableController;
+import club.libridge.libridgebackend.app.persistence.BoardEntity;
+import club.libridge.libridgebackend.app.persistence.BoardRepository;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Deal;
@@ -21,6 +24,7 @@ import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.core.HandBuilder;
 import club.libridge.libridgebackend.core.Player;
+import club.libridge.libridgebackend.core.RandomUtils;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
 import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealer;
@@ -333,6 +337,24 @@ public class SBKingServer {
       hands.put(Direction.SOUTH, handBuilder.buildFromDotSeparatedString("kt97643.4..ak652"));
       hands.put(Direction.WEST, handBuilder.buildFromDotSeparatedString("aj2.732.754.q874"));
       return new BoardDTO(new Board(hands, Direction.NORTH));
+  }
+
+  public BoardDTO getNewRandomBoard(BoardRepository repository) {
+    // get any board from database
+    List<BoardEntity> all = repository.findAll();
+    int index = new RandomUtils().nextInt(all.size());
+    BoardEntity boardEntity = all.get(index);
+    return new BoardDTO(boardEntity.getBoard());
+  }
+
+  public void getCreateBoard(BoardRepository repository) {
+    // create a random board and save it to the database
+    RandomUtils randomUtils = new RandomUtils();
+    int randomNumber = randomUtils.nextInt(10000);
+    BigInteger bigInteger = BigInteger.ZERO.add(BigInteger.valueOf(randomNumber));
+    BoardEntity boardEntity = new BoardEntity();
+    boardEntity.setPavlicekNumber(bigInteger.toString());
+    repository.save(boardEntity);
   }
 
 }

@@ -1,4 +1,4 @@
-package club.libridge.libridgebackend.persistence;
+package club.libridge.libridgebackend.app.persistence;
 
 import java.math.BigInteger;
 import java.util.UUID;

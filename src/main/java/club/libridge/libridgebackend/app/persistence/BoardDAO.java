@@ -1,4 +1,4 @@
-package club.libridge.libridgebackend.persistence;
+package club.libridge.libridgebackend.app.persistence;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,10 +23,10 @@ public class BoardDAO {
             session.beginTransaction();
 
             String pavlicekNumber = board.getPavlicekNumber();
-            // System.out.println("Checking number:" + pavlicekNumber);
+            System.out.println("Checking number:" + pavlicekNumber);
             if (findByPavlicekNumber(pavlicekNumber) == null) {
                 session.persist(board);
-                // System.out.println("Does not exist on DB. Persisting it.");
+                System.out.println("Does not exist on DB. Persisting it.");
             }
 
             session.getTransaction().commit();

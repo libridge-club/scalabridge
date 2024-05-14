@@ -8,16 +8,6 @@
 	<name>libridge backend server</name>
 	<description>More information at https://github.com/rulojuka/libridge-backend</description>
 
-	<repositories>
-		<!-- Used to resolve libridge-dds -->
-		<repository>
-			<!-- DO NOT set id to "local" because it is reserved by Maven -->
-			<id>lib</id>
-			<name>Used to resolve libridge-dds</name>
-			<url>file://${project.basedir}/lib</url>
-		</repository>
-	</repositories>
-
 	<!-- Adds the base pom from spring boot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -134,11 +124,6 @@
 			<artifactId>jackson-databind</artifactId> 
 			<version>${libridge.jackson.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>club.libridge</groupId>
-			<artifactId>libridge-dds</artifactId>
-			<version>1.0.2</version>
-		</dependency>
 
 	</dependencies>
 
@@ -223,15 +208,9 @@
 					<includes> <!-- Just being explicit -->
 						<include>club/libridge/libridgebackend/**/*.java</include>
 					</includes>
-					<excludes> <!-- sadly, this does not work sometimes. https://issues.apache.org/jira/browse/MCOMPILER-174 -->
-						<exclude>club/libridge/libridgebackend/persistence/**/*.java</exclude> <!-- Not using it yet -->
-					</excludes>
 					<testIncludes> <!-- Just being explicit -->
 						<include>club/libridge/libridgebackend/**/*.java</include>
 					</testIncludes>
-					<testExcludes>
-						<exclude>club/libridge/libridgebackend/persistence/**/*.java</exclude> <!-- Not using it yet -->
-					</testExcludes>
 				</configuration>
 			</plugin>
 

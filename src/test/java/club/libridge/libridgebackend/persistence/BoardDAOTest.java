@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import club.libridge.libridgebackend.app.persistence.BoardDAO;
+import club.libridge.libridgebackend.app.persistence.BoardEntity;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.PavlicekNumber;
 import club.libridge.libridgebackend.core.RandomUtils;

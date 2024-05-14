@@ -1,22 +1,19 @@
 package club.libridge.libridgebackend.dto;
 
 import java.math.BigInteger;
+import java.util.EnumMap;
 import java.util.Map;
 
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.PavlicekNumber;
 import club.libridge.libridgebackend.core.Strain;
-import club.libridge.libridgebackend.dds.DoubleDummySolver;
-import club.libridge.libridgedds.jna.DDSWrapper;
 
 public class BoardDTO {
     private static PavlicekNumber pavlicekNumberTransformer;
-    private static DoubleDummySolver doubleDummySolver;
 
     static {
         pavlicekNumberTransformer = new PavlicekNumber();
-        doubleDummySolver = new DoubleDummySolver(new DDSWrapper());
     }
 
     private Board board;
@@ -43,7 +40,14 @@ public class BoardDTO {
     }
 
     private void calculateDoubleDummyTable() {
-        this.doubleDummyTable = doubleDummySolver.calculateDoubleDummyTable(this.board).getMapFormatted();
+        this.doubleDummyTable = new EnumMap<Direction, Map<Strain, Integer>>(Direction.class);
+        for (Direction direction : Direction.values()) {
+            EnumMap<Strain, Integer> strainMap = new EnumMap<Strain, Integer>(Strain.class);
+            for (Strain strain : Strain.values()) {
+                strainMap.put(strain, 6);
+            }
+            this.doubleDummyTable.put(direction, strainMap);
+        }
     }
 
 }
