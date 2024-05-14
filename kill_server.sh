@@ -1,17 +1,17 @@
 #!/bin/sh
 
 # Linux specific function to kill a process given its id.
-function linux_kill_server() {
+linux_kill_server() {
 	kill "$1"
 }
 
 # Windos specific function that kill a process given its id.
-function windows_kill_server() {
+windows_kill_server() {
 	taskkill -f -pid "$1"
 }
 
 # Selects which killing process function to use depending on OS.
-function kill_server_by_os(){
+kill_server_by_os() {
 	echo "Killing libridge server PID = $1"
 	if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	    linux_kill_server "$1"
@@ -23,7 +23,7 @@ function kill_server_by_os(){
 }
 
 # This function kills the libridge-server.jar process regardless of OS.
-function main() {
+main() {
 	PID=`jps -l | grep libridge-server.jar | cut -d ' ' -f1`
 
 	if [ ! -z "$PID" ]; then
