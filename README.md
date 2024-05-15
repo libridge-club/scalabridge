@@ -71,7 +71,7 @@ docker run -p 8080:8080 rulojuka/sbking
 ### On DigitalOcean
 Create a [docker based droplet](https://marketplace.digitalocean.com/apps/docker) and
 ```
-docker run -p 8080:8080 rulojuka/sbking
+docker run --network host -e DATABASE_URL='url' -e DATABASE_USERNAME='username' -e DATABASE_PASSWORD='password' -d -p 8080:8080 rulojuka/libridge-backend
 ```
 
 ### Pushing to DockerHub
