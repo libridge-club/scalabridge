@@ -124,7 +124,12 @@
 			<artifactId>jackson-databind</artifactId> 
 			<version>${libridge.jackson.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.32</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build> <!-- Run mvn fr.jcgay.maven.plugins:buildplan-maven-plugin:list-phase to see the phase and goals-->
