@@ -2,9 +2,7 @@ package club.libridge.libridgebackend.networking.server;
 
 import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,17 +15,14 @@ import club.libridge.libridgebackend.app.PlayerController;
 import club.libridge.libridgebackend.app.TableController;
 import club.libridge.libridgebackend.app.persistence.BoardEntity;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
+import club.libridge.libridgebackend.app.persistence.DoubleDummyTableEntity;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
-import club.libridge.libridgebackend.core.Hand;
-import club.libridge.libridgebackend.core.HandBuilder;
 import club.libridge.libridgebackend.core.Player;
-import club.libridge.libridgebackend.core.RandomUtils;
 import club.libridge.libridgebackend.core.Strain;
-import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
-import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealer;
+import club.libridge.libridgebackend.dds.DoubleDummyTable;
 import club.libridge.libridgebackend.dto.BoardDTO;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.networking.messages.GameNameFromGameServerIdentifier;
@@ -35,6 +30,8 @@ import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
 import club.libridge.libridgebackend.networking.server.gameserver.MinibridgeGameServer;
 import club.libridge.libridgebackend.networking.websockets.PlayerDTO;
 import club.libridge.libridgebackend.networking.websockets.PlayerListDTO;
+import club.libridge.libridgebackend.pbn.PBNUtils;
+import club.libridge.libridgebackend.utils.FileUtils;
 
 /**
  * This class has two responsibilities: 1: receiving method calls from the
@@ -323,38 +320,48 @@ public class SBKingServer {
     this.getTable(tableId).sendDealAll();
   }
 
-  public BoardDTO getRandomBoardWithPavlicekNumberAndDoubleDummyTable() {
-      ShuffledBoardDealer shuffledBoardDealer = new ShuffledBoardDealer();
-      Board board = shuffledBoardDealer.dealBoard(Direction.NORTH, new Complete52CardDeck().getDeck());
-      return new BoardDTO(board);
+  public BoardDTO getRandomBoard(BoardRepository repository) {
+      BoardEntity randomBoardEntity = repository.getRandomBoard();
+      BoardDTO boardDTO = new BoardDTO(randomBoardEntity.getBoard(), randomBoardEntity.getPavlicekNumber());
+      boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
+      return boardDTO;
   }
 
-  public BoardDTO getUSBCBoard() {
-      Map<Direction, Hand> hands = new EnumMap<Direction, Hand>(Direction.class);
-      HandBuilder handBuilder = new HandBuilder();
-      hands.put(Direction.NORTH, handBuilder.buildFromDotSeparatedString("q5.kt85.qjt8632."));
-      hands.put(Direction.EAST, handBuilder.buildFromDotSeparatedString("8.aqj96.ak9.jt93"));
-      hands.put(Direction.SOUTH, handBuilder.buildFromDotSeparatedString("kt97643.4..ak652"));
-      hands.put(Direction.WEST, handBuilder.buildFromDotSeparatedString("aj2.732.754.q874"));
-      return new BoardDTO(new Board(hands, Direction.NORTH));
-  }
+  public void magicNumberCreateTablesFromFile(BoardRepository repository) {
+    // read files with boards
+    // save them to database
+    String wholeFile = "";
+    try {
+      wholeFile = FileUtils.readFromFilename("/hands-with-table.txt", false);
+    } catch (Exception e) {
+      // TODO: handle exception
+    }
 
-  public BoardDTO getNewRandomBoard(BoardRepository repository) {
-    // get any board from database
-    List<BoardEntity> all = repository.findAll();
-    int index = new RandomUtils().nextInt(all.size());
-    BoardEntity boardEntity = all.get(index);
-    return new BoardDTO(boardEntity.getBoard());
-  }
+    System.out.println(wholeFile);
+    String[] lines = wholeFile.split("\n");
+    for (int i = 0; i < 2000 && ((i + 1) < lines.length); i += 2) {
+      String[] pbn = lines[i].split("\"");
+      String[] table = lines[i + 1].split(" ");
+      String finalPbn = pbn[1];
+      List<Integer> finalTable = new ArrayList<Integer>();
+      for (int j = 1; j <= 20; j++) {
+          finalTable.add(Integer.parseInt(table[j]));
+        }
+      Board boardFromDealTag = PBNUtils.getBoardFromDealTag(finalPbn);
+      DoubleDummyTable doubleDummyTable = new DoubleDummyTable(finalTable);
 
-  public void getCreateBoard(BoardRepository repository) {
-    // create a random board and save it to the database
-    RandomUtils randomUtils = new RandomUtils();
-    int randomNumber = randomUtils.nextInt(10000);
-    BigInteger bigInteger = BigInteger.ZERO.add(BigInteger.valueOf(randomNumber));
-    BoardEntity boardEntity = new BoardEntity();
-    boardEntity.setPavlicekNumber(bigInteger.toString());
-    repository.save(boardEntity);
+      BoardEntity boardEntity = new BoardEntity();
+      boardEntity.setBoard(boardFromDealTag);
+
+      DoubleDummyTableEntity doubleDummyTableEntity = new DoubleDummyTableEntity();
+      doubleDummyTableEntity.setDoubleDummyTable(doubleDummyTable);
+
+      boardEntity.setDoubleDummyTableEntity(doubleDummyTableEntity);
+      doubleDummyTableEntity.setBoardEntity(boardEntity);
+
+      repository.save(boardEntity);
+    }
+
   }
 
 }

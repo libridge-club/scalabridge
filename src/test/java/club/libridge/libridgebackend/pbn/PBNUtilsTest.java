@@ -1,11 +1,17 @@
 package club.libridge.libridgebackend.pbn;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import club.libridge.libridgebackend.core.Board;
+import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Direction;
+import club.libridge.libridgebackend.core.Hand;
+import club.libridge.libridgebackend.core.Rank;
+import club.libridge.libridgebackend.core.Suit;
 import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
 import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealer;
 import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealerWithSeed;
@@ -36,4 +42,26 @@ public class PBNUtilsTest {
         assertEquals(expectedString, response);
 
     }
+
+    @Test
+    void getBoardFromDealTag_shouldReturnABoardWithTheRightHandsAndDealer() {
+
+        String inputString = "E:86.KT2.K85.Q9742 KJT932.97.942.86 54.8653.AQJT73.3 AQ7.AQJ4.6.AKJT5";
+
+        Board response = PBNUtils.getBoardFromDealTag(inputString);
+
+        assertEquals(response.getDealer(), Direction.EAST);
+
+        Hand east = response.getHandOf(Direction.EAST);
+        assertTrue(east.containsCard(new Card(Suit.SPADES, Rank.EIGHT)));
+        assertFalse(east.containsCard(new Card(Suit.SPADES, Rank.ACE)));
+        assertTrue(east.containsCard(new Card(Suit.HEARTS, Rank.KING)));
+
+        Hand north = response.getHandOf(Direction.NORTH);
+        assertTrue(north.containsCard(new Card(Suit.SPADES, Rank.QUEEN)));
+        assertFalse(north.containsCard(new Card(Suit.DIAMONDS, Rank.ACE)));
+        assertTrue(north.containsCard(new Card(Suit.CLUBS, Rank.JACK)));
+    }
+
+
 }

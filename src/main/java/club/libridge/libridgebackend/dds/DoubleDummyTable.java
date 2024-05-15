@@ -1,6 +1,7 @@
 package club.libridge.libridgebackend.dds;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,8 @@ public class DoubleDummyTable {
     private static final List<Direction> DIRECTION_ORDER_FROM_DDS;
 
     static {
-        STRAIN_ORDER_FROM_DDS = List.of(Strain.SPADES, Strain.HEARTS, Strain.DIAMONDS, Strain.CLUBS, Strain.NOTRUMPS);
-        DIRECTION_ORDER_FROM_DDS = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+        STRAIN_ORDER_FROM_DDS = Collections.unmodifiableList(List.of(Strain.SPADES, Strain.HEARTS, Strain.DIAMONDS, Strain.CLUBS, Strain.NOTRUMPS));
+        DIRECTION_ORDER_FROM_DDS = Collections.unmodifiableList(List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST));
     }
 
     public DoubleDummyTable(List<Integer> list) { // This is the format received from DDS

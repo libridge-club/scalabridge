@@ -1,12 +1,17 @@
 package club.libridge.libridgebackend.pbn;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
+import club.libridge.libridgebackend.core.HandBuilder;
 import club.libridge.libridgebackend.core.Suit;
 import club.libridge.libridgebackend.core.comparators.CardInsideHandComparator;
 
@@ -16,6 +21,21 @@ public final class PBNUtils {
      * 69 in fact: 52 cards + 3*4 = 12 dots, 3 spaces and a "X:" in the start
      */
     private static final int MAX_CHARS_IN_DEAL_TAG = 70;
+    private static final Map<Character, Direction> CHAR_TO_DIRECTION_MAP;
+
+    static {
+        Map<Character, Direction> temp = new HashMap<Character, Direction>();
+        temp.put('N', Direction.NORTH);
+        temp.put('n', Direction.NORTH);
+        temp.put('E', Direction.EAST);
+        temp.put('e', Direction.EAST);
+        temp.put('S', Direction.SOUTH);
+        temp.put('s', Direction.SOUTH);
+        temp.put('W', Direction.WEST);
+        temp.put('w', Direction.WEST);
+        CHAR_TO_DIRECTION_MAP = Collections.unmodifiableMap(temp);
+
+    }
 
     private PBNUtils() {
         throw new IllegalStateException("Utility class");
@@ -69,6 +89,21 @@ public final class PBNUtils {
         }
 
         return returnValue.toString();
+    }
+
+    /**
+     * Example "E:86.KT2.K85.Q9742 KJT932.97.942.86 54.8653.AQJT73.3 AQ7.AQJ4.6.AKJT5"
+     */
+    public static Board getBoardFromDealTag(String dealTag) {
+        HandBuilder handBuilder = new HandBuilder();
+        Direction dealer = CHAR_TO_DIRECTION_MAP.get(dealTag.charAt(0));
+        String[] dotSeparatedStrings = dealTag.substring(2).split(" ");
+        Map<Direction, Hand> hands = new EnumMap<Direction, Hand>(Direction.class);
+        for (int i = 0; i < 4; i++) {
+            hands.put(dealer.next(i), handBuilder.buildFromDotSeparatedString(dotSeparatedStrings[i]));
+        }
+
+        return new Board(hands, dealer);
     }
 
 }

@@ -7,9 +7,11 @@ import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.PavlicekNumber;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
 @Access(AccessType.FIELD)
@@ -46,6 +48,12 @@ public class BoardEntity {
     }
 
     /**
+     * This is the inverse side
+     */
+    @OneToOne(mappedBy = "boardEntity", cascade = CascadeType.ALL)
+    private DoubleDummyTableEntity doubleDummyTableEntity;
+
+    /**
      * Syncs everything with the following priority:
      * 1. bigIntegerPavlicekNumber
      * 2. board
@@ -80,6 +88,14 @@ public class BoardEntity {
         this.bigIntegerPavlicekNumber = null;
         this.board = board;
         this.syncFields();
+    }
+
+    public DoubleDummyTableEntity getDoubleDummyTableEntity() {
+        return doubleDummyTableEntity;
+    }
+
+    public void setDoubleDummyTableEntity(DoubleDummyTableEntity doubleDummyTableEntity) {
+        this.doubleDummyTableEntity = doubleDummyTableEntity;
     }
 
 }

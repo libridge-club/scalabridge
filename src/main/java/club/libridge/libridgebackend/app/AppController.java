@@ -151,25 +151,14 @@ class AppController {
     @GetMapping("/randomBoard")
     public BoardDTO getRandomBoard() {
         LOGGER.trace("getRandomBoard");
-        return this.getServer().getRandomBoardWithPavlicekNumberAndDoubleDummyTable();
+        return this.getServer().getRandomBoard(boardRepository);
     }
 
-    @GetMapping("/usbcBoard")
-    public BoardDTO getUSBCBoard() {
-        LOGGER.trace("getUSBCBoard");
-        return this.getServer().getUSBCBoard();
+    @GetMapping("/437c542d77291aaff96d6b223b798628")
+    public void magicNumberCreateTablesFromFile() {
+        LOGGER.trace("magicNumberCreateTablesFromFile");
+        this.getServer().magicNumberCreateTablesFromFile(boardRepository);
     }
 
-    @GetMapping("/newRandomBoard")
-    public BoardDTO getNewRandomBoard() {
-        LOGGER.trace("getNewRandomBoard");
-        return this.getServer().getNewRandomBoard(boardRepository);
-    }
-
-    @GetMapping("/createBoard")
-    public void getCreateBoard() {
-        LOGGER.trace("getCreateBoard");
-        this.getServer().getCreateBoard(boardRepository);
-    }
 
 }
