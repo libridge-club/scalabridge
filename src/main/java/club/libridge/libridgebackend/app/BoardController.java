@@ -19,18 +19,27 @@ import club.libridge.libridgebackend.networking.server.SBKingServer;
 
 @RestController
 @RequestMapping("/boards")
-class BoardController {
+public class BoardController {
+
+    private SBKingServer libridgeServer;
+    private BoardRepository repository;
 
     @Autowired
-    private SBKingServer libridgeServer;
-    @Autowired
-    private BoardRepository repository;
+    public BoardController(SBKingServer libridgeServer, BoardRepository repository) {
+        this.libridgeServer = libridgeServer;
+        this.repository = repository;
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/getRandom")
     public BoardDTO getRandomBoard() {
         LOGGER.trace("getRandomBoard");
-        return this.libridgeServer.getRandomBoard(repository);
+        Optional<BoardDTO> randomBoard = this.libridgeServer.getRandomBoard(repository);
+        if (randomBoard.isPresent()) {
+            return randomBoard.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no board in the database");
+        }
     }
 
     @GetMapping("/getByPavlicekNumber/{pavlicekNumber}")

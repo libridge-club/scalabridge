@@ -48,8 +48,6 @@ import club.libridge.libridgebackend.utils.FileUtils;
 @Component
 public class SBKingServer {
 
-  private PlayerController playerController;
-
   private Map<UUID, Player> identifierToPlayerMap = new HashMap<UUID, Player>();
   private Map<UUID, Table> tables;
   private Map<Player, Table> playersTable;
@@ -58,16 +56,18 @@ public class SBKingServer {
   private ExecutorService pool;
   private WebSocketTableMessageServerSender webSocketTableMessageServerSender;
 
-  @Autowired
+  private PlayerController playerController;
   private BoardFactory boardFactory;
 
-  public SBKingServer(PlayerController playerController, TableController tableController) {
+  @Autowired
+  public SBKingServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
     this.tables = new HashMap<UUID, Table>();
     this.playersTable = new HashMap<Player, Table>();
     this.identifierToPlayerMap = new HashMap<UUID, Player>();
     this.pool = Executors.newFixedThreadPool(MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS);
     this.playerController = playerController;
     this.webSocketTableMessageServerSender = new WebSocketTableMessageServerSender(tableController);
+    this.boardFactory = boardFactory;
   }
 
   public void addUnnammedPlayer(UUID identifier) {
@@ -330,13 +330,19 @@ public class SBKingServer {
     this.getTable(tableId).sendDealAll();
   }
 
-  public BoardDTO getRandomBoard(BoardRepository repository) {
-      BoardEntity randomBoardEntity = repository.getRandom();
+  public Optional<BoardDTO> getRandomBoard(BoardRepository repository) {
+      Optional<BoardEntity> random = repository.getRandom();
+      if (random.isEmpty()) {
+        return Optional.empty();
+      }
+      BoardEntity randomBoardEntity = random.get();
       Board board = this.boardFactory.fromEntity(randomBoardEntity);
       BoardDTO boardDTO = new BoardDTO(board, randomBoardEntity.getPavlicekNumber());
-      boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
       boardDTO.setId(randomBoardEntity.getId());
-      return boardDTO;
+      if (randomBoardEntity.getDoubleDummyTableEntity() != null) {
+        boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
+      }
+      return Optional.of(boardDTO);
   }
 
   public Optional<BoardDTO> getBoardByPavlicekNumber(BoardRepository repository, String pavlicekNumber) {

@@ -21,7 +21,6 @@ import lombok.Setter;
 @Access(AccessType.FIELD)
 @Entity(name = "Board")
 @Getter
-@Setter
 @Validated
 public class BoardEntity {
 
@@ -30,10 +29,16 @@ public class BoardEntity {
     @GeneratedValue
     private UUID id;
 
-    @Access(AccessType.PROPERTY)
     @Column
     @NotNull
     private String pavlicekNumber = "";
+
+    /**
+     * This is the inverse side of the relationship
+     */
+    @Setter
+    @OneToOne(mappedBy = "boardEntity", cascade = CascadeType.ALL)
+    private DoubleDummyTableEntity doubleDummyTableEntity;
 
     /**
      * @deprecated Spring eyes only
@@ -50,10 +55,5 @@ public class BoardEntity {
         this.pavlicekNumber = pavlicekNumber;
     }
 
-    /**
-     * This is the inverse side of the relationship
-     */
-    @OneToOne(mappedBy = "boardEntity", cascade = CascadeType.ALL)
-    private DoubleDummyTableEntity doubleDummyTableEntity;
 
 }

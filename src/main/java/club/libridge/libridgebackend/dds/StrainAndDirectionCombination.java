@@ -8,14 +8,6 @@ public class StrainAndDirectionCombination {
     private Strain strain;
     private Direction direction;
 
-    /**
-     * @deprecated Spring eyes only
-     */
-    @Deprecated
-    private StrainAndDirectionCombination() {
-        super();
-    }
-
     public StrainAndDirectionCombination(Strain strain, Direction direction) {
         this.strain = strain;
         this.direction = direction;

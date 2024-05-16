@@ -11,8 +11,12 @@ import club.libridge.libridgebackend.networking.websockets.PlayerListDTO;
 @RestController
 public class PlayerController {
 
-    @Autowired
     private SimpMessagingTemplate template;
+
+    @Autowired
+    public PlayerController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     public void getPlayers(PlayerListDTO playerList) {
         LOGGER.debug("Sending list of players to subscribers");

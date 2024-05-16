@@ -20,8 +20,12 @@ import jakarta.validation.constraints.NotNull;
 public class BoardFactory {
 
     @NotNull
-    @Autowired
     private PavlicekNumber pavlicekNumberGenerator;
+
+    @Autowired
+    public BoardFactory(@NotNull PavlicekNumber pavlicekNumberGenerator) {
+        this.pavlicekNumberGenerator = pavlicekNumberGenerator;
+    }
 
     public Board fromEntity(BoardEntity boardEntity) {
         return pavlicekNumberGenerator.getBoardFromNumber(new BigInteger(boardEntity.getPavlicekNumber()));

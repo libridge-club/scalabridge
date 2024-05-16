@@ -24,12 +24,16 @@ import club.libridge.libridgebackend.networking.server.SBKingServer;
 import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
 
 @RestController
-class AppController {
+public class AppController {
 
     private static final String ACCEPT_CANNOT_BE_EMPTY = "Accept cannot be empty. It must be true or false.";
 
-    @Autowired
     private SBKingServer libridgeServer;
+
+    @Autowired
+    public AppController(SBKingServer libridgeServer) {
+        this.libridgeServer = libridgeServer;
+    }
 
     private UUID getUUID(String uuidString) {
         return UUID.fromString(uuidString);

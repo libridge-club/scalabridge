@@ -14,11 +14,11 @@ import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
 import lombok.Setter;
 
 
@@ -33,114 +33,93 @@ import lombok.Setter;
  */
 @Access(AccessType.FIELD)
 @Entity(name = "DoubleDummyTable")
-@Getter
-@Setter
 @Validated
 public class DoubleDummyTableEntity {
 
     @Id
     @NotNull
+    @GeneratedValue
     private UUID id;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int northClubs = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int northDiamonds = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int northHearts = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int northSpades = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int northNotrumps = -1;
 
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int eastClubs = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int eastDiamonds = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int eastHearts = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int eastSpades = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int eastNotrumps = -1;
 
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int southClubs = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int southDiamonds = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int southHearts = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int southSpades = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int southNotrumps = -1;
 
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int westClubs = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int westDiamonds = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int westHearts = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int westSpades = -1;
 
-    @Access(AccessType.PROPERTY)
     @Column(columnDefinition = "smallint")
     @NotNull
     private int westNotrumps = -1;
@@ -156,15 +135,13 @@ public class DoubleDummyTableEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "board_entity_id", referencedColumnName = "id")
     @NotNull
+    @Setter
     private BoardEntity boardEntity;
 
-    public DoubleDummyTableEntity() {
-        this.id = UUID.randomUUID();
-    }
-
-    public DoubleDummyTableEntity(UUID id) {
-        this.id = id;
-    }
+    /**
+     * These two methods (doubleDummyTable getter and setter)
+     * do the necessary mapping between the model and the database columns.
+     */
 
     public void setDoubleDummyTable(DoubleDummyTable doubleDummyTable) {
         this.updateAllFields(doubleDummyTable);

@@ -11,8 +11,12 @@ import club.libridge.libridgebackend.networking.websockets.TableMessageDTO;
 @RestController
 public class TableController {
 
-    @Autowired
     private SimpMessagingTemplate template;
+
+    @Autowired
+    public TableController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     private String getDestination(TableMessageDTO tableDealDTO) {
         return "/topic/table/" + tableDealDTO.getTableId();

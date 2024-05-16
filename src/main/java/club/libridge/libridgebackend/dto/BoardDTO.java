@@ -12,7 +12,6 @@ import club.libridge.libridgebackend.core.NumberOfTricks;
 import club.libridge.libridgebackend.core.PavlicekNumber;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
-import lombok.Getter;
 import lombok.Setter;
 
 public class BoardDTO {
@@ -22,20 +21,12 @@ public class BoardDTO {
         pavlicekNumberTransformer = new PavlicekNumber();
     }
 
-    @Getter
     @Setter
     private UUID id;
 
     private Board board;
     private String pavlicekNumber;
     private Map<Direction, Map<Strain, Integer>> doubleDummyTable;
-
-    /**
-     * @deprecated Spring eyes only
-     */
-    @Deprecated
-    private BoardDTO() {
-    }
 
     public BoardDTO(Board board) {
         this.pavlicekNumber = pavlicekNumberTransformer.getNumberFromBoard(board).toString();
