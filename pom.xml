@@ -46,6 +46,7 @@
 		<!-- FIXME Update this when focusing again on database -->
 		<libridge.mysql-connector-j.version>8.3.0</libridge.mysql-connector-j.version>
 		<libridge.jackson.version>2.16.2</libridge.jackson.version>
+		<libridge.lombok.version>1.18.32</libridge.lombok.version>
 
 		<libridge.plugin.maven-enforcer-plugin.version>3.4.1</libridge.plugin.maven-enforcer-plugin.version>
 		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
@@ -131,7 +132,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.32</version>
+			<version>${libridge.lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
@@ -220,6 +221,13 @@
 					<testIncludes> <!-- Just being explicit -->
 						<include>club/libridge/libridgebackend/**/*.java</include>
 					</testIncludes>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${libridge.lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 
