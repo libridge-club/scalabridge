@@ -4,11 +4,11 @@ import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import club.libridge.libridgebackend.networking.websockets.TableMessageDTO;
 
-@Controller
+@RestController
 public class TableController {
 
     @Autowired

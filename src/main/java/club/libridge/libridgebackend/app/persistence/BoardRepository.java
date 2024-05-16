@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface BoardRepository extends JpaRepository<BoardEntity, UUID> {
 
     @Query("SELECT b FROM Board b ORDER BY RAND() LIMIT 1")
-    BoardEntity getRandomBoard();
+    BoardEntity getRandom();
 
 }

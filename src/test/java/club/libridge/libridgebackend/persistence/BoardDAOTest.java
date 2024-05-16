@@ -3,7 +3,6 @@ package club.libridge.libridgebackend.persistence;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigInteger;
-import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,8 +29,7 @@ public class BoardDAOTest {
         this.bigIntegerPavlicekNumber = BigInteger.ZERO.add(BigInteger.valueOf(randomNumber));
         this.generator = new PavlicekNumber();
         this.board = generator.getBoardFromNumber(bigIntegerPavlicekNumber);
-        this.boardEntity = new BoardEntity(UUID.randomUUID());
-        this.boardEntity.setBoard(this.board);
+        this.boardEntity = new BoardEntity(this.board);
     }
 
     @Test

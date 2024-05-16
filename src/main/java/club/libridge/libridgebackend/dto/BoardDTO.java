@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.UUID;
 
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Direction;
@@ -11,6 +12,8 @@ import club.libridge.libridgebackend.core.NumberOfTricks;
 import club.libridge.libridgebackend.core.PavlicekNumber;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
+import lombok.Getter;
+import lombok.Setter;
 
 public class BoardDTO {
     private static PavlicekNumber pavlicekNumberTransformer;
@@ -18,6 +21,10 @@ public class BoardDTO {
     static {
         pavlicekNumberTransformer = new PavlicekNumber();
     }
+
+    @Getter
+    @Setter
+    private UUID id;
 
     private Board board;
     private String pavlicekNumber;

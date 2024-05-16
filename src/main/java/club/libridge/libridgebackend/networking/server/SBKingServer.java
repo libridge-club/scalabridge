@@ -6,14 +6,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Component;
+
 import club.libridge.libridgebackend.app.PlayerController;
 import club.libridge.libridgebackend.app.TableController;
 import club.libridge.libridgebackend.app.persistence.BoardEntity;
+import club.libridge.libridgebackend.app.persistence.BoardFactory;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
 import club.libridge.libridgebackend.app.persistence.DoubleDummyTableEntity;
 import club.libridge.libridgebackend.core.Board;
@@ -39,6 +45,7 @@ import club.libridge.libridgebackend.utils.FileUtils;
  * (Controllers). 2: receiving method calls from the network layer and
  * act on the GameServer (via Table).
  */
+@Component
 public class SBKingServer {
 
   private PlayerController playerController;
@@ -50,6 +57,9 @@ public class SBKingServer {
   private static final int MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS = 10;
   private ExecutorService pool;
   private WebSocketTableMessageServerSender webSocketTableMessageServerSender;
+
+  @Autowired
+  private BoardFactory boardFactory;
 
   public SBKingServer(PlayerController playerController, TableController tableController) {
     this.tables = new HashMap<UUID, Table>();
@@ -321,11 +331,35 @@ public class SBKingServer {
   }
 
   public BoardDTO getRandomBoard(BoardRepository repository) {
-      BoardEntity randomBoardEntity = repository.getRandomBoard();
-      BoardDTO boardDTO = new BoardDTO(randomBoardEntity.getBoard(), randomBoardEntity.getPavlicekNumber());
+      BoardEntity randomBoardEntity = repository.getRandom();
+      Board board = this.boardFactory.fromEntity(randomBoardEntity);
+      BoardDTO boardDTO = new BoardDTO(board, randomBoardEntity.getPavlicekNumber());
       boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
+      boardDTO.setId(randomBoardEntity.getId());
       return boardDTO;
   }
+
+  public Optional<BoardDTO> getBoardByPavlicekNumber(BoardRepository repository, String pavlicekNumber) {
+    Example<BoardEntity> exampleBoard = Example.of(new BoardEntity(pavlicekNumber));
+    List<BoardEntity> list = repository.findAll(exampleBoard);
+    if (list == null || list.size() == 0) {
+      return Optional.empty();
+    }
+    BoardEntity boardEntity = list.get(0);
+    Board board = this.boardFactory.fromEntity(boardEntity);
+    BoardDTO boardDTO = new BoardDTO(board, pavlicekNumber);
+    boardDTO.setId(boardEntity.getId());
+    return Optional.of(boardDTO);
+  }
+
+  public BoardDTO createRandomBoard(BoardRepository repository) {
+    Board board = this.boardFactory.getRandom();
+    BoardEntity boardEntity = new BoardEntity(board);
+    repository.saveAndFlush(boardEntity);
+    BoardDTO boardDTO = new BoardDTO(board, boardEntity.getPavlicekNumber());
+    boardDTO.setId(boardEntity.getId());
+    return boardDTO;
+}
 
   public void magicNumberCreateTablesFromFile(BoardRepository repository) {
     // read files with boards
@@ -350,8 +384,7 @@ public class SBKingServer {
       Board boardFromDealTag = PBNUtils.getBoardFromDealTag(finalPbn);
       DoubleDummyTable doubleDummyTable = new DoubleDummyTable(finalTable);
 
-      BoardEntity boardEntity = new BoardEntity();
-      boardEntity.setBoard(boardFromDealTag);
+      BoardEntity boardEntity = new BoardEntity(boardFromDealTag);
 
       DoubleDummyTableEntity doubleDummyTableEntity = new DoubleDummyTableEntity();
       doubleDummyTableEntity.setDoubleDummyTable(doubleDummyTable);

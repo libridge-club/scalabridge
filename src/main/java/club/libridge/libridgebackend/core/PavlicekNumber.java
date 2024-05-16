@@ -7,6 +7,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
 
 /*
@@ -28,6 +30,7 @@ import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
  * saved board.
  */
 
+@Component
 public class PavlicekNumber {
     static BigInteger bigD;
 
