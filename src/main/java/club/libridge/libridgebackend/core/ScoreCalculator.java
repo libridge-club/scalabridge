@@ -62,10 +62,10 @@ public final class ScoreCalculator {
     }
 
     private static int getPenaltyMultiplier(Contract contract) {
-        if (contract.getDoubled()) {
+        if (contract.isDoubled()) {
             return 2;
         }
-        if (contract.getRedoubled()) {
+        if (contract.isRedoubled()) {
             return 4;
         }
         return 1;
@@ -110,14 +110,14 @@ public final class ScoreCalculator {
     }
 
     private static int getPremiumScoreDoubled(Contract contract) {
-        if (contract.getDoubled()) {
+        if (contract.isDoubled()) {
             return 50;
         }
         return 0;
     }
 
     private static int getPremiumScoreRedoubled(Contract contract) {
-        if (contract.getRedoubled()) {
+        if (contract.isRedoubled()) {
             return 100;
         }
         return 0;
@@ -125,12 +125,12 @@ public final class ScoreCalculator {
 
     private static int getOvertrickBonus(Contract contract, int overtricks) {
         int baseValue = TRICK_SCORE_UNDOUBLED.get(contract.getStrain());
-        if (contract.getDoubled()) {
+        if (contract.isDoubled()) {
             baseValue = 100;
             if (contract.isVulnerable()) {
                 baseValue *= 2;
             }
-        } else if (contract.getRedoubled()) {
+        } else if (contract.isRedoubled()) {
             baseValue = 200;
             if (contract.isVulnerable()) {
                 baseValue *= 2;
@@ -144,21 +144,21 @@ public final class ScoreCalculator {
             return 0;
         }
         if (contract.isVulnerable()) {
-            if (contract.getDoubled()) {
+            if (contract.isDoubled()) {
                 return (undertricks * 300) - 100;
-            } else if (contract.getRedoubled()) {
+            } else if (contract.isRedoubled()) {
                 return (undertricks * 600) - 200;
             } else {
                 return undertricks * 100;
             }
         } else {
-            if (contract.getDoubled()) {
+            if (contract.isDoubled()) {
                 if (undertricks < 4) {
                     return (undertricks * 200) - 100;
                 } else {
                     return (undertricks * 300) - 400;
                 }
-            } else if (contract.getRedoubled()) {
+            } else if (contract.isRedoubled()) {
                 if (undertricks < 4) {
                     return (undertricks * 400) - 200;
                 } else {

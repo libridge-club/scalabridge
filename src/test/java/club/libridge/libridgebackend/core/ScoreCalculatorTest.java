@@ -67,11 +67,10 @@ class ScoreCalculatorTest {
 
     @Test
     void allDownResults() {
-        int sevenLevel = 7;
+        OddTricks sevenOddTricks = OddTricks.SEVEN;
         int totalTricks = 13;
         Strain anyStrain = Strain.NOTRUMPS;
-        boolean vulnerable, doubled, redoubled;
-        vulnerable = doubled = redoubled = true;
+        boolean vulnerable = true;
         // Trusting completely in http://rpbridge.net/cgi-bin/xsc2.pl
         int[][] values = { new int[] { -50, -100, -200, -100, -200, -400 }, // -1
                 new int[] { -100, -300, -600, -200, -500, -1000 }, // -2
@@ -98,12 +97,12 @@ class ScoreCalculatorTest {
         for (int i = 1; i <= totalTricks; i++) {
             int downI = totalTricks - i;
             int[] current = values[i - 1];
-            nonVul = new Contract(sevenLevel, anyStrain, false, false, !vulnerable);
-            nonVulDoubled = new Contract(sevenLevel, anyStrain, doubled, false, !vulnerable);
-            nonVulRedoubled = new Contract(sevenLevel, anyStrain, false, redoubled, !vulnerable);
-            vul = new Contract(sevenLevel, anyStrain, false, false, vulnerable);
-            vulDoubled = new Contract(sevenLevel, anyStrain, doubled, false, vulnerable);
-            vulRedoubled = new Contract(sevenLevel, anyStrain, false, redoubled, vulnerable);
+            nonVul = new Contract(sevenOddTricks, anyStrain, PenaltyStatus.NONE, !vulnerable);
+            nonVulDoubled = new Contract(sevenOddTricks, anyStrain, PenaltyStatus.DOUBLED, !vulnerable);
+            nonVulRedoubled = new Contract(sevenOddTricks, anyStrain, PenaltyStatus.REDOUBLED, !vulnerable);
+            vul = new Contract(sevenOddTricks, anyStrain, PenaltyStatus.NONE, vulnerable);
+            vulDoubled = new Contract(sevenOddTricks, anyStrain, PenaltyStatus.DOUBLED, vulnerable);
+            vulRedoubled = new Contract(sevenOddTricks, anyStrain, PenaltyStatus.REDOUBLED, vulnerable);
             assertEquals(current[0], ScoreCalculator.score(nonVul, downI));
             assertEquals(current[1], ScoreCalculator.score(nonVulDoubled, downI));
             assertEquals(current[2], ScoreCalculator.score(nonVulRedoubled, downI));

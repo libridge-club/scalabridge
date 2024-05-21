@@ -23,6 +23,7 @@ public final class ContractFactory {
      */
     public static Contract fromText(String text, boolean vulnerable) {
         int level = Integer.parseInt(text.substring(0, 1));
+        OddTricks oddTricks = OddTricks.fromLevel(level);
         String strainText = text.substring(1, 2).toUpperCase();
         Strain strain = STRING_TO_STRAIN_MAP.get(strainText);
         String penalty = "";
@@ -31,7 +32,13 @@ public final class ContractFactory {
         }
         boolean doubled = "X".equals(penalty);
         boolean redoubled = "XX".equals(penalty);
-        return new Contract(level, strain, doubled, redoubled, vulnerable);
+        PenaltyStatus penaltyStatus = PenaltyStatus.NONE;
+        if (doubled) {
+            penaltyStatus = PenaltyStatus.DOUBLED;
+        } else if (redoubled) {
+            penaltyStatus = PenaltyStatus.REDOUBLED;
+        }
+        return new Contract(oddTricks, strain, penaltyStatus, vulnerable);
     }
 
 }

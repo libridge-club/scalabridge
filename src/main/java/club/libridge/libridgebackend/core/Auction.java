@@ -180,13 +180,19 @@ public final class Auction {
             // Ignoring PASS for now
             throw new IllegalStateException("PASS is not implemented yet.");
         } else {
-            List<Call> subList = this.bids.subList(lastBidIndex, this.bids.size());
-            boolean redoubled = subList.stream().anyMatch(call -> call.isRedouble());
-            boolean doubled = subList.stream().anyMatch(call -> call.isDouble());
+            List<Call> callsAfterLastBid = this.bids.subList(lastBidIndex, this.bids.size());
+            boolean redoubled = callsAfterLastBid.stream().anyMatch(call -> call.isRedouble());
+            boolean doubled = callsAfterLastBid.stream().anyMatch(call -> call.isDouble());
+            PenaltyStatus penaltyStatus = PenaltyStatus.NONE;
+            if (doubled) {
+                penaltyStatus = PenaltyStatus.DOUBLED;
+            } else if (redoubled) {
+                penaltyStatus = PenaltyStatus.REDOUBLED;
+            }
             boolean nonVul = false;
-            int level = lastBid.getOddTricks().getLevel();
+            OddTricks oddTricks = lastBid.getOddTricks();
             Strain strain = lastBid.getStrain();
-            this.finalContract = new Contract(level, strain, doubled, redoubled, nonVul);
+            this.finalContract = new Contract(oddTricks, strain, penaltyStatus, nonVul);
             return this.finalContract;
         }
     }

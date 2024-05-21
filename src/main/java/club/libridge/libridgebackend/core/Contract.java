@@ -1,47 +1,34 @@
 package club.libridge.libridgebackend.core;
 
-public final class Contract {
-    private final int level;
-    private final Strain strain;
-    private final boolean doubled;
-    private final boolean redoubled;
-    private final boolean vulnerable;
+import lombok.NonNull;
 
-    public Contract(int level, Strain strain, boolean doubled, boolean redoubled, boolean vulnerable) {
-        this.validateArguments(level, strain, doubled, redoubled);
+public final class Contract {
+    private final OddTricks oddTricks;
+    private final Strain strain;
+    private final boolean vulnerable;
+    private final PenaltyStatus penaltyStatus;
+
+    public Contract(@NonNull OddTricks oddTricks, @NonNull Strain strain, @NonNull PenaltyStatus penaltyStatus, boolean vulnerable) {
+        this.oddTricks = oddTricks;
         this.strain = strain;
-        this.level = level;
-        this.doubled = doubled;
-        this.redoubled = redoubled;
+        this.penaltyStatus = penaltyStatus;
         this.vulnerable = vulnerable;
     }
 
-    private void validateArguments(int level, Strain strain, boolean doubled, boolean redoubled) {
-        if (level < 1 || level > 7) {
-            throw new IllegalArgumentException("Level must be between 1 and 7, inclusive.");
-        }
-        if (strain == null) {
-            throw new IllegalArgumentException("Strain must be a bridge strain.");
-        }
-        if ((doubled && redoubled)) {
-            throw new IllegalArgumentException("A contract cannot be doubled *and* redoubled.");
-        }
-    }
-
     public int getLevel() {
-        return level;
+        return this.oddTricks.getLevel();
     }
 
     public Strain getStrain() {
         return strain;
     }
 
-    public boolean getDoubled() {
-        return this.doubled;
+    public boolean isDoubled() {
+        return PenaltyStatus.DOUBLED == this.penaltyStatus;
     }
 
-    public boolean getRedoubled() {
-        return this.redoubled;
+    public boolean isRedoubled() {
+        return PenaltyStatus.REDOUBLED == this.penaltyStatus;
     }
 
     public boolean isVulnerable() {
@@ -51,9 +38,9 @@ public final class Contract {
     @Override
     public String toString() {
         String response = this.getLevel() + this.getStrain().getSymbol();
-        if (this.getDoubled()) {
+        if (this.isDoubled()) {
             response += "X";
-        } else if (this.getRedoubled()) {
+        } else if (this.isRedoubled()) {
             response += "XX";
         }
         return response;
