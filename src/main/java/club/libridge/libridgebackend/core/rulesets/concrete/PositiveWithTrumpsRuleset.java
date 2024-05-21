@@ -9,6 +9,7 @@ public class PositiveWithTrumpsRuleset extends PositiveRuleset {
 
     /**
      * @deprecated Kryo needs a no-arg constructor
+     * FIXME kryo is not used anymore. Does jackson or spring web needs this?
      */
     @Deprecated
     @SuppressWarnings("unused")
