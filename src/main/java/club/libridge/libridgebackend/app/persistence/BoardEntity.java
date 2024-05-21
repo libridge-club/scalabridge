@@ -6,8 +6,6 @@ import org.springframework.validation.annotation.Validated;
 
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.PavlicekNumber;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +16,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-@Access(AccessType.FIELD)
 @Entity(name = "Board")
 @Getter
 @Validated

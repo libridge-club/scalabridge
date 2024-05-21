@@ -9,8 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +29,6 @@ import lombok.Setter;
  *
  * -1 symbolizes no information
  */
-@Access(AccessType.FIELD)
 @Entity(name = "DoubleDummyTable")
 @Validated
 public class DoubleDummyTableEntity {
