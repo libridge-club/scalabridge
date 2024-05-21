@@ -33,7 +33,9 @@
 		<sonar.issue.ignore.multicriteria.e3.ruleKey>java:S2142</sonar.issue.ignore.multicriteria.e3.ruleKey> <!--ignoredInterruptedException-->
 		<sonar.issue.ignore.multicriteria.e3.resourceKey>**/*</sonar.issue.ignore.multicriteria.e3.resourceKey>
 
-		<java.version>17</java.version> <!-- For spring-boot-maven-plugin -->
+		<java.version>21</java.version> <!-- For spring-boot-maven-plugin -->
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<libridge.junit.version>5.10.2</libridge.junit.version>
 		<libridge.mockito-core.version>5.11.0</libridge.mockito-core.version>
@@ -212,7 +214,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${libridge.plugin.maven-compiler-plugin.version}</version>
 				<configuration>
-					<release>17</release> <!-- Target release -->
+
+					<release>${java.version}</release> <!-- Target release -->
 					<includes> <!-- Just being explicit -->
 						<include>club/libridge/libridgebackend/**/*.java</include>
 					</includes>

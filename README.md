@@ -8,7 +8,7 @@ libridge is a free/libre, open-source bridge server and it is (soon) available i
 
 ## Java version
 
-libridge uses Java 17 in development.
+libridge-backend uses Java 21 (LTS) in development and in runtime. It will be updated to Java 25 LTS after its launch at September 2025.
 
 ## Compiling
 
