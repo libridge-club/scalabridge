@@ -41,10 +41,8 @@
 		<libridge.log4j-core.version>2.20.0</libridge.log4j-core.version>
 		<libridge.commons-configuration2.version>2.10.1</libridge.commons-configuration2.version>
 		<libridge.commons-beanutils.version>1.9.4</libridge.commons-beanutils.version>
-		<!-- FIXME Update this when focusing again on database -->
-		<libridge.hibernate-core.version>6.2.2.Final</libridge.hibernate-core.version>
-		<!-- FIXME Update this when focusing again on database -->
-		<libridge.mysql-connector-j.version>8.3.0</libridge.mysql-connector-j.version>
+		<libridge.hibernate-core.version>6.5.1.Final</libridge.hibernate-core.version>
+		<libridge.mysql-connector-j.version>8.4.0</libridge.mysql-connector-j.version>
 		<libridge.jackson.version>2.16.2</libridge.jackson.version>
 		<libridge.lombok.version>1.18.32</libridge.lombok.version>
 
