@@ -41,6 +41,7 @@ public class BoardEntity {
      * @deprecated Spring eyes only
      */
     @Deprecated
+    @SuppressWarnings("unused")
     private BoardEntity() { }
 
     public BoardEntity(@NotNull Board board) {

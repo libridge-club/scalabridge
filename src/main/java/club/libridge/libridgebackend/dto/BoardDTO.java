@@ -1,6 +1,5 @@
 package club.libridge.libridgebackend.dto;
 
-import java.math.BigInteger;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
@@ -9,34 +8,20 @@ import java.util.UUID;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.NumberOfTricks;
-import club.libridge.libridgebackend.core.PavlicekNumber;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
 import lombok.Setter;
 
 public class BoardDTO {
-    private static PavlicekNumber pavlicekNumberTransformer;
-
-    static {
-        pavlicekNumberTransformer = new PavlicekNumber();
-    }
 
     @Setter
     private UUID id;
 
+    @SuppressWarnings("unused") // Spring serializes this in http responses.
     private Board board;
+    @SuppressWarnings("unused") // Spring serializes this in http responses.
     private String pavlicekNumber;
     private Map<Direction, Map<Strain, Integer>> doubleDummyTable;
-
-    public BoardDTO(Board board) {
-        this.pavlicekNumber = pavlicekNumberTransformer.getNumberFromBoard(board).toString();
-        this.board = board;
-    }
-
-    public BoardDTO(String pavlicekNumber) {
-        this.board = pavlicekNumberTransformer.getBoardFromNumber(new BigInteger(pavlicekNumber));
-        this.pavlicekNumber = pavlicekNumber;
-    }
 
     public BoardDTO(Board board, String pavlicekNumber) {
         this.board = board;
@@ -51,7 +36,7 @@ public class BoardDTO {
                 NumberOfTricks tricksAvailableFor = doubleDummyTable.getTricksAvailableFor(strain, direction);
                 strainMap.put(strain, tricksAvailableFor.getInt());
             }
-            this.doubleDummyTable.put(direction, strainMap);
+            this.doubleDummyTable.put(direction, Collections.unmodifiableMap(strainMap));
         }
         this.doubleDummyTable = Collections.unmodifiableMap(this.doubleDummyTable);
     }

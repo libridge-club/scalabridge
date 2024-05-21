@@ -9,10 +9,6 @@ import club.libridge.libridgebackend.core.comparators.CardInsideHandComparator;
 
 public class PositiveNoTrumpsRulesetTest {
 
-    private static final int POSITIVE_NO_TRUMPS_SCORE_MULTIPLIER = 25;
-    private static final int POSITIVE_POINTS_PER_TRICK = 1;
-    private static final String POSITIVE_NO_TRUMPS_SHORT_DESCRIPTION = "NT";
-    private static final String POSITIVE_NO_TRUMPS_COMPLETE_DESCRIPTION = "Make the most tricks without a trump suit";
     private PositiveNoTrumpsRuleset positiveNoTrumpsRuleset;
 
     @BeforeEach

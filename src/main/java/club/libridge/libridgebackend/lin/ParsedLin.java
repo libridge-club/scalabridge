@@ -35,6 +35,7 @@ public class ParsedLin {
         auctions = null;
     }
 
+    @SuppressWarnings("null") // We will run this risk for now.
     public List<Auction> getAuctions() {
         if (this.auctions != null) {
             return Collections.unmodifiableList(auctions);

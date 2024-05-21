@@ -12,6 +12,7 @@ public enum LinKey {
     VG("vg", "vugraph : Event information");
 
     private final String symbol;
+
     private final String description;
     private static Map<String, LinKey> symbolToKeyMap = new HashMap<>();
 
@@ -24,6 +25,14 @@ public enum LinKey {
     LinKey(String symbol, String description) {
         this.symbol = symbol;
         this.description = description;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public static LinKey get(String symbol) {
