@@ -247,6 +247,8 @@
 					<excludes>
 						<exclude>club/libridge/libridgebackend/persistence/*.java</exclude> <!-- This should run on the integration-test phase -->
 					</excludes>
+					<skipAfterFailureCount>1</skipAfterFailureCount> <!-- Doesn't work with JUnit 5 https://stackoverflow.com/questions/62772572 -->
+					<argLine>-XX:+EnableDynamicAgentLoading</argLine> <!-- https://github.com/mockito/mockito/issues/3037 -->
 				</configuration>
 			</plugin>
 
