@@ -6,14 +6,14 @@ import org.mockito.MockitoAnnotations;
 
 public class TestWithMocks {
     private AutoCloseable openMocks;
-    
+
     @BeforeEach
-    public void initializeMocks(){
+    public void initializeMocks() {
         openMocks = MockitoAnnotations.openMocks(this);
     }
-    
+
     @AfterEach
-    public void closeMocks() throws Exception{
+    public void closeMocks() throws Exception {
         openMocks.close();
     }
 }

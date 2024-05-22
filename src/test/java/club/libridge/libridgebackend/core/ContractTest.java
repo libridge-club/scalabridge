@@ -14,7 +14,6 @@ public class ContractTest {
     private static Strain anyStrain = Strain.DIAMONDS;
     private static PenaltyStatus noPenalty = PenaltyStatus.NONE;
     private static boolean vulnerable = false;
-    
 
     private Contract getSampleContract() {
         return new Contract(anyOddTricks, anyStrain, noPenalty, vulnerable);

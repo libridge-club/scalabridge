@@ -10,8 +10,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -142,8 +142,8 @@ public class TrickTest {
         Mockito.verify(kingOfClubs).compareRank(cardsKingOfClubsComparedTo.capture());
         // There must be a comparison between Jack of Clubs and King of Clubs at some
         // point
-        assertTrue(cardsJackOfClubsComparedTo.getAllValues().contains(kingOfClubs)
-                || cardsKingOfClubsComparedTo.getAllValues().contains(jackOfClubs));
+        assertTrue(
+                cardsJackOfClubsComparedTo.getAllValues().contains(kingOfClubs) || cardsKingOfClubsComparedTo.getAllValues().contains(jackOfClubs));
     }
 
     @Test
@@ -209,8 +209,8 @@ public class TrickTest {
         Mockito.verify(kingOfClubs, atLeast(0)).compareRank(cardsKingOfClubsComparedTo.capture());
         // There must be a comparison between Jack of Clubs and King of Clubs at some
         // point
-        assertTrue(cardsJackOfClubsComparedTo.getAllValues().contains(kingOfClubs)
-                || cardsKingOfClubsComparedTo.getAllValues().contains(jackOfClubs));
+        assertTrue(
+                cardsJackOfClubsComparedTo.getAllValues().contains(kingOfClubs) || cardsKingOfClubsComparedTo.getAllValues().contains(jackOfClubs));
 
     }
 

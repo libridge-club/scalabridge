@@ -52,7 +52,7 @@ class AuctionTest {
         Auction auction = new Auction(Direction.EAST);
         Call pass = BiddingBox.PASS;
         assertThrows(CallInAnotherPlayersTurnException.class, () -> {
-            auction.makeCall(auction.getDealer().next(),pass);
+            auction.makeCall(auction.getDealer().next(), pass);
         });
     }
 
@@ -61,12 +61,12 @@ class AuctionTest {
         Direction direction = Direction.NORTH;
         Auction auction = new Auction(direction);
         Call pass = BiddingBox.PASS;
-        for(int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             auction.makeCall(direction, pass);
             direction = direction.next();
         }
         assertThrows(AuctionAlreadyFinishedException.class, () -> {
-            auction.makeCall(Direction.NORTH,pass);
+            auction.makeCall(Direction.NORTH, pass);
         });
     }
 
@@ -75,7 +75,7 @@ class AuctionTest {
         Auction auction = new Auction(Direction.NORTH);
         auction.makeCall(Direction.NORTH, BiddingBox.PASS);
         assertThrows(InvalidCallException.class, () -> {
-            auction.makeCall(Direction.EAST,BiddingBox.DOUBLE);
+            auction.makeCall(Direction.EAST, BiddingBox.DOUBLE);
         });
     }
 
@@ -84,7 +84,7 @@ class AuctionTest {
         Auction auction = new Auction(Direction.NORTH);
         auction.makeCall(Direction.NORTH, BiddingBox.PASS);
         assertThrows(InvalidCallException.class, () -> {
-            auction.makeCall(Direction.EAST,BiddingBox.REDOUBLE);
+            auction.makeCall(Direction.EAST, BiddingBox.REDOUBLE);
         });
     }
 
@@ -93,7 +93,7 @@ class AuctionTest {
         Auction auction = new Auction(Direction.NORTH);
         auction.makeCall(Direction.NORTH, BiddingBox.get("2C"));
         assertThrows(InsufficientBidException.class, () -> {
-            auction.makeCall(Direction.EAST,BiddingBox.get("1N"));
+            auction.makeCall(Direction.EAST, BiddingBox.get("1N"));
         });
     }
 
@@ -103,7 +103,7 @@ class AuctionTest {
         auction.makeCall(Direction.NORTH, BiddingBox.get("1C"));
         auction.makeCall(Direction.EAST, BiddingBox.PASS);
         assertThrows(InvalidCallException.class, () -> {
-            auction.makeCall(Direction.SOUTH,BiddingBox.DOUBLE);
+            auction.makeCall(Direction.SOUTH, BiddingBox.DOUBLE);
         });
     }
 
@@ -114,7 +114,7 @@ class AuctionTest {
         auction.makeCall(Direction.EAST, BiddingBox.DOUBLE);
         auction.makeCall(Direction.SOUTH, BiddingBox.PASS);
         assertThrows(InvalidCallException.class, () -> {
-            auction.makeCall(Direction.WEST,BiddingBox.REDOUBLE);
+            auction.makeCall(Direction.WEST, BiddingBox.REDOUBLE);
         });
     }
 

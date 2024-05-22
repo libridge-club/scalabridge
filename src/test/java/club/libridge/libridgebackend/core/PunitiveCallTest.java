@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
+
 import org.junit.jupiter.api.Test;
 
 class PunitiveCallTest {
@@ -39,39 +40,39 @@ class PunitiveCallTest {
     @Test
     void allDoublesAreCreatedEqual() {
         PunitiveCall other = new PunitiveCall("X");
-        assertEquals(_double,other);
-        assertEquals(_double.hashCode(),other.hashCode());
+        assertEquals(_double, other);
+        assertEquals(_double.hashCode(), other.hashCode());
         HashSet<Call> mySet = new HashSet<Call>();
         mySet.add(_double);
         mySet.add(other);
-        assertEquals(1,mySet.size());
+        assertEquals(1, mySet.size());
     }
 
     @Test
     void allRedoublesAreCreatedEqual() {
         PunitiveCall other = new PunitiveCall("XX");
-        assertEquals(redouble,other);
-        assertEquals(redouble.hashCode(),other.hashCode());
+        assertEquals(redouble, other);
+        assertEquals(redouble.hashCode(), other.hashCode());
         HashSet<Call> mySet = new HashSet<Call>();
         mySet.add(redouble);
         mySet.add(other);
-        assertEquals(1,mySet.size());
+        assertEquals(1, mySet.size());
     }
 
     @Test
     void aDoubleIsNotOtherThings() {
-        assertNotEquals(_double,redouble);
-        assertNotEquals(_double.hashCode(),redouble.hashCode());
-        assertNotEquals(_double,null);
-        assertNotEquals(_double,new String("a"));
+        assertNotEquals(_double, redouble);
+        assertNotEquals(_double.hashCode(), redouble.hashCode());
+        assertNotEquals(_double, null);
+        assertNotEquals(_double, new String("a"));
     }
 
     @Test
     void aRedoubleIsNotOtherThings() {
-        assertNotEquals(redouble,_double);
-        assertNotEquals(redouble.hashCode(),_double.hashCode());
-        assertNotEquals(redouble,null);
-        assertNotEquals(redouble,new String("a"));
+        assertNotEquals(redouble, _double);
+        assertNotEquals(redouble.hashCode(), _double.hashCode());
+        assertNotEquals(redouble, null);
+        assertNotEquals(redouble, new String("a"));
     }
 
 }

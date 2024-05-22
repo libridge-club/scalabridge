@@ -17,8 +17,7 @@ public class CardInsideHandWithSuitComparatorTest {
 
   @Test
   public void shouldCompareSuitsCorrectlyWithClubsAsTrumpSuit() {
-    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(
-        Suit.CLUBS);
+    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(Suit.CLUBS);
 
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfClubs, aceOfClubs) == 0);
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfDiamonds, aceOfDiamonds) == 0);
@@ -38,8 +37,7 @@ public class CardInsideHandWithSuitComparatorTest {
 
   @Test
   public void shouldCompareSuitsCorrectlyWithDiamondsAsTrumpSuit() {
-    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(
-        Suit.DIAMONDS);
+    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(Suit.DIAMONDS);
 
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfClubs, aceOfClubs) == 0);
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfDiamonds, aceOfDiamonds) == 0);
@@ -59,8 +57,7 @@ public class CardInsideHandWithSuitComparatorTest {
 
   @Test
   public void shouldCompareSuitsCorrectlyWithHeartsAsTrumpSuit() {
-    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(
-        Suit.HEARTS);
+    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(Suit.HEARTS);
 
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfClubs, aceOfClubs) == 0);
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfDiamonds, aceOfDiamonds) == 0);
@@ -80,8 +77,7 @@ public class CardInsideHandWithSuitComparatorTest {
 
   @Test
   public void shouldCompareSuitsCorrectlyWithSpadesAsTrumpSuit() {
-    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(
-        Suit.SPADES);
+    CardInsideHandWithSuitComparator cardInsideHandWithSuitComparator = new CardInsideHandWithSuitComparator(Suit.SPADES);
 
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfClubs, aceOfClubs) == 0);
     assertTrue(cardInsideHandWithSuitComparator.compare(aceOfDiamonds, aceOfDiamonds) == 0);

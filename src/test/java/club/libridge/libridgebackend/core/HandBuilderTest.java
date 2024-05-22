@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 public class HandBuilderTest {
 
     @Test
-    public void myTest(){
-        String first = "q5.kt85.qjt8632."; 
+    public void myTest() {
+        String first = "q5.kt85.qjt8632.";
         HandBuilder handBuilder = new HandBuilder();
         Card sq = new Card(Suit.SPADES, Rank.QUEEN);
         Card s5 = new Card(Suit.SPADES, Rank.FIVE);

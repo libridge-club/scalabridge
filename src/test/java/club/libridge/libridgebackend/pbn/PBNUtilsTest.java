@@ -28,7 +28,7 @@ public class PBNUtilsTest {
         assertEquals('N', response.charAt(0));
 
     }
-    
+
     @Test
     void testDealTagStringFromBoardAndDirection() {
 
@@ -62,6 +62,5 @@ public class PBNUtilsTest {
         assertFalse(north.containsCard(new Card(Suit.DIAMONDS, Rank.ACE)));
         assertTrue(north.containsCard(new Card(Suit.CLUBS, Rank.JACK)));
     }
-
 
 }

@@ -62,6 +62,6 @@ class OddTricksTest {
 
     @Test
     public void shouldGetName() {
-        assertEquals("One",ONE.getName());
+        assertEquals("One", ONE.getName());
     }
 }

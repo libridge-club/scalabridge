@@ -41,7 +41,7 @@ public class HandEvaluationsTest extends TestWithMocks {
   private Hand emptyHand;
 
   private HandEvaluations emptyHandEvaluations;
-  
+
   @BeforeEach
   public void setup() {
     when(aceOfSpades.getRank()).thenReturn(Rank.ACE);
@@ -273,19 +273,13 @@ public class HandEvaluationsTest extends TestWithMocks {
 
   @Test
   public void shouldReturnIfItHasThreeOutOfFiveHigherCardsInSuit() {
-    Hand handWithAceAndKingAndQueenInSpadesSuit = this.createMockedHandWithSpecificCards(aceOfSpades, kingOfSpades,
-        queenOfSpades);
-    Hand handWithQueenAndJackAndTenInSpadesSuit = this.createMockedHandWithSpecificCards(queenOfSpades, jackOfSpades,
-        tenOfSpades);
-    Hand handWithAceAndQueenAndNineInSpadesSuit = this.createMockedHandWithSpecificCards(aceOfSpades, queenOfSpades,
-        nineOfSpades);
+    Hand handWithAceAndKingAndQueenInSpadesSuit = this.createMockedHandWithSpecificCards(aceOfSpades, kingOfSpades, queenOfSpades);
+    Hand handWithQueenAndJackAndTenInSpadesSuit = this.createMockedHandWithSpecificCards(queenOfSpades, jackOfSpades, tenOfSpades);
+    Hand handWithAceAndQueenAndNineInSpadesSuit = this.createMockedHandWithSpecificCards(aceOfSpades, queenOfSpades, nineOfSpades);
 
-    HandEvaluations hasAceAndKingAndQueenInSpadesHandEvaluations = new HandEvaluations(
-        handWithAceAndKingAndQueenInSpadesSuit);
-    HandEvaluations hasQueenAndJackAndTenInSpadesHandEvaluations = new HandEvaluations(
-        handWithQueenAndJackAndTenInSpadesSuit);
-    HandEvaluations hasAceAndQueenAndNineInSpadesHandEvaluations = new HandEvaluations(
-        handWithAceAndQueenAndNineInSpadesSuit);
+    HandEvaluations hasAceAndKingAndQueenInSpadesHandEvaluations = new HandEvaluations(handWithAceAndKingAndQueenInSpadesSuit);
+    HandEvaluations hasQueenAndJackAndTenInSpadesHandEvaluations = new HandEvaluations(handWithQueenAndJackAndTenInSpadesSuit);
+    HandEvaluations hasAceAndQueenAndNineInSpadesHandEvaluations = new HandEvaluations(handWithAceAndQueenAndNineInSpadesSuit);
 
     assertFalse(emptyHandEvaluations.hasThreeOutOfFiveHigherCards(Suit.SPADES));
     assertTrue(hasAceAndKingAndQueenInSpadesHandEvaluations.hasThreeOutOfFiveHigherCards(Suit.SPADES));
@@ -323,16 +317,12 @@ public class HandEvaluationsTest extends TestWithMocks {
 
     HandEvaluations hasSpadesAsLongestSuitAndFourHeartsCardHandEvaluations = new HandEvaluations(firstHand);
     HandEvaluations hasHeartsAsLongestSuitAndFiveSpadesCardHandEvaluations = new HandEvaluations(secondHand);
-    HandEvaluations hasMinorSuitAsLongestAndDoesNotHaveFourOrMoreCardsInMajorSuitHandEvaluations = new HandEvaluations(
-        thirdHand);
+    HandEvaluations hasMinorSuitAsLongestAndDoesNotHaveFourOrMoreCardsInMajorSuitHandEvaluations = new HandEvaluations(thirdHand);
 
     assertFalse(emptyHandEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
-    assertTrue(
-        hasSpadesAsLongestSuitAndFourHeartsCardHandEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
-    assertTrue(
-        hasHeartsAsLongestSuitAndFiveSpadesCardHandEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
-    assertFalse(hasMinorSuitAsLongestAndDoesNotHaveFourOrMoreCardsInMajorSuitHandEvaluations
-        .hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
+    assertTrue(hasSpadesAsLongestSuitAndFourHeartsCardHandEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
+    assertTrue(hasHeartsAsLongestSuitAndFiveSpadesCardHandEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
+    assertFalse(hasMinorSuitAsLongestAndDoesNotHaveFourOrMoreCardsInMajorSuitHandEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit());
   }
 
   private Hand createMockedHandWithDistribution(Map<Suit, Integer> suitDistribution) {

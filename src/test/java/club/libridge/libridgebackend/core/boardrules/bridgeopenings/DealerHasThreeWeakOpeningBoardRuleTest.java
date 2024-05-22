@@ -41,13 +41,12 @@ public class DealerHasThreeWeakOpeningBoardRuleTest extends TestWithMocks {
         when(hand.getHandEvaluations()).thenReturn(handEvaluations);
     }
 
-    private void configureParameterizedMocks(int hcp, boolean hasSevenCardsInLongestSuit,
-            boolean hasThreeOutOfFiveHigherCards, boolean hasFourOrMoreCardsInMajorSuitExcludingSuitWithMoreCards) {
+    private void configureParameterizedMocks(int hcp, boolean hasSevenCardsInLongestSuit, boolean hasThreeOutOfFiveHigherCards,
+            boolean hasFourOrMoreCardsInMajorSuitExcludingSuitWithMoreCards) {
         when(handEvaluations.getHCP()).thenReturn(hcp);
         when(handEvaluations.hasSevenCardsInLongestSuit()).thenReturn(hasSevenCardsInLongestSuit);
         when(handEvaluations.hasThreeOutOfFiveHigherCards(any())).thenReturn(hasThreeOutOfFiveHigherCards);
-        when(handEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit())
-                .thenReturn(hasFourOrMoreCardsInMajorSuitExcludingSuitWithMoreCards);
+        when(handEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit()).thenReturn(hasFourOrMoreCardsInMajorSuitExcludingSuitWithMoreCards);
     }
 
     @Test

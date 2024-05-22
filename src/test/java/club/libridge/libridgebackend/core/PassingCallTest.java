@@ -19,15 +19,15 @@ class PassingCallTest {
     void allPassingCallsAreCreatedEqual() {
         PassingCall first = new PassingCall();
         PassingCall second = new PassingCall();
-        assertEquals(first,second);
-        assertEquals(first.hashCode(),second.hashCode());
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
     }
 
     @Test
     void passingCallIsNotTheSameAsAPunitiveCall() {
         PunitiveCall punitiveCall = new PunitiveCall("X");
         assertNotEquals(subject, punitiveCall);
-        assertNotEquals(subject.hashCode(),punitiveCall.hashCode());
+        assertNotEquals(subject.hashCode(), punitiveCall.hashCode());
     }
 
 }
