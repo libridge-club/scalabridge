@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.networking.server.gameserver;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.util.Deque;
 
@@ -122,7 +122,7 @@ public class MinibridgeGameServer extends GameServer {
 
             this.game.finishDeal();
 
-            this.sbkingServer.sendFinishDealToTable(this.table);
+            this.libridgeServer.sendFinishDealToTable(this.table);
             LOGGER.info("Deal finished!");
         }
 
@@ -170,7 +170,7 @@ public class MinibridgeGameServer extends GameServer {
     }
 
     private void sendStrainChooserAll() {
-        this.sbkingServer.sendStrainChooserToTable(this.getCurrentStrainChooser(), this.table);
+        this.libridgeServer.sendStrainChooserToTable(this.getCurrentStrainChooser(), this.table);
     }
 
     protected void setGameWithCardDeck(Deque<Card> deck) {

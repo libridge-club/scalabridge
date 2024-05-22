@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.app;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.networking.messages.GameServerFromGameNameIdentifier;
-import club.libridge.libridgebackend.networking.server.SBKingServer;
+import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
 
 @RestController
@@ -28,10 +28,10 @@ public class AppController {
 
     private static final String ACCEPT_CANNOT_BE_EMPTY = "Accept cannot be empty. It must be true or false.";
 
-    private SBKingServer libridgeServer;
+    private LibridgeServer libridgeServer;
 
     @Autowired
-    public AppController(SBKingServer libridgeServer) {
+    public AppController(LibridgeServer libridgeServer) {
         this.libridgeServer = libridgeServer;
     }
 
@@ -56,11 +56,9 @@ public class AppController {
     }
 
     @PostMapping("/table")
-    public ResponseEntity<UUID> createTable(@RequestHeader("PlayerUUID") String playerUUID,
-            @RequestBody RequestWithString requestWithString) {
+    public ResponseEntity<UUID> createTable(@RequestHeader("PlayerUUID") String playerUUID, @RequestBody RequestWithString requestWithString) {
         LOGGER.trace("createTable");
-        Class<? extends GameServer> gameServerClass = GameServerFromGameNameIdentifier
-                .identify(requestWithString.getContent());
+        Class<? extends GameServer> gameServerClass = GameServerFromGameNameIdentifier.identify(requestWithString.getContent());
         LOGGER.info("Player {} created a {} table.", playerUUID, gameServerClass.getSimpleName());
         UUID tableId = this.libridgeServer.createTable(gameServerClass);
         return new ResponseEntity<>(tableId, HttpStatus.CREATED);
@@ -92,11 +90,9 @@ public class AppController {
     }
 
     @PutMapping("/player/nickname")
-    public void setNickname(@RequestHeader("PlayerUUID") String playerUUID,
-            @RequestBody RequestWithString requestWithString) {
+    public void setNickname(@RequestHeader("PlayerUUID") String playerUUID, @RequestBody RequestWithString requestWithString) {
         LOGGER.trace("setNickname");
-        this.libridgeServer.setNickname(
-                getUUID(playerUUID), requestWithString.getContent());
+        this.libridgeServer.setNickname(getUUID(playerUUID), requestWithString.getContent());
     }
 
     @PostMapping("/claim")
@@ -127,8 +123,7 @@ public class AppController {
     }
 
     @PostMapping("/chooseStrain")
-    public void chooseStrain(@RequestHeader("PlayerUUID") String playerUUID,
-            @RequestBody RequestWithString requestWithString) {
+    public void chooseStrain(@RequestHeader("PlayerUUID") String playerUUID, @RequestBody RequestWithString requestWithString) {
         LOGGER.trace("chooseStrain");
         this.libridgeServer.chooseStrain(requestWithString.getContent(), getUUID(playerUUID));
     }

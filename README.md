@@ -61,11 +61,11 @@ make run
 ```
 to run the server on the default port.
 
-You can also pull the image directly from the [Docker Hub](https://hub.docker.com/r/rulojuka/sbking).
+You can also pull the image directly from the [Docker Hub](https://hub.docker.com/r/rulojuka/libridge-backend).
 
 If you want to just start the server on the default port:
 ```
-docker run -p 8080:8080 rulojuka/sbking
+docker run -p 8080:8080 rulojuka/libridge-backend
 ```
 
 ### On DigitalOcean

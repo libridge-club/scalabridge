@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.app;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.util.Optional;
 
@@ -15,17 +15,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
 import club.libridge.libridgebackend.dto.BoardDTO;
-import club.libridge.libridgebackend.networking.server.SBKingServer;
+import club.libridge.libridgebackend.networking.server.LibridgeServer;
 
 @RestController
 @RequestMapping("/boards")
 public class BoardController {
 
-    private SBKingServer libridgeServer;
+    private LibridgeServer libridgeServer;
     private BoardRepository repository;
 
     @Autowired
-    public BoardController(SBKingServer libridgeServer, BoardRepository repository) {
+    public BoardController(LibridgeServer libridgeServer, BoardRepository repository) {
         this.libridgeServer = libridgeServer;
         this.repository = repository;
     }

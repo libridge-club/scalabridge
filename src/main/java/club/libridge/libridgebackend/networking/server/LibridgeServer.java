@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.networking.server;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ import club.libridge.libridgebackend.utils.FileUtils;
  * act on the GameServer (via Table).
  */
 @Component
-public class SBKingServer {
+public class LibridgeServer {
 
     private Map<UUID, Player> identifierToPlayerMap = new HashMap<UUID, Player>();
     private Map<UUID, Table> tables;
@@ -60,7 +60,7 @@ public class SBKingServer {
     private BoardFactory boardFactory;
 
     @Autowired
-    public SBKingServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
+    public LibridgeServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
         this.tables = new HashMap<UUID, Table>();
         this.playersTable = new HashMap<Player, Table>();
         this.identifierToPlayerMap = new HashMap<UUID, Player>();
@@ -71,7 +71,7 @@ public class SBKingServer {
     }
 
     public void addUnnammedPlayer(UUID identifier) {
-        Player player = new Player(identifier, "SBKingServer Unnamed");
+        Player player = new Player(identifier, "LibridgeServer Unnamed");
         this.identifierToPlayerMap.put(identifier, player);
     }
 
@@ -225,7 +225,7 @@ public class SBKingServer {
             return null;
         }
         Table table = new Table(gameServer);
-        gameServer.setSBKingServer(this);
+        gameServer.setLibridgeServer(this);
         tables.put(table.getId(), table);
         pool.execute(gameServer);
         LOGGER.info("Created new table and executed its gameServer!");

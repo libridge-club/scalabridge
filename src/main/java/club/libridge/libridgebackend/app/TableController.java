@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.app;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

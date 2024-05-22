@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.networking.jackson;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.io.IOException;
 import java.util.HashMap;

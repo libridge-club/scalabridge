@@ -24,8 +24,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     @SuppressWarnings("null")
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
-        registry.addEndpoint("/sbking-websocket");
-        registry.addEndpoint("/sbking-websocket").withSockJS();
+        registry.addEndpoint("/libridge-websocket");
+        registry.addEndpoint("/libridge-websocket").withSockJS();
     }
 
 }

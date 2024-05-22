@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.networking.server;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +72,7 @@ public class Table {
         if (currentSeatedPlayer != null) {
             this.removeFromSeatedPlayers(currentSeatedPlayer);
             this.spectatorPlayers.add(currentSeatedPlayer);
-            this.getSBKingServer().sendIsSpectatorTo(currentSeatedPlayer.getIdentifier());
+            this.getLibridgeServer().sendIsSpectatorTo(currentSeatedPlayer.getIdentifier());
         }
     }
 
@@ -87,8 +87,8 @@ public class Table {
             LOGGER.debug("Trying to move from espectators to {}", direction.getCompleteName());
             this.seatedPlayers.put(direction, player);
             this.removeFromSpectators(player);
-            this.getSBKingServer().sendIsNotSpectatorTo(player.getIdentifier());
-            this.getSBKingServer().sendDirectionTo(direction, player.getIdentifier());
+            this.getLibridgeServer().sendIsNotSpectatorTo(player.getIdentifier());
+            this.getLibridgeServer().sendDirectionTo(direction, player.getIdentifier());
             this.gameServer.getDeal().setPlayerOf(direction, player);
         } else {
             Direction from = this.getDirectionFrom(player);
@@ -101,7 +101,7 @@ public class Table {
             this.removeFromSeatedPlayers(player);
 
             seatedPlayers.put(to, player);
-            this.getSBKingServer().sendDirectionTo(to, player.getIdentifier());
+            this.getLibridgeServer().sendDirectionTo(to, player.getIdentifier());
 
             this.gameServer.getDeal().setPlayerOf(to, player);
         }
@@ -155,7 +155,7 @@ public class Table {
         this.spectatorPlayers.add(player);
 
         UUID identifier = player.getIdentifier();
-        this.getSBKingServer().sendIsSpectatorTo(identifier);
+        this.getLibridgeServer().sendIsSpectatorTo(identifier);
         logAllPlayers();
     }
 
@@ -179,12 +179,12 @@ public class Table {
         }
     }
 
-    public SBKingServer getSBKingServer() {
-        return this.gameServer.getSBKingServer();
+    public LibridgeServer getLibridgeServer() {
+        return this.gameServer.getLibridgeServer();
     }
 
     public void sendDealAll() {
-        this.getSBKingServer().sendDealToTable(this.gameServer.getDeal(), this);
+        this.getLibridgeServer().sendDealToTable(this.gameServer.getDeal(), this);
     }
 
     public void undo(Direction direction) {

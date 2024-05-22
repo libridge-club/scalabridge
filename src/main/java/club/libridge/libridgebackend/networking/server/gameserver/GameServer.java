@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.networking.server.gameserver;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Deal;
@@ -8,7 +8,7 @@ import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Player;
 import club.libridge.libridgebackend.core.exceptions.PlayedCardInAnotherPlayersTurnException;
 import club.libridge.libridgebackend.core.game.TrickGame;
-import club.libridge.libridgebackend.networking.server.SBKingServer;
+import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import club.libridge.libridgebackend.networking.server.Table;
 import club.libridge.libridgebackend.networking.server.notifications.CardPlayNotification;
 
@@ -17,7 +17,7 @@ public abstract class GameServer implements Runnable {
     protected CardPlayNotification cardPlayNotification = new CardPlayNotification();
     protected boolean dealHasChanged;
     protected Table table;
-    protected SBKingServer sbkingServer = null;
+    protected LibridgeServer libridgeServer = null;
 
     protected TrickGame game;
 
@@ -35,8 +35,8 @@ public abstract class GameServer implements Runnable {
         this.table = table;
     }
 
-    public void setSBKingServer(SBKingServer sbkingServer) {
-        this.sbkingServer = sbkingServer;
+    public void setLibridgeServer(LibridgeServer libridgeServer) {
+        this.libridgeServer = libridgeServer;
     }
 
     protected void playCard(Card card, Direction direction) {
@@ -87,24 +87,24 @@ public abstract class GameServer implements Runnable {
         sleepFor(4000);
     }
 
-    public SBKingServer getSBKingServer() {
-        return this.sbkingServer;
+    public LibridgeServer getLibridgeServer() {
+        return this.libridgeServer;
     }
 
     protected void sendDealAll() {
-        this.getSBKingServer().sendDealToTable(this.game.getCurrentDeal(), this.table);
+        this.getLibridgeServer().sendDealToTable(this.game.getCurrentDeal(), this.table);
     }
 
     protected void sendInitializeDealAll() {
-        this.getSBKingServer().sendInitializeDealToTable(this.table);
+        this.getLibridgeServer().sendInitializeDealToTable(this.table);
     }
 
     protected void sendInvalidRulesetAll() {
-        this.getSBKingServer().sendInvalidRulesetToTable(this.table);
+        this.getLibridgeServer().sendInvalidRulesetToTable(this.table);
     }
 
     protected void sendValidRulesetAll() {
-        this.getSBKingServer().sendValidRulesetToTable(this.table);
+        this.getLibridgeServer().sendValidRulesetToTable(this.table);
     }
 
     public void undo(Direction direction) {
@@ -161,7 +161,7 @@ public abstract class GameServer implements Runnable {
         this.shouldStop = true;
         this.cardPlayNotification = null;
         this.table = null;
-        this.sbkingServer = null;
+        this.libridgeServer = null;
         this.game = null;
     }
 

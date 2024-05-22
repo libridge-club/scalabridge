@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.networking.core.properties;
 
-import static club.libridge.libridgebackend.logging.SBKingLogger.LOGGER;
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.io.File;
 
