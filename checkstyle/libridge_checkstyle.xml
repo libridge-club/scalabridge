@@ -203,7 +203,11 @@
                 default="checkstyle-xpath-suppressions.xml" />
       <property name="optional" value="true"/>
     </module>
-
+    <module name="AnnotationLocation">
+      <property name="allowSamelineMultipleAnnotations" value="true"/>
+      <property name="allowSamelineParameterizedAnnotation" value="true"/>
+      <property name="allowSamelineSingleParameterlessAnnotation" value="true"/>
+    </module>
   </module>
 
 </module>
