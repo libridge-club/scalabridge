@@ -3,6 +3,7 @@ package club.libridge.libridgebackend.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class BidTest {
@@ -12,26 +13,39 @@ class BidTest {
     static final Bid subject = new Bid(three, clubs);
 
     @Test
+    void constructor_throwsIllegalArgumentExceptionWithNullParams() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Bid(null, clubs);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Bid(three, null);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Bid(null, null);
+        });
+    }
+
+    @Test
     void contractBidIsACall() {
         assertTrue(subject instanceof Call);
     }
 
     @Test
     void hasTheOddTricksProvidedAtConstruction() {
-        assertEquals(three,subject.getOddTricks());
+        assertEquals(three, subject.getOddTricks());
     }
 
     @Test
     void hasTheStrainProvidedAtConstruction() {
-        assertEquals(clubs,subject.getStrain());
+        assertEquals(clubs, subject.getStrain());
     }
 
     @Test
     void shouldBeComparable() {
-        Bid oneClubs = new Bid(OddTricks.ONE,Strain.CLUBS);
-        Bid anotherOneClubs = new Bid(OddTricks.ONE,Strain.CLUBS);
-        Bid oneDiamonds = new Bid(OddTricks.ONE,Strain.DIAMONDS);
-        Bid twoClubs = new Bid(OddTricks.TWO,Strain.CLUBS);
+        Bid oneClubs = new Bid(OddTricks.ONE, Strain.CLUBS);
+        Bid anotherOneClubs = new Bid(OddTricks.ONE, Strain.CLUBS);
+        Bid oneDiamonds = new Bid(OddTricks.ONE, Strain.DIAMONDS);
+        Bid twoClubs = new Bid(OddTricks.TWO, Strain.CLUBS);
 
         assertEquals(0, oneClubs.compareTo(anotherOneClubs));
         assertTrue(oneClubs.compareTo(oneDiamonds) < 0);
@@ -43,6 +57,5 @@ class BidTest {
         assertTrue(twoClubs.compareTo(oneClubs) > 0);
         assertTrue(twoClubs.compareTo(oneDiamonds) > 0);
     }
-
 
 }

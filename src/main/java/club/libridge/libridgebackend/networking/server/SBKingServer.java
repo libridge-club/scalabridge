@@ -113,8 +113,7 @@ public class SBKingServer {
     Strain strain = Strain.fromName(strainString);
     Direction directionFromIdentifier = this.getDirectionFromIdentifier(playerIdentifier);
     if (strain != null && directionFromIdentifier != null) {
-      if (gameServer instanceof MinibridgeGameServer) {
-        MinibridgeGameServer minibridgeGameServer = (MinibridgeGameServer) table.getGameServer();
+      if (gameServer instanceof MinibridgeGameServer minibridgeGameServer) {
         minibridgeGameServer.notifyChooseStrain(strain, directionFromIdentifier);
       }
     }

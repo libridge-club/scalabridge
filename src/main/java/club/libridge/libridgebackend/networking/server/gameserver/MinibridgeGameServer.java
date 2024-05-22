@@ -78,8 +78,7 @@ public class MinibridgeGameServer extends GameServer {
       this.minibridgeGame.setRuleset(currentStrain.getPositiveRuleset());
 
       PositiveRuleset currentRuleset = currentStrain.getPositiveRuleset();
-      if (currentRuleset instanceof PositiveWithTrumpsRuleset) {
-        PositiveWithTrumpsRuleset positiveWithTrumpsRuleset = (PositiveWithTrumpsRuleset) currentRuleset;
+      if (currentRuleset instanceof PositiveWithTrumpsRuleset positiveWithTrumpsRuleset) {
         this.game.getCurrentDeal().sortAllHandsByTrumpSuit(positiveWithTrumpsRuleset.getTrumpSuit());
       }
 

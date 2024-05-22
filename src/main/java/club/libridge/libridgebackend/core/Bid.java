@@ -1,41 +1,15 @@
 package club.libridge.libridgebackend.core;
 
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.Value;
+
+@Value
+@EqualsAndHashCode(callSuper=false)
 public class Bid extends Call implements Comparable<Bid> {
 
-    private final OddTricks oddTricks;
-    private final Strain strain;
-
-    public Bid(OddTricks oddTricks, Strain strain) {
-        this.oddTricks = oddTricks;
-        this.strain = strain;
-    }
-
-    public OddTricks getOddTricks() {
-        return oddTricks;
-    }
-
-    public Strain getStrain() {
-        return strain;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Bid)) {
-            return false;
-        }
-        Bid other = (Bid) obj;
-        return this.oddTricks == other.getOddTricks()
-                && this.strain == other.getStrain();
-    }
-
-    @Override
-    public int hashCode() {
-        String differentiator = oddTricks.getName() + strain.getName();
-        return differentiator.hashCode();
-    }
+    @NonNull private final OddTricks oddTricks;
+    @NonNull private final Strain strain;
 
     /**
      * From the Laws of Bridge 2017:

@@ -7,16 +7,14 @@ public abstract class Call {
     }
 
     public boolean isDouble() {
-        if (this instanceof PunitiveCall) {
-            PunitiveCall punitiveCall = (PunitiveCall) this;
+        if (this instanceof PunitiveCall punitiveCall) {
             return punitiveCall.isDouble();
         }
         return false;
     }
 
     public boolean isRedouble() {
-        if (this instanceof PunitiveCall) {
-            PunitiveCall punitiveCall = (PunitiveCall) this;
+        if (this instanceof PunitiveCall punitiveCall) {
             return punitiveCall.isRedouble();
         }
         return false;
