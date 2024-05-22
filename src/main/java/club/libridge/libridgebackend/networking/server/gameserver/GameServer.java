@@ -27,8 +27,7 @@ public abstract class GameServer implements Runnable {
     protected static final int WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS = 50;
 
     public void waitForClientsToPrepare() {
-        LOGGER.debug("Sleeping for {} ms waiting for all clients to prepare themselves.",
-                WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS);
+        LOGGER.debug("Sleeping for {} ms waiting for all clients to prepare themselves.", WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS);
         sleepFor(WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS);
     }
 

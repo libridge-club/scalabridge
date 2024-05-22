@@ -14,8 +14,7 @@ public class TableMessageDTO {
     public TableMessageDTO() {
     }
 
-    private TableMessageDTO(String message, String tableId, Deal deal, String content,
-            Direction direction) {
+    private TableMessageDTO(String message, String tableId, Deal deal, String content, Direction direction) {
         this.message = message;
         this.tableId = tableId;
         this.deal = deal;

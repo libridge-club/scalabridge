@@ -12,10 +12,8 @@ import club.libridge.libridgebackend.core.rulesets.concrete.PositiveWithTrumpsRu
  * common.
  */
 public enum Strain {
-    CLUBS("Clubs", new PositiveWithTrumpsRuleset(Suit.CLUBS)),
-    DIAMONDS("Diamonds", new PositiveWithTrumpsRuleset(Suit.DIAMONDS)),
-    HEARTS("Hearts", new PositiveWithTrumpsRuleset(Suit.HEARTS)),
-    SPADES("Spades", new PositiveWithTrumpsRuleset(Suit.SPADES)),
+    CLUBS("Clubs", new PositiveWithTrumpsRuleset(Suit.CLUBS)), DIAMONDS("Diamonds", new PositiveWithTrumpsRuleset(Suit.DIAMONDS)),
+    HEARTS("Hearts", new PositiveWithTrumpsRuleset(Suit.HEARTS)), SPADES("Spades", new PositiveWithTrumpsRuleset(Suit.SPADES)),
     NOTRUMPS("No Trumps", new PositiveNoTrumpsRuleset());
 
     private final String name;

@@ -5,11 +5,13 @@ import lombok.NonNull;
 import lombok.Value;
 
 @Value
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Bid extends Call implements Comparable<Bid> {
 
-    @NonNull private final OddTricks oddTricks;
-    @NonNull private final Strain strain;
+    @NonNull
+    private final OddTricks oddTricks;
+    @NonNull
+    private final Strain strain;
 
     /**
      * From the Laws of Bridge 2017:

@@ -21,8 +21,7 @@ public class DealerHasTwoWeakOpeningBoardRule implements BoardRule {
 
     private boolean hasCorrectDistribution(HandEvaluations handEvaluations) {
         Suit suit = handEvaluations.getLongestSuit();
-        return handEvaluations.hasSixCardsInLongestSuit()
-                && !handEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit()
+        return handEvaluations.hasSixCardsInLongestSuit() && !handEvaluations.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit()
                 && handEvaluations.hasTwoOutOfThreeHigherCards(suit);
     }
 

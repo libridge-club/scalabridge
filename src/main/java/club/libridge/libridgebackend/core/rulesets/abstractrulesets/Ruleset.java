@@ -11,8 +11,7 @@ import club.libridge.libridgebackend.core.rulesets.interfaces.CardComparable;
 import club.libridge.libridgebackend.core.rulesets.interfaces.SuitFollowable;
 import club.libridge.libridgebackend.core.rulesets.interfaces.Winnable;
 
-public abstract class Ruleset
-        implements SuitFollowable, Winnable, CardComparable {
+public abstract class Ruleset implements SuitFollowable, Winnable, CardComparable {
 
     protected SuitFollowable suitFollowable;
     protected Winnable winnable;

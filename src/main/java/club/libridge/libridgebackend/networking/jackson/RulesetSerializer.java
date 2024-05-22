@@ -21,9 +21,7 @@ public class RulesetSerializer extends StdSerializer<Ruleset> {
     }
 
     @Override
-    public void serialize(
-            Ruleset value, JsonGenerator jgen, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+    public void serialize(Ruleset value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
         String trumpSuit;
         if (value.getClass() == PositiveWithTrumpsRuleset.class) {
             PositiveWithTrumpsRuleset positiveWithTrumpsRuleset = (PositiveWithTrumpsRuleset) value;

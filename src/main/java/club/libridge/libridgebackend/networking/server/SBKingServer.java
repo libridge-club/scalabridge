@@ -330,18 +330,18 @@ public class SBKingServer {
   }
 
   public Optional<BoardDTO> getRandomBoard(BoardRepository repository) {
-      Optional<BoardEntity> random = repository.getRandom();
-      if (random.isEmpty()) {
-        return Optional.empty();
-      }
-      BoardEntity randomBoardEntity = random.get();
-      Board board = this.boardFactory.fromEntity(randomBoardEntity);
-      BoardDTO boardDTO = new BoardDTO(board, randomBoardEntity.getPavlicekNumber());
-      boardDTO.setId(randomBoardEntity.getId());
-      if (randomBoardEntity.getDoubleDummyTableEntity() != null) {
-        boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
-      }
-      return Optional.of(boardDTO);
+    Optional<BoardEntity> random = repository.getRandom();
+    if (random.isEmpty()) {
+      return Optional.empty();
+    }
+    BoardEntity randomBoardEntity = random.get();
+    Board board = this.boardFactory.fromEntity(randomBoardEntity);
+    BoardDTO boardDTO = new BoardDTO(board, randomBoardEntity.getPavlicekNumber());
+    boardDTO.setId(randomBoardEntity.getId());
+    if (randomBoardEntity.getDoubleDummyTableEntity() != null) {
+      boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
+    }
+    return Optional.of(boardDTO);
   }
 
   public Optional<BoardDTO> getBoardByPavlicekNumber(BoardRepository repository, String pavlicekNumber) {
@@ -364,7 +364,7 @@ public class SBKingServer {
     BoardDTO boardDTO = new BoardDTO(board, boardEntity.getPavlicekNumber());
     boardDTO.setId(boardEntity.getId());
     return boardDTO;
-}
+  }
 
   public void magicNumberCreateTablesFromFile(BoardRepository repository) {
     // read files with boards
@@ -384,8 +384,8 @@ public class SBKingServer {
       String finalPbn = pbn[1];
       List<Integer> finalTable = new ArrayList<Integer>();
       for (int j = 1; j <= 20; j++) {
-          finalTable.add(Integer.parseInt(table[j]));
-        }
+        finalTable.add(Integer.parseInt(table[j]));
+      }
       Board boardFromDealTag = PBNUtils.getBoardFromDealTag(finalPbn);
       DoubleDummyTable doubleDummyTable = new DoubleDummyTable(finalTable);
 

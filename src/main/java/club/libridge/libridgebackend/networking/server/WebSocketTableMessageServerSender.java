@@ -22,46 +22,32 @@ public class WebSocketTableMessageServerSender {
     }
 
     public void sendDealToTable(Deal deal, Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(DEAL_MESSAGE)
-                .withDeal(deal)
-                .build();
+        TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(DEAL_MESSAGE).withDeal(deal).build();
         this.tableController.sendMessage(tableDealDTO);
     }
 
     public void sendFinishDealToTable(Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(FINISH_DEAL_MESSAGE)
-                .build();
+        TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(FINISH_DEAL_MESSAGE).build();
         this.tableController.sendMessage(tableDealDTO);
     }
 
     public void sendInitializeDealToTable(Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(INITIALIZE_DEAL_MESSAGE)
-                .build();
+        TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(INITIALIZE_DEAL_MESSAGE).build();
         this.tableController.sendMessage(tableDealDTO);
     }
 
     public void sendInvalidRulesetToTable(Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(INVALID_RULESET_MESSAGE)
-                .build();
+        TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(INVALID_RULESET_MESSAGE).build();
         this.tableController.sendMessage(tableDealDTO);
     }
 
     public void sendValidRulesetToTable(Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(VALID_RULESET_MESSAGE)
-                .build();
+        TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(VALID_RULESET_MESSAGE).build();
         this.tableController.sendMessage(tableDealDTO);
     }
 
     public void sendStrainChooserToTable(Direction direction, Table table) {
-        TableMessageDTO tableDealDTO = createBuilderWithTable(table)
-                .withMessage(STRAIN_CHOOSER_MESSAGE)
-                .withDirection(direction)
-                .build();
+        TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(STRAIN_CHOOSER_MESSAGE).withDirection(direction).build();
         this.tableController.sendMessage(tableDealDTO);
     }
 

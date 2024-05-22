@@ -42,7 +42,8 @@ public class BoardEntity {
      */
     @Deprecated
     @SuppressWarnings("unused")
-    private BoardEntity() { }
+    private BoardEntity() {
+    }
 
     public BoardEntity(@NotNull Board board) {
         PavlicekNumber pavlicekNumberGenerator = new PavlicekNumber();
@@ -52,6 +53,5 @@ public class BoardEntity {
     public BoardEntity(@NotNull String pavlicekNumber) {
         this.pavlicekNumber = pavlicekNumber;
     }
-
 
 }

@@ -11,8 +11,8 @@ public final class NumberOfTricks {
         if (isValid(number)) {
             this.number = number;
         } else {
-            throw new IllegalArgumentException("Number of tricks should be between " + MIN_NUMBER_OF_TRICKS
-            + " and " + MAX_NUMBER_OF_TRICKS + " inclusive.");
+            throw new IllegalArgumentException(
+                    "Number of tricks should be between " + MIN_NUMBER_OF_TRICKS + " and " + MAX_NUMBER_OF_TRICKS + " inclusive.");
         }
     }
 

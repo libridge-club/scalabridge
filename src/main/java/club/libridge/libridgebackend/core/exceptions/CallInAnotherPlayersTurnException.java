@@ -6,5 +6,3 @@ public class CallInAnotherPlayersTurnException extends RuntimeException {
         super("You cannot call in another player's turn.");
     }
 }
-
-

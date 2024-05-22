@@ -39,19 +39,16 @@ public final class RandomNameGenerator {
     try (Reader animalReader = new BufferedReader(new InputStreamReader(completeAnimalsURL.openStream()));
         Reader adjectiveReader = new BufferedReader(new InputStreamReader(completeAdjectivesURL.openStream()))) {
       animals = mapper.readValue(animalReader, new TypeReference<ArrayList<String>>() {
-      }).stream().filter(RandomNameGenerator::smallEnough)
-          .collect(Collectors.toList());
+      }).stream().filter(RandomNameGenerator::smallEnough).collect(Collectors.toList());
       adjectives = mapper.readValue(adjectiveReader, new TypeReference<ArrayList<String>>() {
-      }).stream().map(StringUtils::capitalize)
-          .collect(Collectors.toList());
+      }).stream().map(StringUtils::capitalize).collect(Collectors.toList());
     } catch (IOException e) {
       LOGGER.error(e);
     }
   }
 
   public static String getRandomName() {
-    return animals.get(randomUtils.nextInt(animals.size())) + " "
-        + adjectives.get(randomUtils.nextInt(adjectives.size()));
+    return animals.get(randomUtils.nextInt(animals.size())) + " " + adjectives.get(randomUtils.nextInt(adjectives.size()));
   }
 
   private static boolean smallEnough(String name) {

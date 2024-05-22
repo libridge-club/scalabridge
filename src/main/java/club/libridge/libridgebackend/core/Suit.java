@@ -1,10 +1,7 @@
 package club.libridge.libridgebackend.core;
 
 public enum Suit {
-    DIAMONDS("Diamonds", "d", '\u2666'),
-    CLUBS("Clubs", "c", '\u2663'),
-    HEARTS("Hearts", "h", '\u2665'),
-    SPADES("Spades", "s", '\u2660');
+    DIAMONDS("Diamonds", "d", '\u2666'), CLUBS("Clubs", "c", '\u2663'), HEARTS("Hearts", "h", '\u2665'), SPADES("Spades", "s", '\u2660');
 
     private final String name;
     private final String symbol;

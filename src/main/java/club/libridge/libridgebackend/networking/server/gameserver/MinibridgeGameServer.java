@@ -56,8 +56,7 @@ public class MinibridgeGameServer extends GameServer {
         if (this.shouldStop) {
           return;
         }
-        LOGGER.info("I received that is going to be "
-            + strainNotification.getStrain().getName());
+        LOGGER.info("I received that is going to be " + strainNotification.getStrain().getName());
         this.currentStrain = strainNotification.getStrain();
 
         if (this.currentStrain == null) {

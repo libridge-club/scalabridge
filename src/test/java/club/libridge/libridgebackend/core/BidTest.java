@@ -13,6 +13,7 @@ class BidTest {
     static final Bid subject = new Bid(three, clubs);
 
     @Test
+    @SuppressWarnings("null")
     void constructor_throwsIllegalArgumentExceptionWithNullParams() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new Bid(null, clubs);

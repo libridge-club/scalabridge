@@ -45,8 +45,7 @@ public class RulesetDeserializer extends StdDeserializer<Ruleset> {
     }
 
     @Override
-    public Ruleset deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    public Ruleset deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         JsonNode node = jp.getCodec().readTree(jp);
         String rulesetName = node.get("rulesetName").asText();
         String trumpSuit = node.get("trumpSuit").asText();
