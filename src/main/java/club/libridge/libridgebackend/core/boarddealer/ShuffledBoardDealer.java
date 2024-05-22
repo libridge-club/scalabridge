@@ -12,21 +12,21 @@ import club.libridge.libridgebackend.core.ShuffledDeck;
 
 public class ShuffledBoardDealer implements BoardDealer {
 
-  @Override
-  public Board dealBoard(Direction dealer, Deque<Card> deck) {
-    Map<Direction, Hand> hands;
-    Direction currentDirection;
-    Hand currentHand;
-    ShuffledDeck currentDeck = new ShuffledDeck(deck);
-    hands = new EnumMap<Direction, Hand>(Direction.class);
-    for (Direction direction : Direction.values()) {
-      hands.put(direction, new Hand());
+    @Override
+    public Board dealBoard(Direction dealer, Deque<Card> deck) {
+        Map<Direction, Hand> hands;
+        Direction currentDirection;
+        Hand currentHand;
+        ShuffledDeck currentDeck = new ShuffledDeck(deck);
+        hands = new EnumMap<Direction, Hand>(Direction.class);
+        for (Direction direction : Direction.values()) {
+            hands.put(direction, new Hand());
+        }
+        for (currentDirection = dealer; currentDeck.hasCard(); currentDirection = currentDirection.next()) {
+            currentHand = hands.get(currentDirection);
+            currentHand.addCard(currentDeck.dealCard());
+        }
+        return new Board(hands, dealer);
     }
-    for (currentDirection = dealer; currentDeck.hasCard(); currentDirection = currentDirection.next()) {
-      currentHand = hands.get(currentDirection);
-      currentHand.addCard(currentDeck.dealCard());
-    }
-    return new Board(hands, dealer);
-  }
 
 }

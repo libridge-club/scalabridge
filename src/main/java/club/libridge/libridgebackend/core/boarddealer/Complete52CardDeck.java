@@ -9,20 +9,20 @@ import club.libridge.libridgebackend.core.Suit;
 
 public class Complete52CardDeck implements CardDeck {
 
-  private Deque<Card> deck;
+    private Deque<Card> deck;
 
-  public Complete52CardDeck() {
-    this.deck = new ArrayDeque<Card>();
-    for (Suit suit : Suit.values()) {
-      for (Rank rank : Rank.values()) {
-        Card card = new Card(suit, rank);
-        this.deck.add(card);
-      }
+    public Complete52CardDeck() {
+        this.deck = new ArrayDeque<Card>();
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                Card card = new Card(suit, rank);
+                this.deck.add(card);
+            }
+        }
     }
-  }
 
-  public Deque<Card> getDeck() {
-    return this.deck;
-  }
+    public Deque<Card> getDeck() {
+        return this.deck;
+    }
 
 }

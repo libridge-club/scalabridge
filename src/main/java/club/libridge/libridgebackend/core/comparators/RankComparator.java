@@ -6,9 +6,9 @@ import club.libridge.libridgebackend.core.Card;
 
 public class RankComparator implements Comparator<Card> {
 
-  @Override
-  public int compare(Card card1, Card card2) {
-    return card1.compareRank(card2);
-  }
+    @Override
+    public int compare(Card card1, Card card2) {
+        return card1.compareRank(card2);
+    }
 
 }

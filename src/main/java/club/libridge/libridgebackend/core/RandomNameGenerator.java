@@ -18,41 +18,41 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class RandomNameGenerator {
 
-  private static final String BASE_PATH = "/randomNames/";
-  private static final String ANIMALS_FILE_NAME = "animais.json";
-  private static final String ADJECTIVES_FILE_NAME = "adjetivos.json";
-  private static List<String> animals;
-  private static List<String> adjectives;
-  private static RandomUtils randomUtils;
+    private static final String BASE_PATH = "/randomNames/";
+    private static final String ANIMALS_FILE_NAME = "animais.json";
+    private static final String ADJECTIVES_FILE_NAME = "adjetivos.json";
+    private static List<String> animals;
+    private static List<String> adjectives;
+    private static RandomUtils randomUtils;
 
-  private RandomNameGenerator() {
-  }
-
-  static {
-    String completeAnimalsFileName = BASE_PATH + ANIMALS_FILE_NAME;
-    URL completeAnimalsURL = RandomNameGenerator.class.getResource(completeAnimalsFileName);
-    String completeAdjectivesFileName = BASE_PATH + ADJECTIVES_FILE_NAME;
-    URL completeAdjectivesURL = RandomNameGenerator.class.getResource(completeAdjectivesFileName);
-    randomUtils = new RandomUtils();
-
-    ObjectMapper mapper = new ObjectMapper();
-    try (Reader animalReader = new BufferedReader(new InputStreamReader(completeAnimalsURL.openStream()));
-        Reader adjectiveReader = new BufferedReader(new InputStreamReader(completeAdjectivesURL.openStream()))) {
-      animals = mapper.readValue(animalReader, new TypeReference<ArrayList<String>>() {
-      }).stream().filter(RandomNameGenerator::smallEnough).collect(Collectors.toList());
-      adjectives = mapper.readValue(adjectiveReader, new TypeReference<ArrayList<String>>() {
-      }).stream().map(StringUtils::capitalize).collect(Collectors.toList());
-    } catch (IOException e) {
-      LOGGER.error(e);
+    private RandomNameGenerator() {
     }
-  }
 
-  public static String getRandomName() {
-    return animals.get(randomUtils.nextInt(animals.size())) + " " + adjectives.get(randomUtils.nextInt(adjectives.size()));
-  }
+    static {
+        String completeAnimalsFileName = BASE_PATH + ANIMALS_FILE_NAME;
+        URL completeAnimalsURL = RandomNameGenerator.class.getResource(completeAnimalsFileName);
+        String completeAdjectivesFileName = BASE_PATH + ADJECTIVES_FILE_NAME;
+        URL completeAdjectivesURL = RandomNameGenerator.class.getResource(completeAdjectivesFileName);
+        randomUtils = new RandomUtils();
 
-  private static boolean smallEnough(String name) {
-    return name != null && name.length() < 10;
-  }
+        ObjectMapper mapper = new ObjectMapper();
+        try (Reader animalReader = new BufferedReader(new InputStreamReader(completeAnimalsURL.openStream()));
+                Reader adjectiveReader = new BufferedReader(new InputStreamReader(completeAdjectivesURL.openStream()))) {
+            animals = mapper.readValue(animalReader, new TypeReference<ArrayList<String>>() {
+            }).stream().filter(RandomNameGenerator::smallEnough).collect(Collectors.toList());
+            adjectives = mapper.readValue(adjectiveReader, new TypeReference<ArrayList<String>>() {
+            }).stream().map(StringUtils::capitalize).collect(Collectors.toList());
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
+    }
+
+    public static String getRandomName() {
+        return animals.get(randomUtils.nextInt(animals.size())) + " " + adjectives.get(randomUtils.nextInt(adjectives.size()));
+    }
+
+    private static boolean smallEnough(String name) {
+        return name != null && name.length() < 10;
+    }
 
 }

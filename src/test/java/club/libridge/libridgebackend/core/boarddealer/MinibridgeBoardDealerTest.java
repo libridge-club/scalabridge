@@ -18,49 +18,49 @@ import club.libridge.libridgebackend.core.Direction;
  */
 public class MinibridgeBoardDealerTest {
 
-  private static MinibridgeBoardDealer minibridgeBoardDealer;
-  private static Direction anyDirection;
-  private static Deque<Card> gameDeck;
+    private static MinibridgeBoardDealer minibridgeBoardDealer;
+    private static Direction anyDirection;
+    private static Deque<Card> gameDeck;
 
-  @BeforeAll
-  public static void setup() {
-    minibridgeBoardDealer = new MinibridgeBoardDealer();
-    anyDirection = Direction.SOUTH;
-    CardDeck anyCardDeck = new Complete52CardDeck();
-    gameDeck = anyCardDeck.getDeck();
-  }
-
-  @Test
-  public void dealBoardShouldDealABoardWithTheCorrectDealer() {
-    Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
-
-    assertEquals(anyDirection, minibridgeBoard.getDealer());
-  }
-
-  @Test
-  public void dealBoardShouldDealABoardWithStrictlyMoreHCPForDealerPartnership() {
-    Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
-
-    int dealerPartnershipHCP = 0;
-    int nonDealerPartnershipHCP = 0;
-    for (Direction direction : Direction.values()) {
-      int currentDirectionHCP = minibridgeBoard.getHandOf(direction).getHandEvaluations().getHCP();
-      if (direction.isNorthSouth() == anyDirection.isNorthSouth()) {
-        dealerPartnershipHCP += currentDirectionHCP;
-      } else {
-        nonDealerPartnershipHCP += currentDirectionHCP;
-      }
+    @BeforeAll
+    public static void setup() {
+        minibridgeBoardDealer = new MinibridgeBoardDealer();
+        anyDirection = Direction.SOUTH;
+        CardDeck anyCardDeck = new Complete52CardDeck();
+        gameDeck = anyCardDeck.getDeck();
     }
-    assertTrue(dealerPartnershipHCP > nonDealerPartnershipHCP);
-  }
 
-  @Test
-  public void dealBoardShouldDealABoardWithEqualOrMoreHCPForDealerThanTheirPartner() {
-    Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
+    @Test
+    public void dealBoardShouldDealABoardWithTheCorrectDealer() {
+        Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
 
-    int dealerHCP = minibridgeBoard.getHandOf(anyDirection).getHandEvaluations().getHCP();
-    int dealerPartnerHCP = minibridgeBoard.getHandOf(anyDirection.next(2)).getHandEvaluations().getHCP();
-    assertTrue(dealerHCP >= dealerPartnerHCP);
-  }
+        assertEquals(anyDirection, minibridgeBoard.getDealer());
+    }
+
+    @Test
+    public void dealBoardShouldDealABoardWithStrictlyMoreHCPForDealerPartnership() {
+        Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
+
+        int dealerPartnershipHCP = 0;
+        int nonDealerPartnershipHCP = 0;
+        for (Direction direction : Direction.values()) {
+            int currentDirectionHCP = minibridgeBoard.getHandOf(direction).getHandEvaluations().getHCP();
+            if (direction.isNorthSouth() == anyDirection.isNorthSouth()) {
+                dealerPartnershipHCP += currentDirectionHCP;
+            } else {
+                nonDealerPartnershipHCP += currentDirectionHCP;
+            }
+        }
+        assertTrue(dealerPartnershipHCP > nonDealerPartnershipHCP);
+    }
+
+    @Test
+    public void dealBoardShouldDealABoardWithEqualOrMoreHCPForDealerThanTheirPartner() {
+        Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
+
+        int dealerHCP = minibridgeBoard.getHandOf(anyDirection).getHandEvaluations().getHCP();
+        int dealerPartnerHCP = minibridgeBoard.getHandOf(anyDirection.next(2)).getHandEvaluations().getHCP();
+        assertTrue(dealerHCP >= dealerPartnerHCP);
+    }
 
 }

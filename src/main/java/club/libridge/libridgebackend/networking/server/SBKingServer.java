@@ -48,358 +48,358 @@ import club.libridge.libridgebackend.utils.FileUtils;
 @Component
 public class SBKingServer {
 
-  private Map<UUID, Player> identifierToPlayerMap = new HashMap<UUID, Player>();
-  private Map<UUID, Table> tables;
-  private Map<Player, Table> playersTable;
+    private Map<UUID, Player> identifierToPlayerMap = new HashMap<UUID, Player>();
+    private Map<UUID, Table> tables;
+    private Map<Player, Table> playersTable;
 
-  private static final int MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS = 10;
-  private ExecutorService pool;
-  private WebSocketTableMessageServerSender webSocketTableMessageServerSender;
+    private static final int MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS = 10;
+    private ExecutorService pool;
+    private WebSocketTableMessageServerSender webSocketTableMessageServerSender;
 
-  private PlayerController playerController;
-  private BoardFactory boardFactory;
+    private PlayerController playerController;
+    private BoardFactory boardFactory;
 
-  @Autowired
-  public SBKingServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
-    this.tables = new HashMap<UUID, Table>();
-    this.playersTable = new HashMap<Player, Table>();
-    this.identifierToPlayerMap = new HashMap<UUID, Player>();
-    this.pool = Executors.newFixedThreadPool(MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS);
-    this.playerController = playerController;
-    this.webSocketTableMessageServerSender = new WebSocketTableMessageServerSender(tableController);
-    this.boardFactory = boardFactory;
-  }
-
-  public void addUnnammedPlayer(UUID identifier) {
-    Player player = new Player(identifier, "SBKingServer Unnamed");
-    this.identifierToPlayerMap.put(identifier, player);
-  }
-
-  private Direction getDirectionFromIdentifier(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (table != null) {
-      return table.getDirectionFrom(player);
-    }
-    return null;
-  }
-
-  public void play(Card card, UUID playerIdentifier) {
-    Direction from = this.getDirectionFromIdentifier(playerIdentifier);
-    Player player = this.identifierToPlayerMap.get(playerIdentifier);
-    Table table = this.playersTable.get(player);
-    if (table == null) {
-      return;
-    }
-    table.getGameServer().notifyPlayCard(card, from); // FIXME Law of Demeter
-  }
-
-  public void moveToSeat(Direction direction, UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    table.moveToSeat(player, direction);
-  }
-
-  public void chooseStrain(String strainString, UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    GameServer gameServer = table.getGameServer();
-    Strain strain = Strain.fromName(strainString);
-    Direction directionFromIdentifier = this.getDirectionFromIdentifier(playerIdentifier);
-    if (strain != null && directionFromIdentifier != null) {
-      if (gameServer instanceof MinibridgeGameServer minibridgeGameServer) {
-        minibridgeGameServer.notifyChooseStrain(strain, directionFromIdentifier);
-      }
-    }
-  }
-
-  // TODO This should be optimized when we have websockets messages directly for
-  // players.
-  public void sendDirectionTo(Direction direction, UUID playerIdentifier) {
-    this.sendUpdatePlayerList();
-  }
-
-  // TODO This should be optimized when we have websockets messages directly for
-  // players.
-  public void sendIsSpectatorTo(UUID playerIdentifier) {
-    this.sendUpdatePlayerList();
-  }
-
-  // TODO This should be optimized when we have websockets messages directly for
-  // players.
-  public void sendIsNotSpectatorTo(UUID playerIdentifier) {
-    this.sendUpdatePlayerList();
-  }
-
-  public void sendDealToTable(Deal deal, Table table) {
-    this.webSocketTableMessageServerSender.sendDealToTable(deal, table);
-  }
-
-  public void sendFinishDealToTable(Table table) {
-    this.webSocketTableMessageServerSender.sendFinishDealToTable(table);
-  }
-
-  public void sendInitializeDealToTable(Table table) {
-    this.webSocketTableMessageServerSender.sendInitializeDealToTable(table);
-  }
-
-  public void sendInvalidRulesetToTable(Table table) {
-    this.webSocketTableMessageServerSender.sendInvalidRulesetToTable(table);
-  }
-
-  public void sendValidRulesetToTable(Table table) {
-    this.webSocketTableMessageServerSender.sendValidRulesetToTable(table);
-  }
-
-  public void sendStrainChooserToTable(Direction direction, Table table) {
-    this.webSocketTableMessageServerSender.sendStrainChooserToTable(direction, table);
-  }
-
-  public void setNickname(UUID identifier, String nickname) {
-    LOGGER.debug("Setting nickname for player {}", identifier);
-    Player player = identifierToPlayerMap.get(identifier);
-    player.setNickname(nickname);
-  }
-
-  public String getNicknameFromIdentifier(UUID identifier) {
-    Player player = identifierToPlayerMap.get(identifier);
-    if (player != null) {
-      return player.getNickname();
-    } else {
-      return null;
-    }
-  }
-
-  public void addSpectator(Player player, Table table) {
-    Table currentTable = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    if (currentTable != null) {
-      currentTable.removePlayer(player.getIdentifier());
-    }
-    table.addSpectator(player);
-    table.sendDealAll();
-  }
-
-  public void joinTable(UUID playerIdentifier, UUID tableIdentifier) {
-    Table table = this.tables.get(tableIdentifier);
-    Player player = this.identifierToPlayerMap.get(playerIdentifier);
-    if (table != null && player != null) {
-      this.addSpectator(player, table);
-      this.playersTable.put(player, table);
-      this.sendUpdatePlayerList();
-    }
-  }
-
-  public void undo(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    table.undo(player);
-  }
-
-  public void removePlayer(UUID playerIdentifier) {
-    this.leaveTable(playerIdentifier);
-    identifierToPlayerMap.remove(playerIdentifier);
-  }
-
-  public Table getTable(UUID tableIdentifier) {
-    return this.tables.get(tableIdentifier);
-  }
-
-  public UUID createTable(Class<? extends GameServer> gameServerClass) {
-    GameServer gameServer;
-    try {
-      gameServer = gameServerClass.getDeclaredConstructor().newInstance();
-    } catch (Exception e) {
-      LOGGER.fatal("Could not initialize GameServer with received gameServerClass.");
-      return null;
-    }
-    Table table = new Table(gameServer);
-    gameServer.setSBKingServer(this);
-    tables.put(table.getId(), table);
-    pool.execute(gameServer);
-    LOGGER.info("Created new table and executed its gameServer!");
-    return table.getId();
-  }
-
-  public List<LobbyScreenTableDTO> getTablesDTO() {
-    return this.tables.values().stream().map(LobbyScreenTableDTO::new).collect(Collectors.toList());
-  }
-
-  public void leaveTable(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
+    @Autowired
+    public SBKingServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
+        this.tables = new HashMap<UUID, Table>();
+        this.playersTable = new HashMap<Player, Table>();
+        this.identifierToPlayerMap = new HashMap<UUID, Player>();
+        this.pool = Executors.newFixedThreadPool(MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS);
+        this.playerController = playerController;
+        this.webSocketTableMessageServerSender = new WebSocketTableMessageServerSender(tableController);
+        this.boardFactory = boardFactory;
     }
 
-    table.removePlayer(playerIdentifier);
-    playersTable.remove(player);
-    if (table.isEmpty()) {
-      this.tables.remove(table.getId());
-      table.dismantle();
-    }
-    this.sendUpdatePlayerList();
-  }
-
-  public void claim(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    table.claim(player);
-  }
-
-  public void acceptClaim(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    table.acceptClaim(player);
-  }
-
-  public void rejectClaim(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (player == null || table == null) {
-      return;
-    }
-    table.rejectClaim(player);
-  }
-
-  public List<String> getSpectatorList(UUID playerIdentifier) {
-    Player player = identifierToPlayerMap.get(playerIdentifier);
-    Table table = playersTable.get(player);
-    if (table != null) {
-      return table.getSpectatorNames();
-    }
-    return new ArrayList<String>();
-  }
-
-  private void sendUpdatePlayerList() {
-    List<PlayerDTO> list = new ArrayList<>();
-    for (Map.Entry<UUID, Player> pair : identifierToPlayerMap.entrySet()) {
-      UUID playerIdentifier = pair.getKey();
-      Player player = pair.getValue();
-      Table table = playersTable.get(player);
-      Boolean isSpectator = true;
-      Direction direction = null;
-      UUID tableIdentifier = null;
-      String gameName = this.getGameNameFrom(table);
-      if (table != null) {
-        tableIdentifier = table.getId();
-        isSpectator = table.isSpectator(player);
-        direction = table.getDirectionFrom(player);
-      }
-      PlayerDTO playerDTO = new PlayerDTO(playerIdentifier, tableIdentifier, isSpectator, direction, gameName);
-      list.add(playerDTO);
-      LOGGER.debug("Added player: {} {} {} {}", playerIdentifier, tableIdentifier, isSpectator, direction);
+    public void addUnnammedPlayer(UUID identifier) {
+        Player player = new Player(identifier, "SBKingServer Unnamed");
+        this.identifierToPlayerMap.put(identifier, player);
     }
 
-    PlayerListDTO playerList = new PlayerListDTO();
-    playerList.setList(list);
-    try {
-      this.playerController.getPlayers(playerList);
-    } catch (Exception e) {
-      LOGGER.error(e);
-    }
-  }
-
-  private String getGameNameFrom(Table table) {
-    if (table == null) {
-      return null;
-    }
-    GameServer gameServer = table.getGameServer();
-    return GameNameFromGameServerIdentifier.identify(gameServer.getClass());
-  }
-
-  public void refreshTable(UUID tableId) {
-    this.getTable(tableId).sendDealAll();
-  }
-
-  public Optional<BoardDTO> getRandomBoard(BoardRepository repository) {
-    Optional<BoardEntity> random = repository.getRandom();
-    if (random.isEmpty()) {
-      return Optional.empty();
-    }
-    BoardEntity randomBoardEntity = random.get();
-    Board board = this.boardFactory.fromEntity(randomBoardEntity);
-    BoardDTO boardDTO = new BoardDTO(board, randomBoardEntity.getPavlicekNumber());
-    boardDTO.setId(randomBoardEntity.getId());
-    if (randomBoardEntity.getDoubleDummyTableEntity() != null) {
-      boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
-    }
-    return Optional.of(boardDTO);
-  }
-
-  public Optional<BoardDTO> getBoardByPavlicekNumber(BoardRepository repository, String pavlicekNumber) {
-    Example<BoardEntity> exampleBoard = Example.of(new BoardEntity(pavlicekNumber));
-    List<BoardEntity> list = repository.findAll(exampleBoard);
-    if (list == null || list.size() == 0) {
-      return Optional.empty();
-    }
-    BoardEntity boardEntity = list.get(0);
-    Board board = this.boardFactory.fromEntity(boardEntity);
-    BoardDTO boardDTO = new BoardDTO(board, pavlicekNumber);
-    boardDTO.setId(boardEntity.getId());
-    return Optional.of(boardDTO);
-  }
-
-  public BoardDTO createRandomBoard(BoardRepository repository) {
-    Board board = this.boardFactory.getRandom();
-    BoardEntity boardEntity = new BoardEntity(board);
-    repository.saveAndFlush(boardEntity);
-    BoardDTO boardDTO = new BoardDTO(board, boardEntity.getPavlicekNumber());
-    boardDTO.setId(boardEntity.getId());
-    return boardDTO;
-  }
-
-  public void magicNumberCreateTablesFromFile(BoardRepository repository) {
-    // read files with boards
-    // save them to database
-    String wholeFile = "";
-    try {
-      wholeFile = FileUtils.readFromFilename("/hands-with-table.txt", false);
-    } catch (Exception e) {
-      // TODO: handle exception
+    private Direction getDirectionFromIdentifier(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (table != null) {
+            return table.getDirectionFrom(player);
+        }
+        return null;
     }
 
-    System.out.println(wholeFile);
-    String[] lines = wholeFile.split("\n");
-    for (int i = 0; i < 2000 && ((i + 1) < lines.length); i += 2) {
-      String[] pbn = lines[i].split("\"");
-      String[] table = lines[i + 1].split(" ");
-      String finalPbn = pbn[1];
-      List<Integer> finalTable = new ArrayList<Integer>();
-      for (int j = 1; j <= 20; j++) {
-        finalTable.add(Integer.parseInt(table[j]));
-      }
-      Board boardFromDealTag = PBNUtils.getBoardFromDealTag(finalPbn);
-      DoubleDummyTable doubleDummyTable = new DoubleDummyTable(finalTable);
-
-      BoardEntity boardEntity = new BoardEntity(boardFromDealTag);
-
-      DoubleDummyTableEntity doubleDummyTableEntity = new DoubleDummyTableEntity();
-      doubleDummyTableEntity.setDoubleDummyTable(doubleDummyTable);
-
-      boardEntity.setDoubleDummyTableEntity(doubleDummyTableEntity);
-      doubleDummyTableEntity.setBoardEntity(boardEntity);
-
-      repository.save(boardEntity);
+    public void play(Card card, UUID playerIdentifier) {
+        Direction from = this.getDirectionFromIdentifier(playerIdentifier);
+        Player player = this.identifierToPlayerMap.get(playerIdentifier);
+        Table table = this.playersTable.get(player);
+        if (table == null) {
+            return;
+        }
+        table.getGameServer().notifyPlayCard(card, from); // FIXME Law of Demeter
     }
 
-  }
+    public void moveToSeat(Direction direction, UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        table.moveToSeat(player, direction);
+    }
+
+    public void chooseStrain(String strainString, UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        GameServer gameServer = table.getGameServer();
+        Strain strain = Strain.fromName(strainString);
+        Direction directionFromIdentifier = this.getDirectionFromIdentifier(playerIdentifier);
+        if (strain != null && directionFromIdentifier != null) {
+            if (gameServer instanceof MinibridgeGameServer minibridgeGameServer) {
+                minibridgeGameServer.notifyChooseStrain(strain, directionFromIdentifier);
+            }
+        }
+    }
+
+    // TODO This should be optimized when we have websockets messages directly for
+    // players.
+    public void sendDirectionTo(Direction direction, UUID playerIdentifier) {
+        this.sendUpdatePlayerList();
+    }
+
+    // TODO This should be optimized when we have websockets messages directly for
+    // players.
+    public void sendIsSpectatorTo(UUID playerIdentifier) {
+        this.sendUpdatePlayerList();
+    }
+
+    // TODO This should be optimized when we have websockets messages directly for
+    // players.
+    public void sendIsNotSpectatorTo(UUID playerIdentifier) {
+        this.sendUpdatePlayerList();
+    }
+
+    public void sendDealToTable(Deal deal, Table table) {
+        this.webSocketTableMessageServerSender.sendDealToTable(deal, table);
+    }
+
+    public void sendFinishDealToTable(Table table) {
+        this.webSocketTableMessageServerSender.sendFinishDealToTable(table);
+    }
+
+    public void sendInitializeDealToTable(Table table) {
+        this.webSocketTableMessageServerSender.sendInitializeDealToTable(table);
+    }
+
+    public void sendInvalidRulesetToTable(Table table) {
+        this.webSocketTableMessageServerSender.sendInvalidRulesetToTable(table);
+    }
+
+    public void sendValidRulesetToTable(Table table) {
+        this.webSocketTableMessageServerSender.sendValidRulesetToTable(table);
+    }
+
+    public void sendStrainChooserToTable(Direction direction, Table table) {
+        this.webSocketTableMessageServerSender.sendStrainChooserToTable(direction, table);
+    }
+
+    public void setNickname(UUID identifier, String nickname) {
+        LOGGER.debug("Setting nickname for player {}", identifier);
+        Player player = identifierToPlayerMap.get(identifier);
+        player.setNickname(nickname);
+    }
+
+    public String getNicknameFromIdentifier(UUID identifier) {
+        Player player = identifierToPlayerMap.get(identifier);
+        if (player != null) {
+            return player.getNickname();
+        } else {
+            return null;
+        }
+    }
+
+    public void addSpectator(Player player, Table table) {
+        Table currentTable = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        if (currentTable != null) {
+            currentTable.removePlayer(player.getIdentifier());
+        }
+        table.addSpectator(player);
+        table.sendDealAll();
+    }
+
+    public void joinTable(UUID playerIdentifier, UUID tableIdentifier) {
+        Table table = this.tables.get(tableIdentifier);
+        Player player = this.identifierToPlayerMap.get(playerIdentifier);
+        if (table != null && player != null) {
+            this.addSpectator(player, table);
+            this.playersTable.put(player, table);
+            this.sendUpdatePlayerList();
+        }
+    }
+
+    public void undo(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        table.undo(player);
+    }
+
+    public void removePlayer(UUID playerIdentifier) {
+        this.leaveTable(playerIdentifier);
+        identifierToPlayerMap.remove(playerIdentifier);
+    }
+
+    public Table getTable(UUID tableIdentifier) {
+        return this.tables.get(tableIdentifier);
+    }
+
+    public UUID createTable(Class<? extends GameServer> gameServerClass) {
+        GameServer gameServer;
+        try {
+            gameServer = gameServerClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            LOGGER.fatal("Could not initialize GameServer with received gameServerClass.");
+            return null;
+        }
+        Table table = new Table(gameServer);
+        gameServer.setSBKingServer(this);
+        tables.put(table.getId(), table);
+        pool.execute(gameServer);
+        LOGGER.info("Created new table and executed its gameServer!");
+        return table.getId();
+    }
+
+    public List<LobbyScreenTableDTO> getTablesDTO() {
+        return this.tables.values().stream().map(LobbyScreenTableDTO::new).collect(Collectors.toList());
+    }
+
+    public void leaveTable(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+
+        table.removePlayer(playerIdentifier);
+        playersTable.remove(player);
+        if (table.isEmpty()) {
+            this.tables.remove(table.getId());
+            table.dismantle();
+        }
+        this.sendUpdatePlayerList();
+    }
+
+    public void claim(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        table.claim(player);
+    }
+
+    public void acceptClaim(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        table.acceptClaim(player);
+    }
+
+    public void rejectClaim(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (player == null || table == null) {
+            return;
+        }
+        table.rejectClaim(player);
+    }
+
+    public List<String> getSpectatorList(UUID playerIdentifier) {
+        Player player = identifierToPlayerMap.get(playerIdentifier);
+        Table table = playersTable.get(player);
+        if (table != null) {
+            return table.getSpectatorNames();
+        }
+        return new ArrayList<String>();
+    }
+
+    private void sendUpdatePlayerList() {
+        List<PlayerDTO> list = new ArrayList<>();
+        for (Map.Entry<UUID, Player> pair : identifierToPlayerMap.entrySet()) {
+            UUID playerIdentifier = pair.getKey();
+            Player player = pair.getValue();
+            Table table = playersTable.get(player);
+            Boolean isSpectator = true;
+            Direction direction = null;
+            UUID tableIdentifier = null;
+            String gameName = this.getGameNameFrom(table);
+            if (table != null) {
+                tableIdentifier = table.getId();
+                isSpectator = table.isSpectator(player);
+                direction = table.getDirectionFrom(player);
+            }
+            PlayerDTO playerDTO = new PlayerDTO(playerIdentifier, tableIdentifier, isSpectator, direction, gameName);
+            list.add(playerDTO);
+            LOGGER.debug("Added player: {} {} {} {}", playerIdentifier, tableIdentifier, isSpectator, direction);
+        }
+
+        PlayerListDTO playerList = new PlayerListDTO();
+        playerList.setList(list);
+        try {
+            this.playerController.getPlayers(playerList);
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+    }
+
+    private String getGameNameFrom(Table table) {
+        if (table == null) {
+            return null;
+        }
+        GameServer gameServer = table.getGameServer();
+        return GameNameFromGameServerIdentifier.identify(gameServer.getClass());
+    }
+
+    public void refreshTable(UUID tableId) {
+        this.getTable(tableId).sendDealAll();
+    }
+
+    public Optional<BoardDTO> getRandomBoard(BoardRepository repository) {
+        Optional<BoardEntity> random = repository.getRandom();
+        if (random.isEmpty()) {
+            return Optional.empty();
+        }
+        BoardEntity randomBoardEntity = random.get();
+        Board board = this.boardFactory.fromEntity(randomBoardEntity);
+        BoardDTO boardDTO = new BoardDTO(board, randomBoardEntity.getPavlicekNumber());
+        boardDTO.setId(randomBoardEntity.getId());
+        if (randomBoardEntity.getDoubleDummyTableEntity() != null) {
+            boardDTO.setDoubleDummyTable(randomBoardEntity.getDoubleDummyTableEntity().getDoubleDummyTable());
+        }
+        return Optional.of(boardDTO);
+    }
+
+    public Optional<BoardDTO> getBoardByPavlicekNumber(BoardRepository repository, String pavlicekNumber) {
+        Example<BoardEntity> exampleBoard = Example.of(new BoardEntity(pavlicekNumber));
+        List<BoardEntity> list = repository.findAll(exampleBoard);
+        if (list == null || list.size() == 0) {
+            return Optional.empty();
+        }
+        BoardEntity boardEntity = list.get(0);
+        Board board = this.boardFactory.fromEntity(boardEntity);
+        BoardDTO boardDTO = new BoardDTO(board, pavlicekNumber);
+        boardDTO.setId(boardEntity.getId());
+        return Optional.of(boardDTO);
+    }
+
+    public BoardDTO createRandomBoard(BoardRepository repository) {
+        Board board = this.boardFactory.getRandom();
+        BoardEntity boardEntity = new BoardEntity(board);
+        repository.saveAndFlush(boardEntity);
+        BoardDTO boardDTO = new BoardDTO(board, boardEntity.getPavlicekNumber());
+        boardDTO.setId(boardEntity.getId());
+        return boardDTO;
+    }
+
+    public void magicNumberCreateTablesFromFile(BoardRepository repository) {
+        // read files with boards
+        // save them to database
+        String wholeFile = "";
+        try {
+            wholeFile = FileUtils.readFromFilename("/hands-with-table.txt", false);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        System.out.println(wholeFile);
+        String[] lines = wholeFile.split("\n");
+        for (int i = 0; i < 2000 && ((i + 1) < lines.length); i += 2) {
+            String[] pbn = lines[i].split("\"");
+            String[] table = lines[i + 1].split(" ");
+            String finalPbn = pbn[1];
+            List<Integer> finalTable = new ArrayList<Integer>();
+            for (int j = 1; j <= 20; j++) {
+                finalTable.add(Integer.parseInt(table[j]));
+            }
+            Board boardFromDealTag = PBNUtils.getBoardFromDealTag(finalPbn);
+            DoubleDummyTable doubleDummyTable = new DoubleDummyTable(finalTable);
+
+            BoardEntity boardEntity = new BoardEntity(boardFromDealTag);
+
+            DoubleDummyTableEntity doubleDummyTableEntity = new DoubleDummyTableEntity();
+            doubleDummyTableEntity.setDoubleDummyTable(doubleDummyTable);
+
+            boardEntity.setDoubleDummyTableEntity(doubleDummyTableEntity);
+            doubleDummyTableEntity.setBoardEntity(boardEntity);
+
+            repository.save(boardEntity);
+        }
+
+    }
 
 }

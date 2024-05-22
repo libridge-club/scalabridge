@@ -7,19 +7,19 @@ import club.libridge.libridgebackend.core.boardrules.BoardRule;
 
 public class DealerHasTwoNoTrumpOpeningBoardRule implements BoardRule {
 
-  @Override
-  public boolean isValid(Board board) {
-    Hand dealerHand = board.getHandOf(board.getDealer());
-    HandEvaluations handEvaluations = dealerHand.getHandEvaluations();
-    return hasCorrectHCPRange(handEvaluations) && hasCorrectDistribution(handEvaluations);
-  }
+    @Override
+    public boolean isValid(Board board) {
+        Hand dealerHand = board.getHandOf(board.getDealer());
+        HandEvaluations handEvaluations = dealerHand.getHandEvaluations();
+        return hasCorrectHCPRange(handEvaluations) && hasCorrectDistribution(handEvaluations);
+    }
 
-  private boolean hasCorrectHCPRange(HandEvaluations handEvaluations) {
-    return handEvaluations.getHCP() >= 20 && handEvaluations.getHCP() <= 21;
-  }
+    private boolean hasCorrectHCPRange(HandEvaluations handEvaluations) {
+        return handEvaluations.getHCP() >= 20 && handEvaluations.getHCP() <= 21;
+    }
 
-  private boolean hasCorrectDistribution(HandEvaluations handEvaluations) {
-    return handEvaluations.isBalanced();
-  }
+    private boolean hasCorrectDistribution(HandEvaluations handEvaluations) {
+        return handEvaluations.isBalanced();
+    }
 
 }

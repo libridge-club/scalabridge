@@ -12,27 +12,27 @@ import club.libridge.libridgebackend.core.ShuffledDeck;
 
 public class ShuffledBoardDealerWithSeed implements BoardDealer {
 
-  private Map<Direction, Hand> hands;
-  private long seed;
+    private Map<Direction, Hand> hands;
+    private long seed;
 
-  public ShuffledBoardDealerWithSeed(long seed) {
-    this.seed = seed;
-  }
+    public ShuffledBoardDealerWithSeed(long seed) {
+        this.seed = seed;
+    }
 
-  @Override
-  public Board dealBoard(Direction dealer, Deque<Card> deck) {
-    Direction currentDirection;
-    Hand currentHand;
-    ShuffledDeck currentDeck = new ShuffledDeck(deck, seed);
-    hands = new EnumMap<Direction, Hand>(Direction.class);
-    for (Direction direction : Direction.values()) {
-      hands.put(direction, new Hand());
+    @Override
+    public Board dealBoard(Direction dealer, Deque<Card> deck) {
+        Direction currentDirection;
+        Hand currentHand;
+        ShuffledDeck currentDeck = new ShuffledDeck(deck, seed);
+        hands = new EnumMap<Direction, Hand>(Direction.class);
+        for (Direction direction : Direction.values()) {
+            hands.put(direction, new Hand());
+        }
+        for (currentDirection = dealer; currentDeck.hasCard(); currentDirection = currentDirection.next()) {
+            currentHand = this.hands.get(currentDirection);
+            currentHand.addCard(currentDeck.dealCard());
+        }
+        return new Board(hands, dealer);
     }
-    for (currentDirection = dealer; currentDeck.hasCard(); currentDirection = currentDirection.next()) {
-      currentHand = this.hands.get(currentDirection);
-      currentHand.addCard(currentDeck.dealCard());
-    }
-    return new Board(hands, dealer);
-  }
 
 }

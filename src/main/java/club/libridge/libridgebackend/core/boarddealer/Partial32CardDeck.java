@@ -9,22 +9,22 @@ import club.libridge.libridgebackend.core.Suit;
 
 public class Partial32CardDeck implements CardDeck {
 
-  private Deque<Card> deck;
+    private Deque<Card> deck;
 
-  public Partial32CardDeck() {
-    this.deck = new ArrayDeque<Card>();
-    for (Suit suit : Suit.values()) {
-      for (Rank rank : Rank.values()) {
-        if (rank.compareTo(Rank.SEVEN) >= 0) { // Rank is greater or equal than seven
-          Card card = new Card(suit, rank);
-          this.deck.add(card);
+    public Partial32CardDeck() {
+        this.deck = new ArrayDeque<Card>();
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                if (rank.compareTo(Rank.SEVEN) >= 0) { // Rank is greater or equal than seven
+                    Card card = new Card(suit, rank);
+                    this.deck.add(card);
+                }
+            }
         }
-      }
     }
-  }
 
-  public Deque<Card> getDeck() {
-    return this.deck;
-  }
+    public Deque<Card> getDeck() {
+        return this.deck;
+    }
 
 }

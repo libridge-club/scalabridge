@@ -12,18 +12,18 @@ import club.libridge.libridgebackend.core.Card;
 
 public class Complete52CardDeckTest {
 
-  private Complete52CardDeck subject;
+    private Complete52CardDeck subject;
 
-  @BeforeEach
-  public void setup() {
-    this.subject = new Complete52CardDeck();
-  }
+    @BeforeEach
+    public void setup() {
+        this.subject = new Complete52CardDeck();
+    }
 
-  @Test
-  public void getDeckshouldReturnADeckWith52DifferentCards() {
-    Set<Card> set = new HashSet<Card>(subject.getDeck());
-    int TOTAL_NUMBER_OF_CARDS = 52;
-    assertEquals(TOTAL_NUMBER_OF_CARDS, set.size());
-  }
+    @Test
+    public void getDeckshouldReturnADeckWith52DifferentCards() {
+        Set<Card> set = new HashSet<Card>(subject.getDeck());
+        int TOTAL_NUMBER_OF_CARDS = 52;
+        assertEquals(TOTAL_NUMBER_OF_CARDS, set.size());
+    }
 
 }
