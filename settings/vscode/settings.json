@@ -1,12 +1,17 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.format.settings.url": "libridge-default-checkstyle-formatter.xml",
+    "java.format.settings.url": "settings/libridge-default-checkstyle-formatter.xml",
     "editor.formatOnSave": true,
     "java.autobuild.enabled": false,
     "java.compile.nullAnalysis.nonnull": [
         "lombok.NonNull",
         "javax.annotation.Nonnull",
         "org.springframework.lang.NonNull"
-    ]
+    ],
+    "java.saveActions.organizeImports": true,
+    "java.saveActions.cleanup": false,
+    "java.format.enabled": true,
+    "java.format.comments.enabled": false,
+    "editor.detectIndentation": false,
 }
