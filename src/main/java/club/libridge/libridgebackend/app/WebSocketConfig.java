@@ -15,12 +15,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // This file has to stay inside app/ folder, otherwise, spring don't find it.
 
     @Override
+    @SuppressWarnings("null")
     public void configureMessageBroker(@NonNull MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
+    @SuppressWarnings("null")
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         registry.addEndpoint("/sbking-websocket");
         registry.addEndpoint("/sbking-websocket").withSockJS();

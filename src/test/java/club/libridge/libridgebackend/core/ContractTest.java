@@ -20,21 +20,14 @@ public class ContractTest {
     }
 
     @Test
-    public void shouldThrowInvalidArgumentExceptionWhenConstructedWithNullOddTricks() {
+    @SuppressWarnings("null")
+    public void constructor_shouldThrowInvalidArgumentExceptionWithNullParams() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new Contract(null, anyStrain, noPenalty, vulnerable);
         });
-    }
-
-    @Test
-    public void shouldThrowInvalidArgumentExceptionWhenConstructedWithNullStrain() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new Contract(anyOddTricks, null, noPenalty, vulnerable);
         });
-    }
-
-    @Test
-    public void shouldThrowInvalidArgumentExceptionWhenConstructedWithNullPenaltyStatus() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new Contract(anyOddTricks, anyStrain, null, vulnerable);
         });
