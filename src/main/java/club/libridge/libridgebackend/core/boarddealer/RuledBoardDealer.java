@@ -10,14 +10,14 @@ import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.core.ShuffledDeck;
 import club.libridge.libridgebackend.core.boardrules.BoardRule;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
+@AllArgsConstructor
 public class RuledBoardDealer implements BoardDealer {
 
-    private BoardRule boardRule;
-
-    public RuledBoardDealer(BoardRule boardRule) {
-        this.boardRule = boardRule;
-    }
+    @NonNull
+    private final BoardRule boardRule;
 
     @Override
     public Board dealBoard(Direction dealer, Deque<Card> deck) {

@@ -18,7 +18,7 @@ public class PositiveNoTrumpsRulesetTest {
 
     @Test
     public void shouldGetComparator() {
-        assertTrue(this.positiveNoTrumpsRuleset.getComparator() instanceof CardInsideHandComparator);
+        assertTrue(this.positiveNoTrumpsRuleset.getCardComparator() instanceof CardInsideHandComparator);
     }
 
 }

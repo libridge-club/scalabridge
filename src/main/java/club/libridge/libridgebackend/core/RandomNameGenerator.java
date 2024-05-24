@@ -21,9 +21,9 @@ public final class RandomNameGenerator {
     private static final String BASE_PATH = "/randomNames/";
     private static final String ANIMALS_FILE_NAME = "animais.json";
     private static final String ADJECTIVES_FILE_NAME = "adjetivos.json";
+    private static final RandomUtils RANDOM_UTILS = new RandomUtils();;
     private static List<String> animals;
     private static List<String> adjectives;
-    private static RandomUtils randomUtils;
 
     private RandomNameGenerator() {
     }
@@ -33,7 +33,6 @@ public final class RandomNameGenerator {
         URL completeAnimalsURL = RandomNameGenerator.class.getResource(completeAnimalsFileName);
         String completeAdjectivesFileName = BASE_PATH + ADJECTIVES_FILE_NAME;
         URL completeAdjectivesURL = RandomNameGenerator.class.getResource(completeAdjectivesFileName);
-        randomUtils = new RandomUtils();
 
         ObjectMapper mapper = new ObjectMapper();
         try (Reader animalReader = new BufferedReader(new InputStreamReader(completeAnimalsURL.openStream()));
@@ -48,7 +47,7 @@ public final class RandomNameGenerator {
     }
 
     public static String getRandomName() {
-        return animals.get(randomUtils.nextInt(animals.size())) + " " + adjectives.get(randomUtils.nextInt(adjectives.size()));
+        return animals.get(RANDOM_UTILS.nextInt(animals.size())) + " " + adjectives.get(RANDOM_UTILS.nextInt(adjectives.size()));
     }
 
     private static boolean smallEnough(String name) {

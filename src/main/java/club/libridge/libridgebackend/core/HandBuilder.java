@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class HandBuilder {
 
-    static Map<String, Rank> symbolToRankMap;
+    static final Map<String, Rank> SYMBOL_TO_RANK_MAP;
 
     static {
-        symbolToRankMap = new HashMap<String, Rank>();
-        Arrays.stream(Rank.values()).forEach(rank -> symbolToRankMap.put(rank.getSymbol(), rank));
+        SYMBOL_TO_RANK_MAP = new HashMap<String, Rank>();
+        Arrays.stream(Rank.values()).forEach(rank -> SYMBOL_TO_RANK_MAP.put(rank.getSymbol(), rank));
     }
 
     /**
@@ -38,7 +38,7 @@ public class HandBuilder {
         List<Card> returnValue = new ArrayList<Card>();
         for (int i = 0; i < string.length(); i++) {
             String rankSymbol = String.valueOf(string.charAt(i));
-            returnValue.add(new Card(suit, symbolToRankMap.get(rankSymbol)));
+            returnValue.add(new Card(suit, SYMBOL_TO_RANK_MAP.get(rankSymbol)));
         }
         return returnValue;
     }

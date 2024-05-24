@@ -9,18 +9,16 @@ import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.core.ShuffledDeck;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class ShuffledBoardDealerWithSeed implements BoardDealer {
 
-    private Map<Direction, Hand> hands;
-    private long seed;
-
-    public ShuffledBoardDealerWithSeed(long seed) {
-        this.seed = seed;
-    }
+    private final long seed;
 
     @Override
     public Board dealBoard(Direction dealer, Deque<Card> deck) {
+        Map<Direction, Hand> hands;
         Direction currentDirection;
         Hand currentHand;
         ShuffledDeck currentDeck = new ShuffledDeck(deck, seed);
@@ -29,7 +27,7 @@ public class ShuffledBoardDealerWithSeed implements BoardDealer {
             hands.put(direction, new Hand());
         }
         for (currentDirection = dealer; currentDeck.hasCard(); currentDirection = currentDirection.next()) {
-            currentHand = this.hands.get(currentDirection);
+            currentHand = hands.get(currentDirection);
             currentHand.addCard(currentDeck.dealCard());
         }
         return new Board(hands, dealer);

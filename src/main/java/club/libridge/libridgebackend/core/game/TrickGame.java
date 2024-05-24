@@ -8,32 +8,25 @@ import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Player;
 import club.libridge.libridgebackend.core.rulesets.abstractrulesets.Ruleset;
+import lombok.Getter;
+import lombok.NonNull;
 
 public abstract class TrickGame {
 
+    @Getter
     protected Board currentBoard;
+    @Getter
     protected Deal currentDeal;
-    protected Direction dealer = Direction.NORTH;
-    protected Deque<Card> gameDeck;
+    @Getter
+    protected Direction dealer;
+    protected final Deque<Card> gameDeck;
 
-    protected TrickGame(Deque<Card> gameDeck) {
-        super();
+    protected TrickGame(@NonNull Deque<Card> gameDeck) {
+        dealer = Direction.NORTH;
         this.gameDeck = gameDeck;
     }
 
     public abstract void dealNewBoard();
-
-    public Direction getDealer() {
-        return this.dealer;
-    }
-
-    public Board getCurrentBoard() {
-        return this.currentBoard;
-    }
-
-    public Deal getCurrentDeal() {
-        return this.currentDeal;
-    }
 
     public abstract boolean isFinished();
 

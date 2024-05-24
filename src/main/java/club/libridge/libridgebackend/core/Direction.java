@@ -1,19 +1,19 @@
 package club.libridge.libridgebackend.core;
 
 import club.libridge.libridgebackend.core.exceptions.DirectionDoesNotExist;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
 public enum Direction {
 
     // Clockwise order
     NORTH("North", 'N'), EAST("East", 'E'), SOUTH("South", 'S'), WEST("West", 'W');
 
+    @Getter
     private final String completeName;
+    @Getter
     private final char abbreviation;
-
-    Direction(String completeName, char abbreviation) {
-        this.completeName = completeName;
-        this.abbreviation = abbreviation;
-    }
 
     public boolean isNorth() {
         return Direction.NORTH == this;
@@ -48,14 +48,6 @@ public enum Direction {
 
     public Direction next() {
         return this.next(1);
-    }
-
-    public String getCompleteName() {
-        return completeName;
-    }
-
-    public char getAbbreviation() {
-        return abbreviation;
     }
 
     public Direction getLeaderWhenDealer() {

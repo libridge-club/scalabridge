@@ -13,7 +13,11 @@ import club.libridge.libridgebackend.core.comparators.CardInsideHandWithSuitComp
 import club.libridge.libridgebackend.core.exceptions.DoesNotFollowSuitException;
 import club.libridge.libridgebackend.core.exceptions.PlayedCardInAnotherPlayersTurnException;
 import club.libridge.libridgebackend.core.rulesets.abstractrulesets.Ruleset;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
+@EqualsAndHashCode
 public class Deal {
 
     /**
@@ -26,20 +30,31 @@ public class Deal {
     }
 
     private Board board;
+    @Getter
     private int completedTricks;
     private int startingNumberOfCardsInTheHand;
+    @Getter
+    @Setter
     private Direction currentPlayer;
+    @Getter
     private Score score;
     private Map<Direction, Player> players = new EnumMap<Direction, Player>(Direction.class);
 
+    @Getter
     private Ruleset ruleset;
 
+    @Getter
     private List<Trick> tricks;
     private Trick currentTrick;
+    @Getter
+    @Setter
     private Direction dummy;
 
+    @Getter
     private Direction claimer;
+    @Getter
     private Map<Direction, Boolean> acceptedClaimMap = new EnumMap<Direction, Boolean>(Direction.class);
+    @Getter
     private Boolean isPartnershipGame;
 
     public Deal(Board board, Ruleset ruleset, Direction leader, Boolean isPartnershipGame) {
@@ -58,7 +73,7 @@ public class Deal {
 
     public void setRuleset(Ruleset ruleset) {
         this.ruleset = ruleset;
-        this.board.sortAllHands(ruleset.getComparator());
+        this.board.sortAllHands(ruleset.getCardComparator());
         this.score = new Score();
     }
 
@@ -86,14 +101,6 @@ public class Deal {
         }
     }
 
-    public Direction getCurrentPlayer() {
-        return this.currentPlayer;
-    }
-
-    public void setCurrentPlayer(Direction currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public int getNorthSouthPoints() {
         return this.score.getNorthSouthTricks();
     }
@@ -102,20 +109,12 @@ public class Deal {
         return this.score.getEastWestTricks();
     }
 
-    public Ruleset getRuleset() {
-        return this.ruleset;
-    }
-
     public boolean isFinished() {
         return allTricksPlayed();
     }
 
     private boolean allTricksPlayed() {
         return this.completedTricks == startingNumberOfCardsInTheHand;
-    }
-
-    public int getCompletedTricks() {
-        return this.completedTricks;
     }
 
     /**
@@ -196,90 +195,8 @@ public class Deal {
         this.score.addTrickToDirection(currentTrick, currentTrickWinner);
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((board == null) ? 0 : board.hashCode());
-        result = prime * result + completedTricks;
-        result = prime * result + ((currentPlayer == null) ? 0 : currentPlayer.hashCode());
-        result = prime * result + ((currentTrick == null) ? 0 : currentTrick.hashCode());
-        result = prime * result + ((ruleset == null) ? 0 : ruleset.hashCode());
-        result = prime * result + ((score == null) ? 0 : score.hashCode());
-        result = prime * result + ((tricks == null) ? 0 : tricks.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Deal other = (Deal) obj;
-        if (board == null) {
-            if (other.board != null) {
-                return false;
-            }
-        } else if (!board.equals(other.board)) {
-            return false;
-        }
-        if (completedTricks != other.completedTricks) {
-            return false;
-        }
-        if (currentPlayer != other.currentPlayer) {
-            return false;
-        }
-        if (currentTrick == null) {
-            if (other.currentTrick != null) {
-                return false;
-            }
-        } else if (!currentTrick.equals(other.currentTrick)) {
-            return false;
-        }
-        if (ruleset == null) {
-            if (other.ruleset != null) {
-                return false;
-            }
-        } else if (!ruleset.equals(other.ruleset)) {
-            return false;
-        }
-        if (score == null) {
-            if (other.score != null) {
-                return false;
-            }
-        } else if (!score.equals(other.score)) {
-            return false;
-        }
-        if (tricks == null) {
-            if (other.tricks != null) {
-                return false;
-            }
-        } else if (!tricks.equals(other.tricks)) {
-            return false;
-        }
-        return true;
-    }
-
     public Direction getDealer() {
         return this.board.getDealer();
-    }
-
-    public Score getScore() {
-        return this.score;
-    }
-
-    public void setDummy(Direction direction) {
-        this.dummy = direction;
-    }
-
-    public Direction getDummy() {
-        return this.dummy;
     }
 
     public boolean isDummyOpen() {
@@ -379,16 +296,12 @@ public class Deal {
 
     private void giveBackCardsToHands(Map<Card, Direction> cardDirectionMap) {
         this.board.putCardInHand(cardDirectionMap);
-        this.board.sortAllHands(ruleset.getComparator());
+        this.board.sortAllHands(ruleset.getCardComparator());
     }
 
     private void undoScore(Trick trick) {
         Direction winnerDirection = this.ruleset.getWinner(trick);
         score.subtractTrickFromDirection(trick, winnerDirection);
-    }
-
-    public List<Trick> getTricks() {
-        return this.tricks;
     }
 
     public void giveBackAllCardsToHands() {
@@ -400,7 +313,7 @@ public class Deal {
             }
         }
         this.currentTrick = startNewTrick();
-        this.board.sortAllHands(ruleset.getComparator());
+        this.board.sortAllHands(ruleset.getCardComparator());
     }
 
     public void claim(Direction direction) {
@@ -448,15 +361,4 @@ public class Deal {
         this.score.finishScore(winner, totalPoints);
     }
 
-    public Direction getClaimer() {
-        return this.claimer;
-    }
-
-    public Boolean getIsPartnershipGame() {
-        return this.isPartnershipGame;
-    }
-
-    public Map<Direction, Boolean> getAcceptedClaimMap() {
-        return this.acceptedClaimMap;
-    }
 }

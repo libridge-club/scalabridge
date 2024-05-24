@@ -1,10 +1,12 @@
 package club.libridge.libridgebackend.core;
 
+import lombok.NonNull;
+
 public final class PunitiveCall extends Call {
 
     private final boolean ddouble;
 
-    public PunitiveCall(String label) {
+    public PunitiveCall(@NonNull String label) {
         this.ddouble = "X".equals(label);
     }
 

@@ -12,8 +12,12 @@ import java.util.TreeSet;
 
 import club.libridge.libridgebackend.core.comparators.RankComparator;
 import club.libridge.libridgebackend.core.exceptions.TrickAlreadyFullException;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 
-public class Trick {
+@EqualsAndHashCode
+public class Trick { // FIXME to remove all of the king only features
 
     /**
      * @deprecated Kryo needs a no-arg constructor
@@ -25,16 +29,18 @@ public class Trick {
     }
 
     private List<Card> cards;
+    @Getter
     private Direction leader;
+    @Getter
     private boolean lastTwo;
 
-    public Trick(Direction leader) {
+    public Trick(@NonNull Direction leader) {
         this.leader = leader;
         this.cards = new ArrayList<Card>();
         this.lastTwo = false;
     }
 
-    public void addCard(Card card) {
+    public void addCard(@NonNull Card card) {
         if (!this.isComplete()) {
             this.cards.add(card);
         } else {
@@ -48,10 +54,6 @@ public class Trick {
 
     public boolean isEmpty() {
         return this.cards.isEmpty();
-    }
-
-    public Direction getLeader() {
-        return this.leader;
     }
 
     public List<Card> getCards() {
@@ -86,7 +88,7 @@ public class Trick {
         return this.directionOfCard(card);
     }
 
-    private Card highestCardOfSuit(Suit suit) {
+    private Card highestCardOfSuit(@NonNull Suit suit) {
         SortedSet<Card> sortedCardsOfSuit = new TreeSet<Card>(new RankComparator());
         for (Card card : this.getCards()) {
             if (card.getSuit() == suit) {
@@ -96,7 +98,7 @@ public class Trick {
         return sortedCardsOfSuit.last();
     }
 
-    private Direction directionOfCard(Card card) {
+    private Direction directionOfCard(@NonNull Card card) {
         Direction currentDirection = leader;
         Direction response = null;
         for (Card cardFromTrick : this.getCards()) {
@@ -110,7 +112,7 @@ public class Trick {
         return response;
     }
 
-    public Direction getWinnerWithTrumpSuit(Suit trumpSuit) {
+    public Direction getWinnerWithTrumpSuit(@NonNull Suit trumpSuit) {
         Card card;
         if (this.hasSuit(trumpSuit)) {
             card = this.highestCardOfSuit(trumpSuit);
@@ -149,10 +151,6 @@ public class Trick {
         return women;
     }
 
-    public boolean isLastTwo() {
-        return this.lastTwo;
-    }
-
     public void setLastTwo() {
         this.lastTwo = true;
     }
@@ -181,56 +179,18 @@ public class Trick {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((cards == null) ? 0 : cards.hashCode());
-        result = prime * result + (lastTwo ? 1231 : 1237);
-        result = prime * result + ((leader == null) ? 0 : leader.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Trick other = (Trick) obj;
-        if (cards == null) {
-            if (other.cards != null) {
-                return false;
-            }
-        } else if (!cards.equals(other.cards)) {
-            return false;
-        }
-        if (lastTwo != other.lastTwo) {
-            return false;
-        }
-        if (leader != other.leader) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
         return this.cards.toString();
     }
 
-    public boolean hasCardOf(Direction direction) {
+    public boolean hasCardOf(@NonNull Direction direction) {
         int stepsBetween = Direction.differenceBetween(this.getLeader(), direction);
         int minNumberOfCardsThatShouldBePlayedForDirectionToBeIncluded = stepsBetween + 1;
         int numberOfCardsInTable = this.getCards().size();
         return minNumberOfCardsThatShouldBePlayedForDirectionToBeIncluded <= numberOfCardsInTable;
     }
 
-    public Map<Card, Direction> getCardsFromLastUpTo(Direction direction) {
+    public Map<Card, Direction> getCardsFromLastUpTo(@NonNull Direction direction) {
         Map<Card, Direction> cardsUpToDirection = new HashMap<Card, Direction>();
         int directionPosition = Direction.differenceBetween(this.leader, direction);
         for (int i = this.cards.size() - 1; i >= directionPosition; i--) {
@@ -240,7 +200,7 @@ public class Trick {
         return cardsUpToDirection;
     }
 
-    public void removeCardsFromLastUpTo(Direction direction) {
+    public void removeCardsFromLastUpTo(@NonNull Direction direction) {
         int directionIndex = Direction.differenceBetween(this.getLeader(), direction);
         for (int i = this.cards.size() - 1; i >= directionIndex; i--) {
             this.cards.remove(i);

@@ -6,6 +6,6 @@ import club.libridge.libridgebackend.core.Card;
 
 public interface CardComparable {
 
-  Comparator<Card> getComparator();
+    Comparator<Card> getCardComparator();
 
 }

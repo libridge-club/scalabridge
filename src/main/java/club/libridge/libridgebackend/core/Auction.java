@@ -8,6 +8,8 @@ import club.libridge.libridgebackend.core.exceptions.AuctionAlreadyFinishedExcep
 import club.libridge.libridgebackend.core.exceptions.CallInAnotherPlayersTurnException;
 import club.libridge.libridgebackend.core.exceptions.InsufficientBidException;
 import club.libridge.libridgebackend.core.exceptions.InvalidCallException;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * The rules for Bridge Auction are as follows (paraphrasing/quoting the 2017 Laws of Bridge - LAWS 17-22):
@@ -26,9 +28,13 @@ public final class Auction {
 
     private static final int NUMBER_OF_INITIAL_PASSES_TO_END_AUCTION = 4;
     private static final int NUMBER_OF_PASSES_TO_END_AUCTION_AFTER_BID = 3;
-    private Direction dealer;
+
+    @Getter
+    private final Direction dealer;
+    @Getter
     private Direction currentTurn;
-    private List<Call> bids;
+    private final List<Call> bids;
+    @Getter
     private boolean finished;
     /**
      * These are initialized as -1
@@ -37,7 +43,7 @@ public final class Auction {
     private int lastBidIndex;
     private Contract finalContract;
 
-    public Auction(Direction dealer) {
+    public Auction(@NonNull Direction dealer) {
         this.dealer = dealer;
         this.currentTurn = dealer;
         this.bids = new ArrayList<Call>();
@@ -47,23 +53,11 @@ public final class Auction {
         this.finalContract = null;
     }
 
-    public Direction getDealer() {
-        return this.dealer;
-    }
-
-    public Direction getCurrentTurn() {
-        return this.currentTurn;
-    }
-
     public List<Call> getBids() {
         return Collections.unmodifiableList(bids);
     }
 
-    public boolean isFinished() {
-        return this.finished;
-    }
-
-    public void makeCall(Direction direction, Call call) {
+    public void makeCall(@NonNull Direction direction, @NonNull Call call) {
         if (this.isFinished()) {
             throw new AuctionAlreadyFinishedException();
         }
@@ -120,7 +114,7 @@ public final class Auction {
         return (lastNonPassCallIndex - this.bids.size()) % 2 != 0;
     }
 
-    private void addCall(Call call) {
+    private void addCall(@NonNull Call call) {
         Call unmodifiableCopy = getCallFromBiddingBox(call);
         this.bids.add(unmodifiableCopy);
         this.currentTurn = this.currentTurn.next();
@@ -132,7 +126,7 @@ public final class Auction {
         }
     }
 
-    private Call getCallFromBiddingBox(Call call) {
+    private Call getCallFromBiddingBox(@NonNull Call call) {
         return BiddingBox.get(call);
     }
 

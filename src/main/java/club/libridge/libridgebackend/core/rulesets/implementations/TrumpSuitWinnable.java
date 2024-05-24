@@ -4,6 +4,7 @@ import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Suit;
 import club.libridge.libridgebackend.core.Trick;
 import club.libridge.libridgebackend.core.rulesets.interfaces.Winnable;
+import lombok.NonNull;
 
 public class TrumpSuitWinnable implements Winnable {
 
@@ -18,12 +19,12 @@ public class TrumpSuitWinnable implements Winnable {
 
     private Suit trumpSuit;
 
-    public TrumpSuitWinnable(Suit trumpSuit) {
+    public TrumpSuitWinnable(@NonNull Suit trumpSuit) {
         this.trumpSuit = trumpSuit;
     }
 
     @Override
-    public Direction getWinner(Trick trick) {
+    public Direction getWinner(@NonNull Trick trick) {
         return trick.getWinnerWithTrumpSuit(this.trumpSuit);
     }
 

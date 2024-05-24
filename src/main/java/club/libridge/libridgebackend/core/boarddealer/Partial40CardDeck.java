@@ -6,10 +6,12 @@ import java.util.Deque;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Rank;
 import club.libridge.libridgebackend.core.Suit;
+import lombok.Getter;
 
 public class Partial40CardDeck implements CardDeck {
 
-    private Deque<Card> deck;
+    @Getter
+    private final Deque<Card> deck;
 
     public Partial40CardDeck() {
         this.deck = new ArrayDeque<Card>();
@@ -21,10 +23,6 @@ public class Partial40CardDeck implements CardDeck {
                 }
             }
         }
-    }
-
-    public Deque<Card> getDeck() {
-        return this.deck;
     }
 
 }

@@ -8,8 +8,8 @@ import java.util.List;
 import club.libridge.libridgebackend.core.exceptions.DealingCardFromAnEmptyDeckException;
 
 public class ShuffledDeck {
-    private List<Card> deck; // List is best because we need to shuffle it
-    private Iterator<Card> iterator;
+    private final List<Card> deck; // List is best because we need to shuffle it
+    private final Iterator<Card> iterator;
 
     public ShuffledDeck(Deque<Card> deck) {
         this.deck = new ArrayList<Card>(deck);

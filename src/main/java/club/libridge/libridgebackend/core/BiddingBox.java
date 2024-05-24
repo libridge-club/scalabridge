@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.NonNull;
+
 public final class BiddingBox {
 
     private static final Map<String, Call> LABEL_TO_BID_MAP;
@@ -38,11 +40,11 @@ public final class BiddingBox {
         // Static class. Should not be instantiated
     }
 
-    public static Call get(String label) {
+    public static Call get(@NonNull String label) {
         return LABEL_TO_BID_MAP.get(label.toUpperCase());
     }
 
-    public static Call get(Call call) {
+    public static Call get(@NonNull Call call) {
         if (call.isPass()) {
             return PASS;
         } else if (call.isDouble()) {

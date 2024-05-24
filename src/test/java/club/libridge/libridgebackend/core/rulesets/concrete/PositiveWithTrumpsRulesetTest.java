@@ -28,7 +28,7 @@ public class PositiveWithTrumpsRulesetTest {
     @Test
     public void shouldGetComparator() {
         assertEquals(trumpSuit, this.positiveWithTrumpRuleset.getTrumpSuit());
-        assertTrue(this.positiveWithTrumpRuleset.getComparator() instanceof CardInsideHandWithSuitComparator);
+        assertTrue(this.positiveWithTrumpRuleset.getCardComparator() instanceof CardInsideHandWithSuitComparator);
     }
 
 }

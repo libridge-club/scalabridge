@@ -3,6 +3,11 @@ package club.libridge.libridgebackend.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum OddTricks {
 
     ONE("One", "1", 1), TWO("Two", "2", 2), THREE("Three", "3", 3), FOUR("Four", "4", 4), FIVE("Five", "5", 5), SIX("Six", "6", 6),
@@ -18,24 +23,6 @@ public enum OddTricks {
         for (OddTricks oddTrick : OddTricks.values()) {
             mapFromLevel.put(oddTrick.getLevel(), oddTrick);
         }
-    }
-
-    OddTricks(String name, String symbol, int level) {
-        this.name = name;
-        this.symbol = symbol;
-        this.level = level;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getSymbol() {
-        return this.symbol;
-    }
-
-    public int getLevel() {
-        return this.level;
     }
 
     public static OddTricks fromLevel(int level) {

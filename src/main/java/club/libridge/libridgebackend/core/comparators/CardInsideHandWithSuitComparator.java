@@ -6,6 +6,7 @@ import java.util.Map;
 
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Suit;
+import lombok.NonNull;
 
 public class CardInsideHandWithSuitComparator implements Comparator<Card> {
 
@@ -54,7 +55,7 @@ public class CardInsideHandWithSuitComparator implements Comparator<Card> {
     private CardInsideHandWithSuitComparator() {
     }
 
-    public CardInsideHandWithSuitComparator(Suit suit) {
+    public CardInsideHandWithSuitComparator(@NonNull Suit suit) {
         this.suitOrder = suitOrders.get(suit);
     }
 

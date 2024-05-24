@@ -1,26 +1,23 @@
 package club.libridge.libridgebackend.core;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 
+@AllArgsConstructor
 public final class Contract {
+    @NonNull
     private final OddTricks oddTricks;
+    @Getter
+    @NonNull
     private final Strain strain;
-    private final boolean vulnerable;
+    @NonNull
     private final PenaltyStatus penaltyStatus;
-
-    public Contract(@NonNull OddTricks oddTricks, @NonNull Strain strain, @NonNull PenaltyStatus penaltyStatus, boolean vulnerable) {
-        this.oddTricks = oddTricks;
-        this.strain = strain;
-        this.penaltyStatus = penaltyStatus;
-        this.vulnerable = vulnerable;
-    }
+    @Getter
+    private final boolean vulnerable;
 
     public int getLevel() {
         return this.oddTricks.getLevel();
-    }
-
-    public Strain getStrain() {
-        return strain;
     }
 
     public boolean isDoubled() {
@@ -29,10 +26,6 @@ public final class Contract {
 
     public boolean isRedoubled() {
         return PenaltyStatus.REDOUBLED == this.penaltyStatus;
-    }
-
-    public boolean isVulnerable() {
-        return vulnerable;
     }
 
     @Override

@@ -14,8 +14,7 @@ import club.libridge.libridgebackend.core.exceptions.ImpossibleBoardException;
 public class MinibridgeBoardDealer implements BoardDealer {
 
     private static final int MAXIMUM_NUMBER_OF_TRIES = 1000000;
-    private Board board;
-    private ShuffledBoardDealer shuffledBoardDealer;
+    private final ShuffledBoardDealer shuffledBoardDealer;
 
     public MinibridgeBoardDealer() {
         this.shuffledBoardDealer = new ShuffledBoardDealer();
@@ -31,13 +30,14 @@ public class MinibridgeBoardDealer implements BoardDealer {
         int dealerPartnershipHCP;
         int nonDealerPartnershipHCP;
         int numberOfTries = 0;
+        Board board;
 
         do {
             dealerPartnershipHCP = 0;
             nonDealerPartnershipHCP = 0;
-            this.board = shuffledBoardDealer.dealBoard(dealer, deck);
+            board = shuffledBoardDealer.dealBoard(dealer, deck);
             for (Direction direction : Direction.values()) {
-                HandEvaluations handEvaluations = this.board.getHandOf(direction).getHandEvaluations();
+                HandEvaluations handEvaluations = board.getHandOf(direction).getHandEvaluations();
                 int hcp = handEvaluations.getHCP();
                 if (direction.isNorthSouth() == dealer.isNorthSouth()) {
                     dealerPartnershipHCP += hcp;
@@ -53,16 +53,16 @@ public class MinibridgeBoardDealer implements BoardDealer {
         } while (dealerPartnershipHCP == nonDealerPartnershipHCP);
 
         if (dealerPartnershipHCP < nonDealerPartnershipHCP) {
-            this.board = this.rotateHands(this.board, 1);
+            board = this.rotateHands(board, 1);
         }
 
-        HandEvaluations dealerHandEvaluations = this.board.getHandOf(dealer).getHandEvaluations();
-        HandEvaluations dealerPartnerHandEvaluations = this.board.getHandOf(dealer.next(2)).getHandEvaluations();
+        HandEvaluations dealerHandEvaluations = board.getHandOf(dealer).getHandEvaluations();
+        HandEvaluations dealerPartnerHandEvaluations = board.getHandOf(dealer.next(2)).getHandEvaluations();
         if (dealerHandEvaluations.getHCP() < dealerPartnerHandEvaluations.getHCP()) {
-            this.board = this.rotateHands(this.board, 2);
+            board = this.rotateHands(board, 2);
         }
 
-        return this.board;
+        return board;
     }
 
     private Board rotateHands(Board board, int i) {

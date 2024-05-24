@@ -8,12 +8,13 @@ import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.boarddealer.BoardDealer;
 import club.libridge.libridgebackend.core.boarddealer.MinibridgeBoardDealer;
 import club.libridge.libridgebackend.core.rulesets.concrete.PositiveRuleset;
+import lombok.NonNull;
 
 public class MinibridgeGame extends TrickGame {
 
     private BoardDealer boardDealer;
 
-    public MinibridgeGame(Deque<Card> gameDeck) {
+    public MinibridgeGame(@NonNull Deque<Card> gameDeck) {
         super(gameDeck);
         this.boardDealer = new MinibridgeBoardDealer();
     }

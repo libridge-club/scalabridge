@@ -5,6 +5,7 @@ import java.util.Map;
 
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.core.rulesets.abstractrulesets.Ruleset;
+import lombok.NonNull;
 
 public final class RulesetFromStrainString {
 
@@ -23,7 +24,7 @@ public final class RulesetFromStrainString {
         }
     }
 
-    public static Ruleset identify(String strain) {
+    public static Ruleset identify(@NonNull String strain) {
         return shortDescriptionOfRulesets.get(strain);
     }
 

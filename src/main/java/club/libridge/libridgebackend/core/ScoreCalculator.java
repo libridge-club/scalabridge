@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
+import lombok.NonNull;
+
 public final class ScoreCalculator {
 
     /**
@@ -28,7 +30,7 @@ public final class ScoreCalculator {
         TRICK_SCORE_UNDOUBLED = Collections.unmodifiableMap(modifiableMap);
     }
 
-    public static int score(Contract contract, int tricks) {
+    public static int score(@NonNull Contract contract, int tricks) {
         if (tricks < 0 || tricks > 13) {
             throw new IllegalArgumentException();
         }
@@ -40,7 +42,7 @@ public final class ScoreCalculator {
         }
     }
 
-    private static int contractMadeScore(Contract contract, int overtricks) {
+    private static int contractMadeScore(@NonNull Contract contract, int overtricks) {
         int penaltyMultiplier = getPenaltyMultiplier(contract);
         int trickScore = contract.getLevel() * penaltyMultiplier * getTrickScoreUndoubled(contract.getStrain());
         if (Strain.NOTRUMPS.equals(contract.getStrain())) {
@@ -57,11 +59,11 @@ public final class ScoreCalculator {
         return trickScore + premiumScore + overtrickBonus;
     }
 
-    private static int getTrickScoreUndoubled(Strain strain) {
+    private static int getTrickScoreUndoubled(@NonNull Strain strain) {
         return TRICK_SCORE_UNDOUBLED.get(strain);
     }
 
-    private static int getPenaltyMultiplier(Contract contract) {
+    private static int getPenaltyMultiplier(@NonNull Contract contract) {
         if (contract.isDoubled()) {
             return 2;
         }
@@ -71,12 +73,12 @@ public final class ScoreCalculator {
         return 1;
     }
 
-    private static int getPremiumScore(Contract contract, boolean isGame) {
+    private static int getPremiumScore(@NonNull Contract contract, boolean isGame) {
         return getPremiumScoreGrandSlam(contract) + getPremiumScoreSmallSlam(contract) + getPremiumScoreGameOrPartscore(contract, isGame)
                 + getPremiumScoreDoubled(contract) + getPremiumScoreRedoubled(contract);
     }
 
-    private static int getPremiumScoreGrandSlam(Contract contract) {
+    private static int getPremiumScoreGrandSlam(@NonNull Contract contract) {
         if (contract.getLevel() == 7) {
             if (contract.isVulnerable()) {
                 return 1500;
@@ -87,7 +89,7 @@ public final class ScoreCalculator {
         return 0;
     }
 
-    private static int getPremiumScoreSmallSlam(Contract contract) {
+    private static int getPremiumScoreSmallSlam(@NonNull Contract contract) {
         if (contract.getLevel() == 6) {
             if (contract.isVulnerable()) {
                 return 750;
@@ -98,7 +100,7 @@ public final class ScoreCalculator {
         return 0;
     }
 
-    private static int getPremiumScoreGameOrPartscore(Contract contract, boolean isGame) {
+    private static int getPremiumScoreGameOrPartscore(@NonNull Contract contract, boolean isGame) {
         if (isGame) {
             if (contract.isVulnerable()) {
                 return 500;
@@ -109,21 +111,21 @@ public final class ScoreCalculator {
         return 50;
     }
 
-    private static int getPremiumScoreDoubled(Contract contract) {
+    private static int getPremiumScoreDoubled(@NonNull Contract contract) {
         if (contract.isDoubled()) {
             return 50;
         }
         return 0;
     }
 
-    private static int getPremiumScoreRedoubled(Contract contract) {
+    private static int getPremiumScoreRedoubled(@NonNull Contract contract) {
         if (contract.isRedoubled()) {
             return 100;
         }
         return 0;
     }
 
-    private static int getOvertrickBonus(Contract contract, int overtricks) {
+    private static int getOvertrickBonus(@NonNull Contract contract, int overtricks) {
         int baseValue = TRICK_SCORE_UNDOUBLED.get(contract.getStrain());
         if (contract.isDoubled()) {
             baseValue = 100;
@@ -139,7 +141,7 @@ public final class ScoreCalculator {
         return overtricks * baseValue;
     }
 
-    private static int contractFailedScore(Contract contract, int undertricks) {
+    private static int contractFailedScore(@NonNull Contract contract, int undertricks) {
         if (undertricks <= 0) {
             return 0;
         }

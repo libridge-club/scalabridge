@@ -6,28 +6,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import lombok.NonNull;
+
 /**
  * This class centralizes the access to Random.
  * This decouples other classes from Random but most importantly
  * increases the quality and efficiency of RNG.
  */
 public class RandomUtils {
-    private static SecureRandom random = new SecureRandom();
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     public int nextInt(int bound) {
-        return random.nextInt(bound);
+        return RANDOM.nextInt(bound);
     }
 
-    public void shuffle(List<Card> listOfCards) {
-        Collections.shuffle(listOfCards, random);
+    public void shuffle(@NonNull List<Card> listOfCards) {
+        Collections.shuffle(listOfCards, RANDOM);
     }
 
-    public void shuffleWithSeed(List<Card> listOfCards, long seed) {
+    public void shuffleWithSeed(@NonNull List<Card> listOfCards, long seed) {
         Random seededRandom = new Random(seed);
         Collections.shuffle(listOfCards, seededRandom);
     }
 
-    public Card pickOneRandomCard(Hand hand) {
+    public Card pickOneRandomCard(@NonNull Hand hand) {
         ArrayList<Card> cards = new ArrayList<Card>(hand.getCards());
         int randomIndex = this.nextInt(cards.size());
         return cards.get(randomIndex);

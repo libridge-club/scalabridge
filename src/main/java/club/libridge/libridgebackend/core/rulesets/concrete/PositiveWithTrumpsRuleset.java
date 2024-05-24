@@ -4,6 +4,8 @@ import club.libridge.libridgebackend.core.Suit;
 import club.libridge.libridgebackend.core.comparators.CardInsideHandWithSuitComparator;
 import club.libridge.libridgebackend.core.rulesets.implementations.DefaultSuitFollowable;
 import club.libridge.libridgebackend.core.rulesets.implementations.TrumpSuitWinnable;
+import lombok.Getter;
+import lombok.NonNull;
 
 public class PositiveWithTrumpsRuleset extends PositiveRuleset {
 
@@ -16,18 +18,15 @@ public class PositiveWithTrumpsRuleset extends PositiveRuleset {
     private PositiveWithTrumpsRuleset() {
     }
 
+    @Getter
     private Suit trumpSuit;
 
-    public PositiveWithTrumpsRuleset(Suit trumpSuit) {
+    public PositiveWithTrumpsRuleset(@NonNull Suit trumpSuit) {
         super();
         this.suitFollowable = new DefaultSuitFollowable();
         this.winnable = new TrumpSuitWinnable(trumpSuit);
         this.trumpSuit = trumpSuit;
         this.cardComparator = new CardInsideHandWithSuitComparator(this.trumpSuit);
-    }
-
-    public Suit getTrumpSuit() {
-        return trumpSuit;
     }
 
     @Override

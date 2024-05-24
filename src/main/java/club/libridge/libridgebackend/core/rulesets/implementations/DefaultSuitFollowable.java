@@ -5,14 +5,12 @@ import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.core.Suit;
 import club.libridge.libridgebackend.core.Trick;
 import club.libridge.libridgebackend.core.rulesets.interfaces.SuitFollowable;
+import lombok.NonNull;
 
 public class DefaultSuitFollowable implements SuitFollowable {
 
     @Override
-    public boolean followsSuit(Trick trick, Hand hand, Card card) {
-        if (trick == null) {
-            throw new NullPointerException("Trick is null.");
-        }
+    public boolean followsSuit(@NonNull Trick trick, @NonNull Hand hand, @NonNull Card card) {
         if (trick.isEmpty()) {
             return true;
         }

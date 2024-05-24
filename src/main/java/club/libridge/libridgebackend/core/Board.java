@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import club.libridge.libridgebackend.core.comparators.CardInsideHandComparator;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 
+@EqualsAndHashCode
 public class Board {
 
     /**
@@ -20,24 +24,21 @@ public class Board {
     }
 
     private Map<Direction, Hand> hands = new EnumMap<Direction, Hand>(Direction.class);
+    @Getter
     private Direction dealer;
 
-    public Board(Map<Direction, Hand> hands, Direction dealer) {
+    public Board(@NonNull Map<Direction, Hand> hands, @NonNull Direction dealer) {
         this.hands = hands;
 
         this.sortAllHands(new CardInsideHandComparator());
         this.dealer = dealer;
     }
 
-    public Direction getDealer() {
-        return dealer;
-    }
-
     public Hand getHandOf(Direction direction) {
         return this.hands.get(direction);
     }
 
-    public void sortAllHands(Comparator<Card> comparator) {
+    public void sortAllHands(@NonNull Comparator<Card> comparator) {
         for (Direction direction : Direction.values()) {
             this.getHandOf(direction).sort(comparator);
         }
@@ -51,40 +52,6 @@ public class Board {
             removedCards.add(removedCard);
         }
         return removedCards;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((dealer == null) ? 0 : dealer.hashCode());
-        result = prime * result + ((hands == null) ? 0 : hands.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Board other = (Board) obj;
-        if (dealer != other.dealer) {
-            return false;
-        }
-        if (hands == null) {
-            if (other.hands != null) {
-                return false;
-            }
-        } else if (!hands.equals(other.hands)) {
-            return false;
-        }
-        return true;
     }
 
     public void putCardInHand(Map<Card, Direction> cardDirectionMap) {

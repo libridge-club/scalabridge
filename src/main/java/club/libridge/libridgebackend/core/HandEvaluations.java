@@ -9,11 +9,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
+import lombok.NonNull;
+
 public final class HandEvaluations {
 
+    @Getter
     private final List<Card> cards;
 
-    public HandEvaluations(Hand hand) {
+    public HandEvaluations(@NonNull Hand hand) {
         List<Card> modifiableCards = new ArrayList<Card>();
         for (Card card : hand.getCards()) {
             modifiableCards.add(card);
@@ -21,11 +25,7 @@ public final class HandEvaluations {
         this.cards = Collections.unmodifiableList(modifiableCards);
     }
 
-    private List<Card> getCards() {
-        return this.cards;
-    }
-
-    private List<Card> getCardsPerSuit(Suit suit) {
+    private List<Card> getCardsPerSuit(@NonNull Suit suit) {
         return this.cards.stream().filter(card -> card.getSuit().equals(suit)).collect(Collectors.toList());
     }
 

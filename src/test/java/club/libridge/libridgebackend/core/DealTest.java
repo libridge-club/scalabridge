@@ -96,7 +96,7 @@ public class DealTest {
         when(board.getDealer()).thenReturn(Direction.NORTH);
         @SuppressWarnings("unchecked")
         Comparator<Card> comparator = mock(Comparator.class);
-        when(ruleset.getComparator()).thenReturn(comparator);
+        when(ruleset.getCardComparator()).thenReturn(comparator);
 
         new Deal(board, ruleset, leader, null);
 

@@ -6,9 +6,11 @@ import java.util.Deque;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Rank;
 import club.libridge.libridgebackend.core.Suit;
+import lombok.Getter;
 
 public class Complete52CardDeck implements CardDeck {
 
+    @Getter
     private Deque<Card> deck;
 
     public Complete52CardDeck() {
@@ -19,10 +21,6 @@ public class Complete52CardDeck implements CardDeck {
                 this.deck.add(card);
             }
         }
-    }
-
-    public Deque<Card> getDeck() {
-        return this.deck;
     }
 
 }

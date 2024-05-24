@@ -10,11 +10,13 @@ import club.libridge.libridgebackend.core.comparators.CardInsideHandComparator;
 import club.libridge.libridgebackend.core.rulesets.interfaces.CardComparable;
 import club.libridge.libridgebackend.core.rulesets.interfaces.SuitFollowable;
 import club.libridge.libridgebackend.core.rulesets.interfaces.Winnable;
+import lombok.Getter;
 
 public abstract class Ruleset implements SuitFollowable, Winnable, CardComparable {
 
     protected SuitFollowable suitFollowable;
     protected Winnable winnable;
+    @Getter
     protected Comparator<Card> cardComparator;
 
     public Ruleset() {
@@ -30,11 +32,6 @@ public abstract class Ruleset implements SuitFollowable, Winnable, CardComparabl
     @Override
     public Direction getWinner(Trick trick) {
         return winnable.getWinner(trick);
-    }
-
-    @Override
-    public Comparator<Card> getComparator() {
-        return this.cardComparator;
     }
 
     @Override
