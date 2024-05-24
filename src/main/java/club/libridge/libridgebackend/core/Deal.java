@@ -338,7 +338,7 @@ public class Deal {
 
     private boolean hasOtherPlayersAcceptedClaim() {
         return this.acceptedClaimMap.entrySet().stream().filter(entry -> !isClaimerOrPartner(entry) && !isDummy(entry)).map(Entry::getValue)
-                .reduce(Boolean::logicalAnd).get();
+                .reduce(Boolean::logicalAnd).orElse(false);
     }
 
     private boolean isClaimerOrPartner(Map.Entry<Direction, Boolean> entry) {
