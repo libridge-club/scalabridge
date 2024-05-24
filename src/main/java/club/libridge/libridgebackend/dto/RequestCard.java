@@ -1,20 +1,15 @@
-package club.libridge.libridgebackend.app;
+package club.libridge.libridgebackend.dto;
 
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Rank;
 import club.libridge.libridgebackend.core.Suit;
+import lombok.Setter;
 
 public class RequestCard {
+    @Setter
     private String rank;
+    @Setter
     private String suit;
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public void setSuit(String suit) {
-        this.suit = suit;
-    }
 
     public Card getCard() {
         Rank finalRank = null;

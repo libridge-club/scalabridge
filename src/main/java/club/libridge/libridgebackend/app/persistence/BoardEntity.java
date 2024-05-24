@@ -28,7 +28,7 @@ public class BoardEntity {
 
     @Column
     @NotNull
-    private String pavlicekNumber = "";
+    private String pavlicekNumber;
 
     /**
      * This is the inverse side of the relationship

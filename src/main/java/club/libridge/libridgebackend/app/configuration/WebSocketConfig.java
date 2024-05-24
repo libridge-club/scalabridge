@@ -1,4 +1,4 @@
-package club.libridge.libridgebackend.app;
+package club.libridge.libridgebackend.app.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;

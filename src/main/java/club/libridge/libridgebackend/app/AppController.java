@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
+import club.libridge.libridgebackend.dto.RequestCard;
+import club.libridge.libridgebackend.dto.RequestWithString;
 import club.libridge.libridgebackend.networking.messages.GameServerFromGameNameIdentifier;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
