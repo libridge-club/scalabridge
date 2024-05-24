@@ -18,9 +18,9 @@ public class BoardDTO {
     private UUID id;
 
     @SuppressWarnings("unused") // Spring serializes this in http responses.
-    private Board board;
+    private final Board board;
     @SuppressWarnings("unused") // Spring serializes this in http responses.
-    private String pavlicekNumber;
+    private final String pavlicekNumber;
     private Map<Direction, Map<Strain, Integer>> doubleDummyTable;
 
     public BoardDTO(Board board, String pavlicekNumber) {

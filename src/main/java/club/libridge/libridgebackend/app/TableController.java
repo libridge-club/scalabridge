@@ -6,15 +6,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import club.libridge.libridgebackend.networking.websockets.TableMessageDTO;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @RestController
+@AllArgsConstructor
 public class TableController {
 
-    private SimpMessagingTemplate template;
-
-    public TableController(SimpMessagingTemplate template) {
-        this.template = template;
-    }
+    @NonNull
+    private final SimpMessagingTemplate template;
 
     private String getDestination(TableMessageDTO tableDealDTO) {
         return "/topic/table/" + tableDealDTO.getTableId();

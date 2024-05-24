@@ -1,15 +1,14 @@
 package club.libridge.libridgebackend.networking.core.properties;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class NetworkingProperties {
+
+    private static final String DEFAULT_IP = "164.90.254.243"; // NOSONAR WONTFIX
 
     private final FileProperties fileProperties;
     private final SystemProperties systemProperties;
-    private static final String DEFAULT_IP = "164.90.254.243"; // NOSONAR WONTFIX
-
-    public NetworkingProperties(FileProperties fileProperties, SystemProperties systemProperties) {
-        this.fileProperties = fileProperties;
-        this.systemProperties = systemProperties;
-    }
 
     public String getHost() {
         String hostFromSystem = null;

@@ -14,8 +14,8 @@ import club.libridge.libridgebackend.core.PlasticBoard;
 
 public class ParsedLin {
 
-    private Map<LinKey, List<Integer>> symbolToListOfIndexes;
-    private ArrayList<LinKeyValuePair> list;
+    private final Map<LinKey, List<Integer>> symbolToListOfIndexes; //FIXME this should be static
+    private final ArrayList<LinKeyValuePair> list;
     private List<Auction> auctions;
 
     public ParsedLin(List<LinKeyValuePair> list) {

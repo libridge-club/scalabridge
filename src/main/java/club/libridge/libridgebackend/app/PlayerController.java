@@ -6,15 +6,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import club.libridge.libridgebackend.networking.websockets.PlayerListDTO;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @RestController
+@AllArgsConstructor
 public class PlayerController {
 
-    private SimpMessagingTemplate template;
-
-    public PlayerController(SimpMessagingTemplate template) {
-        this.template = template;
-    }
+    @NonNull
+    private final SimpMessagingTemplate template;
 
     public void getPlayers(PlayerListDTO playerList) {
         LOGGER.debug("Sending list of players to subscribers");

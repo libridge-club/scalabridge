@@ -23,17 +23,17 @@ import club.libridge.libridgebackend.dto.RequestWithString;
 import club.libridge.libridgebackend.networking.messages.GameServerFromGameNameIdentifier;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @RestController
+@AllArgsConstructor
 public class AppController {
 
     private static final String ACCEPT_CANNOT_BE_EMPTY = "Accept cannot be empty. It must be true or false.";
 
-    private LibridgeServer libridgeServer;
-
-    public AppController(LibridgeServer libridgeServer) {
-        this.libridgeServer = libridgeServer;
-    }
+    @NonNull
+    private final LibridgeServer libridgeServer;
 
     private UUID getUUID(String uuidString) {
         return UUID.fromString(uuidString);

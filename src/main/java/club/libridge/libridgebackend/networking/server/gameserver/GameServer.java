@@ -11,12 +11,19 @@ import club.libridge.libridgebackend.core.game.TrickGame;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import club.libridge.libridgebackend.networking.server.Table;
 import club.libridge.libridgebackend.networking.server.notifications.CardPlayNotification;
+import lombok.Getter;
+import lombok.Setter;
 
 public abstract class GameServer implements Runnable {
 
+    protected static final int WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS = 50;
+
     protected CardPlayNotification cardPlayNotification = new CardPlayNotification();
     protected boolean dealHasChanged;
+    @Setter
     protected Table table;
+    @Getter
+    @Setter
     protected LibridgeServer libridgeServer = null;
 
     protected TrickGame game;
@@ -24,19 +31,9 @@ public abstract class GameServer implements Runnable {
     protected int timeoutCardPlayNotification = 10000;
     protected boolean shouldStop = false;
 
-    protected static final int WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS = 50;
-
     public void waitForClientsToPrepare() {
         LOGGER.debug("Sleeping for {} ms waiting for all clients to prepare themselves.", WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS);
         sleepFor(WAIT_FOR_CLIENTS_TO_PREPARE_IN_MILISECONDS);
-    }
-
-    public void setTable(Table table) {
-        this.table = table;
-    }
-
-    public void setLibridgeServer(LibridgeServer libridgeServer) {
-        this.libridgeServer = libridgeServer;
     }
 
     protected void playCard(Card card, Direction direction) {
@@ -85,10 +82,6 @@ public abstract class GameServer implements Runnable {
 
     protected void sleepToShowLastCard() {
         sleepFor(4000);
-    }
-
-    public LibridgeServer getLibridgeServer() {
-        return this.libridgeServer;
     }
 
     protected void sendDealAll() {

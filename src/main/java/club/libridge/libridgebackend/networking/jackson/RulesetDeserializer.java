@@ -20,20 +20,22 @@ import club.libridge.libridgebackend.core.rulesets.concrete.PositiveWithTrumpsRu
 
 public class RulesetDeserializer extends StdDeserializer<Ruleset> {
 
-    private static Map<String, Class<? extends Ruleset>> simpleNameToClass = new HashMap<>();
-    private static Map<String, Suit> suitNameToSuit = new HashMap<>();
+    private static final Map<String, Class<? extends Ruleset>> SIMPLE_NAME_TO_CLASS;
+    private static final Map<String, Suit> SUIT_NAME_TO_SUIT;
 
     // Static initialization block to avoid doing this calculation every
     // deserialization
     static {
-        simpleNameToClass.put("NoRuleset", PositiveRuleset.class);
-        simpleNameToClass.put("PositiveNoTrumpsRuleset", PositiveNoTrumpsRuleset.class);
-        simpleNameToClass.put("PositiveWithTrumpsRuleset", PositiveWithTrumpsRuleset.class);
+        SIMPLE_NAME_TO_CLASS = new HashMap<>();
+        SIMPLE_NAME_TO_CLASS.put("NoRuleset", PositiveRuleset.class);
+        SIMPLE_NAME_TO_CLASS.put("PositiveNoTrumpsRuleset", PositiveNoTrumpsRuleset.class);
+        SIMPLE_NAME_TO_CLASS.put("PositiveWithTrumpsRuleset", PositiveWithTrumpsRuleset.class);
 
-        suitNameToSuit.put("Diamonds", Suit.DIAMONDS);
-        suitNameToSuit.put("Clubs", Suit.CLUBS);
-        suitNameToSuit.put("Hearts", Suit.HEARTS);
-        suitNameToSuit.put("Spades", Suit.SPADES);
+        SUIT_NAME_TO_SUIT = new HashMap<>();
+        SUIT_NAME_TO_SUIT.put("Diamonds", Suit.DIAMONDS);
+        SUIT_NAME_TO_SUIT.put("Clubs", Suit.CLUBS);
+        SUIT_NAME_TO_SUIT.put("Hearts", Suit.HEARTS);
+        SUIT_NAME_TO_SUIT.put("Spades", Suit.SPADES);
     }
 
     public RulesetDeserializer() {
@@ -49,10 +51,10 @@ public class RulesetDeserializer extends StdDeserializer<Ruleset> {
         JsonNode node = jp.getCodec().readTree(jp);
         String rulesetName = node.get("rulesetName").asText();
         String trumpSuit = node.get("trumpSuit").asText();
-        Class<? extends Ruleset> class1 = simpleNameToClass.get(rulesetName);
+        Class<? extends Ruleset> class1 = SIMPLE_NAME_TO_CLASS.get(rulesetName);
         Ruleset response = new PositiveRuleset();
         if (PositiveWithTrumpsRuleset.class.equals(class1)) {
-            response = new PositiveWithTrumpsRuleset(suitNameToSuit.get(trumpSuit));
+            response = new PositiveWithTrumpsRuleset(SUIT_NAME_TO_SUIT.get(trumpSuit));
         } else {
             try {
                 response = class1.getDeclaredConstructor().newInstance();

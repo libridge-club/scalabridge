@@ -13,9 +13,9 @@ import club.libridge.libridgebackend.core.Strain;
 
 public class DoubleDummyTable {
 
-    private Map<StrainAndDirectionCombination, NumberOfTricks> tricksAvailable;
     private static final List<Strain> STRAIN_ORDER_FROM_DDS;
     private static final List<Direction> DIRECTION_ORDER_FROM_DDS;
+    private final Map<StrainAndDirectionCombination, NumberOfTricks> tricksAvailable;
 
     static {
         STRAIN_ORDER_FROM_DDS = Collections.unmodifiableList(List.of(Strain.SPADES, Strain.HEARTS, Strain.DIAMONDS, Strain.CLUBS, Strain.NOTRUMPS));

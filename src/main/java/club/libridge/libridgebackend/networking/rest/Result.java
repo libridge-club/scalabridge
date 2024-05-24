@@ -1,21 +1,14 @@
 package club.libridge.libridgebackend.networking.rest;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
 public class Result {
 
+    @Getter
     final int status;
+    @Getter
     final String content;
-
-    Result(final int status, final String content) {
-        this.status = status;
-        this.content = content;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public int getStatus() {
-        return status;
-    }
 
 }

@@ -13,17 +13,17 @@ import club.libridge.libridgebackend.core.boarddealer.CardDeck;
 import club.libridge.libridgebackend.core.boarddealer.Complete52CardDeck;
 import club.libridge.libridgebackend.core.boarddealer.ShuffledBoardDealer;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @Validated
 @Component
+@AllArgsConstructor
 public class BoardFactory {
 
     @NotNull
-    private PavlicekNumber pavlicekNumberGenerator;
-
-    public BoardFactory(@NotNull PavlicekNumber pavlicekNumberGenerator) {
-        this.pavlicekNumberGenerator = pavlicekNumberGenerator;
-    }
+    @NonNull
+    private final PavlicekNumber pavlicekNumberGenerator;
 
     public Board fromEntity(BoardEntity boardEntity) {
         return pavlicekNumberGenerator.getBoardFromNumber(new BigInteger(boardEntity.getPavlicekNumber()));

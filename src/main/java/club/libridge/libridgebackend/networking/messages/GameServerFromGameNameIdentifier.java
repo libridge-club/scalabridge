@@ -8,20 +8,19 @@ import club.libridge.libridgebackend.networking.server.gameserver.MinibridgeGame
 
 public final class GameServerFromGameNameIdentifier {
 
-    private static Map<String, Class<? extends GameServer>> gameServerClassesOfGameNames = new HashMap<>();
+    private static final Map<String, Class<? extends GameServer>> GAME_SERVER_CLASSES_OF_GAME_NAMES;
+
+    static {
+        GAME_SERVER_CLASSES_OF_GAME_NAMES = new HashMap<>();
+        GAME_SERVER_CLASSES_OF_GAME_NAMES.put("Minibridge", MinibridgeGameServer.class);
+    }
 
     private GameServerFromGameNameIdentifier() {
         throw new IllegalStateException("Utility class");
     }
 
-    // Static initialization block to avoid doing this calculation every time
-    // identify(..) is called.
-    static {
-        gameServerClassesOfGameNames.put("Minibridge", MinibridgeGameServer.class);
-    }
-
     public static Class<? extends GameServer> identify(String gameName) {
-        return gameServerClassesOfGameNames.get(gameName);
+        return GAME_SERVER_CLASSES_OF_GAME_NAMES.get(gameName);
     }
 
 }

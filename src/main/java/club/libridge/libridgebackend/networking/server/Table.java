@@ -25,8 +25,8 @@ public class Table {
 
     private Map<Direction, Player> seatedPlayers;
     private List<Player> spectatorPlayers;
-    private GameServer gameServer;
-    private UUID id;
+    private final GameServer gameServer;
+    private final UUID id;
 
     public Table(GameServer gameServer) {
         this.gameServer = gameServer;

@@ -15,13 +15,13 @@ public class RequestCard {
         Rank finalRank = null;
         Suit finalSuit = null;
         for (Rank currentRank : Rank.values()) {
-            if (currentRank.getSymbol().equals(this.rank)) {
+            if (currentRank.getSymbol().equals(this.rank)) { // FIXME this should be a static created Map<String,Rank>
                 finalRank = currentRank;
                 break;
             }
         }
         for (Suit currentSuit : Suit.values()) {
-            if (currentSuit.getSymbol().equals(this.suit)) {
+            if (currentSuit.getSymbol().equals(this.suit)) { // FIXME this should be a static created Map<String,Suit>
                 finalSuit = currentSuit;
                 break;
             }

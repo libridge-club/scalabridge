@@ -12,14 +12,14 @@ import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.networking.websockets.TableMessageDTO;
 import club.libridge.libridgebackend.networking.websockets.TableMessageDTO.Builder;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
+@AllArgsConstructor
 public class WebSocketTableMessageServerSender {
 
-    private TableController tableController;
-
-    public WebSocketTableMessageServerSender(TableController tableController) {
-        this.tableController = tableController;
-    }
+    @NonNull
+    private final TableController tableController;
 
     public void sendDealToTable(Deal deal, Table table) {
         TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(DEAL_MESSAGE).withDeal(deal).build();

@@ -9,6 +9,7 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import club.libridge.libridgebackend.core.constants.ErrorCodes;
+import lombok.Getter;
 
 public class FileProperties {
 
@@ -17,7 +18,8 @@ public class FileProperties {
     private static final String DEV_FILE_NAME = "config.dev.xml";
     private static final String PRODUCTION_FILE_NAME = "config.xml";
 
-    private String host = null;
+    @Getter
+    private final String host;
 
     public FileProperties() {
         Configurations configurations = new Configurations();
@@ -63,10 +65,6 @@ public class FileProperties {
         } else {
             this.host = configuration.getString(PropertiesConstants.HOST);
         }
-    }
-
-    public String getHost() {
-        return this.host;
     }
 
 }

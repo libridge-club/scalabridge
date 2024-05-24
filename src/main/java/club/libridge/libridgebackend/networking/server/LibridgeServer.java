@@ -47,16 +47,16 @@ import club.libridge.libridgebackend.utils.FileUtils;
 @Component
 public class LibridgeServer {
 
-    private Map<UUID, Player> identifierToPlayerMap = new HashMap<UUID, Player>();
-    private Map<UUID, Table> tables;
-    private Map<Player, Table> playersTable;
+    private final Map<UUID, Player> identifierToPlayerMap;
+    private final Map<UUID, Table> tables;
+    private final Map<Player, Table> playersTable;
 
     private static final int MAXIMUM_NUMBER_OF_CONCURRENT_GAME_SERVERS = 10;
-    private ExecutorService pool;
-    private WebSocketTableMessageServerSender webSocketTableMessageServerSender;
+    private final ExecutorService pool;
+    private final WebSocketTableMessageServerSender webSocketTableMessageServerSender;
 
-    private PlayerController playerController;
-    private BoardFactory boardFactory;
+    private final PlayerController playerController;
+    private final BoardFactory boardFactory;
 
     public LibridgeServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
         this.tables = new HashMap<UUID, Table>();

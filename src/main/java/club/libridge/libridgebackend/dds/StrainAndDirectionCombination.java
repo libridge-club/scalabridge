@@ -11,8 +11,8 @@ import lombok.NonNull;
 public class StrainAndDirectionCombination {
 
     @NonNull
-    private Strain strain;
+    private final Strain strain;
     @NonNull
-    private Direction direction;
+    private final Direction direction;
 
 }

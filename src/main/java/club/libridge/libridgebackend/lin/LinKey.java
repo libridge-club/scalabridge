@@ -3,6 +3,10 @@ package club.libridge.libridgebackend.lin;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
 public enum LinKey {
 
     AN("an", "annotation - bid explanation"), MB("mb", "make bid"), MC("mc", "make claim"), MD("md", "make deal? - cards in each players hand"),
@@ -11,9 +15,6 @@ public enum LinKey {
     RS("rs", "results - results for previous sessions"), ST("st", "???"), SV("sv", "?? - vulnerability : o/n/e/b for None-NS-EW-Both"),
     VG("vg", "vugraph : Event information");
 
-    private final String symbol;
-
-    private final String description;
     private static Map<String, LinKey> symbolToKeyMap = new HashMap<>();
 
     static {
@@ -22,18 +23,10 @@ public enum LinKey {
         }
     }
 
-    LinKey(String symbol, String description) {
-        this.symbol = symbol;
-        this.description = description;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    @Getter
+    private final String symbol;
+    @Getter
+    private final String description;
 
     public static LinKey get(String symbol) {
         LinKey linKey = symbolToKeyMap.get(symbol.toLowerCase());

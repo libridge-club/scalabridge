@@ -15,18 +15,18 @@ import org.springframework.web.server.ResponseStatusException;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
 import club.libridge.libridgebackend.dto.BoardDTO;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @RestController
 @RequestMapping("/boards")
+@AllArgsConstructor
 public class BoardController {
 
-    private LibridgeServer libridgeServer;
-    private BoardRepository repository;
-
-    public BoardController(LibridgeServer libridgeServer, BoardRepository repository) {
-        this.libridgeServer = libridgeServer;
-        this.repository = repository;
-    }
+    @NonNull
+    private final LibridgeServer libridgeServer;
+    @NonNull
+    private final BoardRepository repository;
 
     @CrossOrigin(origins = "*")
     @GetMapping("/getRandom")

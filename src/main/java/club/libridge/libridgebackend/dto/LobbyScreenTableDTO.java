@@ -7,12 +7,18 @@ import java.util.UUID;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Player;
 import club.libridge.libridgebackend.networking.server.Table;
+import lombok.Getter;
+import lombok.NonNull;
 
 public class LobbyScreenTableDTO {
 
+    @Getter
     private UUID id;
+    @Getter
     private Map<String, String> playersDirections;
+    @Getter
     private String gameName;
+    @Getter
     private int numberOfSpectators;
 
     /**
@@ -24,7 +30,7 @@ public class LobbyScreenTableDTO {
     private LobbyScreenTableDTO() {
     }
 
-    public LobbyScreenTableDTO(Table table) {
+    public LobbyScreenTableDTO(@NonNull Table table) {
         this.id = table.getId();
         Map<Direction, Player> tempMap = table.getPlayersDirections();
         this.playersDirections = new HashMap<String, String>();
@@ -33,22 +39,6 @@ public class LobbyScreenTableDTO {
         }
         this.gameName = table.getGameName();
         this.numberOfSpectators = table.getNumberOfSpectators();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Map<String, String> getPlayersDirections() {
-        return this.playersDirections;
-    }
-
-    public String getGameName() {
-        return this.gameName;
-    }
-
-    public int getNumberOfSpectators() {
-        return this.numberOfSpectators;
     }
 
     @Override
