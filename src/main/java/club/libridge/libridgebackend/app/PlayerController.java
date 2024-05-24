@@ -2,7 +2,6 @@ package club.libridge.libridgebackend.app;
 
 import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +12,6 @@ public class PlayerController {
 
     private SimpMessagingTemplate template;
 
-    @Autowired
     public PlayerController(SimpMessagingTemplate template) {
         this.template = template;
     }

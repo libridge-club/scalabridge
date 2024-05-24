@@ -2,7 +2,6 @@ package club.libridge.libridgebackend.app.persistence;
 
 import java.math.BigInteger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -22,7 +21,6 @@ public class BoardFactory {
     @NotNull
     private PavlicekNumber pavlicekNumberGenerator;
 
-    @Autowired
     public BoardFactory(@NotNull PavlicekNumber pavlicekNumberGenerator) {
         this.pavlicekNumberGenerator = pavlicekNumberGenerator;
     }

@@ -12,7 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
@@ -59,7 +58,6 @@ public class LibridgeServer {
     private PlayerController playerController;
     private BoardFactory boardFactory;
 
-    @Autowired
     public LibridgeServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
         this.tables = new HashMap<UUID, Table>();
         this.playersTable = new HashMap<Player, Table>();

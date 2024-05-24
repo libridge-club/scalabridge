@@ -4,7 +4,6 @@ import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,6 @@ public class BoardController {
     private LibridgeServer libridgeServer;
     private BoardRepository repository;
 
-    @Autowired
     public BoardController(LibridgeServer libridgeServer, BoardRepository repository) {
         this.libridgeServer = libridgeServer;
         this.repository = repository;
