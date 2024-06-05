@@ -22,3 +22,6 @@ lib/
 
 # configuration file example
 src/main/resources/config.dev.xml
+
+# docker compose environment file
+.env

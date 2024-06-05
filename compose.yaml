@@ -12,6 +12,12 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - spring_profiles_active=${spring_profiles_active}
+      - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
+      - KEYSTORE_LOCATION=/run/secrets/keystore-file
+      - KEYSTORE_ALIAS=${KEYSTORE_ALIAS}
+    secrets:
+      - keystore-file
     ports:
       - "8080:8080"
     restart: always
@@ -24,3 +30,8 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=libridge
     restart: always
+
+secrets:
+  keystore-file:
+    file: ${KEYSTORE_LOCATION}
+
