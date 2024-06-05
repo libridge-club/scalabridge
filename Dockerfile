@@ -4,6 +4,7 @@ WORKDIR /tmp/
 COPY pom.xml /tmp/pom.xml
 COPY checkstyle /tmp/checkstyle/
 COPY lib /tmp/lib/
+COPY lombok.config /tmp/lombok.config
 RUN mvn dependency:resolve-plugins dependency:go-offline -B
 COPY src /tmp/src/
 RUN mvn package -B
