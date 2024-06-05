@@ -7,9 +7,7 @@ clean:
 	rm -f ./libridge-server.jar
 	docker rmi $(APP_NAME); true
 
-package: server 
-
-server: kill_server package_server copy_server
+package: kill_server package_server copy_server
 
 kill_server:
 	@./kill_server.sh
