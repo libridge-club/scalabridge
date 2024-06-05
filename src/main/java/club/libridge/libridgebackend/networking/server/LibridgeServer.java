@@ -26,6 +26,7 @@ import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Player;
+import club.libridge.libridgebackend.core.RandomUtils;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
 import club.libridge.libridgebackend.dto.BoardDTO;
@@ -328,7 +329,7 @@ public class LibridgeServer {
     }
 
     public Optional<BoardDTO> getRandomBoard(BoardRepository repository) {
-        Optional<BoardEntity> random = repository.getRandom();
+        Optional<BoardEntity> random = repository.getRandom(new RandomUtils());
         if (random.isEmpty()) {
             return Optional.empty();
         }

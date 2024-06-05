@@ -20,6 +20,10 @@ public class RandomUtils {
         return RANDOM.nextInt(bound);
     }
 
+    public long nextLong(long bound) {
+        return RANDOM.nextLong(bound);
+    }
+
     public void shuffle(@NonNull List<Card> listOfCards) {
         Collections.shuffle(listOfCards, RANDOM);
     }
