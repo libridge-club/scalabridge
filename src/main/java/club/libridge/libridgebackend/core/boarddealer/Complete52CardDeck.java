@@ -13,8 +13,10 @@ public class Complete52CardDeck implements CardDeck {
     @Getter
     private Deque<Card> deck;
 
+    public static final int TOTAL_NUMBER_OF_CARDS = 52;
+
     public Complete52CardDeck() {
-        this.deck = new ArrayDeque<Card>();
+        this.deck = new ArrayDeque<Card>(TOTAL_NUMBER_OF_CARDS);
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 Card card = new Card(suit, rank);

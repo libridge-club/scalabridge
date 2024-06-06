@@ -12,34 +12,29 @@ import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Direction;
 
-/**
- * This is not a unit test suite as it depends on ShuffledBoardDealer. It is
- * also non-deterministic. I am ok with that for now.
- */
 public class MinibridgeBoardDealerTest {
 
-    private static MinibridgeBoardDealer minibridgeBoardDealer;
+    private static MinibridgeBoardDealer subject;
     private static Direction anyDirection;
-    private static Deque<Card> gameDeck;
+    private static Deque<Card> completeDeck;
 
     @BeforeAll
     public static void setup() {
-        minibridgeBoardDealer = new MinibridgeBoardDealer();
+        subject = new MinibridgeBoardDealer();
         anyDirection = Direction.SOUTH;
-        CardDeck anyCardDeck = new Complete52CardDeck();
-        gameDeck = anyCardDeck.getDeck();
+        completeDeck = new Complete52CardDeck().getDeck();
     }
 
     @Test
     public void dealBoardShouldDealABoardWithTheCorrectDealer() {
-        Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
+        Board minibridgeBoard = subject.dealBoard(anyDirection, completeDeck);
 
         assertEquals(anyDirection, minibridgeBoard.getDealer());
     }
 
     @Test
     public void dealBoardShouldDealABoardWithStrictlyMoreHCPForDealerPartnership() {
-        Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
+        Board minibridgeBoard = subject.dealBoard(anyDirection, completeDeck);
 
         int dealerPartnershipHCP = 0;
         int nonDealerPartnershipHCP = 0;
@@ -56,7 +51,7 @@ public class MinibridgeBoardDealerTest {
 
     @Test
     public void dealBoardShouldDealABoardWithEqualOrMoreHCPForDealerThanTheirPartner() {
-        Board minibridgeBoard = minibridgeBoardDealer.dealBoard(anyDirection, gameDeck);
+        Board minibridgeBoard = subject.dealBoard(anyDirection, completeDeck);
 
         int dealerHCP = minibridgeBoard.getHandOf(anyDirection).getHandEvaluations().getHCP();
         int dealerPartnerHCP = minibridgeBoard.getHandOf(anyDirection.next(2)).getHandEvaluations().getHCP();

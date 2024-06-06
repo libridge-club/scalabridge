@@ -22,8 +22,7 @@ public class Complete52CardDeckTest {
     @Test
     public void getDeckshouldReturnADeckWith52DifferentCards() {
         Set<Card> set = new HashSet<Card>(subject.getDeck());
-        int TOTAL_NUMBER_OF_CARDS = 52;
-        assertEquals(TOTAL_NUMBER_OF_CARDS, set.size());
+        assertEquals(Complete52CardDeck.TOTAL_NUMBER_OF_CARDS, set.size());
     }
 
 }
