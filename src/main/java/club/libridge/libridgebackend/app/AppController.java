@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import club.libridge.libridgebackend.core.Direction;
-import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.dto.RequestCard;
 import club.libridge.libridgebackend.dto.RequestWithString;
 import club.libridge.libridgebackend.networking.messages.GameServerFromGameNameIdentifier;
@@ -132,12 +131,6 @@ public class AppController {
     public List<String> getSpectators(@RequestHeader("PlayerUUID") String playerUUID) {
         LOGGER.trace("getSpectators");
         return this.libridgeServer.getSpectatorList(getUUID(playerUUID));
-    }
-
-    @GetMapping("/tables")
-    public List<LobbyScreenTableDTO> getTables() {
-        LOGGER.trace("getTables");
-        return this.libridgeServer.getTablesDTO();
     }
 
 }

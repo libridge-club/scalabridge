@@ -16,7 +16,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import club.libridge.libridgebackend.app.PlayerController;
-import club.libridge.libridgebackend.app.TableController;
+import club.libridge.libridgebackend.app.TableWebsocketController;
 import club.libridge.libridgebackend.app.persistence.BoardEntity;
 import club.libridge.libridgebackend.app.persistence.BoardFactory;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
@@ -38,6 +38,7 @@ import club.libridge.libridgebackend.networking.websockets.PlayerDTO;
 import club.libridge.libridgebackend.networking.websockets.PlayerListDTO;
 import club.libridge.libridgebackend.pbn.PBNUtils;
 import club.libridge.libridgebackend.utils.FileUtils;
+import jakarta.annotation.PostConstruct;
 
 /**
  * This class has two responsibilities: 1: receiving method calls from the
@@ -59,7 +60,7 @@ public class LibridgeServer {
     private final PlayerController playerController;
     private final BoardFactory boardFactory;
 
-    public LibridgeServer(PlayerController playerController, TableController tableController, BoardFactory boardFactory) {
+    public LibridgeServer(PlayerController playerController, TableWebsocketController tableController, BoardFactory boardFactory) {
         this.tables = new HashMap<UUID, Table>();
         this.playersTable = new HashMap<Player, Table>();
         this.identifierToPlayerMap = new HashMap<UUID, Player>();
@@ -399,6 +400,12 @@ public class LibridgeServer {
             repository.save(boardEntity);
         }
 
+    }
+
+    @PostConstruct
+    public void createTwoMinibridgeTables() {
+        this.createTable(MinibridgeGameServer.class);
+        this.createTable(MinibridgeGameServer.class);
     }
 
 }

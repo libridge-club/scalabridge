@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version>
+		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -48,7 +48,7 @@
 		<libridge.jackson.version>2.16.2</libridge.jackson.version>
 		<libridge.lombok.version>1.18.32</libridge.lombok.version>
 
-        <libridge.plugin.spring-boot-maven-plugin.version>2.0.2.RELEASE</libridge.plugin.spring-boot-maven-plugin.version>
+        <libridge.plugin.spring-boot-maven-plugin.version>3.3.0</libridge.plugin.spring-boot-maven-plugin.version>
 		<libridge.plugin.maven-enforcer-plugin.version>3.4.1</libridge.plugin.maven-enforcer-plugin.version>
 		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
 		<libridge.plugin.maven-compiler-plugin.version>3.13.0</libridge.plugin.maven-compiler-plugin.version>

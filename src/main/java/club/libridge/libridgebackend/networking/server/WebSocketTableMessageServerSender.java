@@ -7,7 +7,7 @@ import static club.libridge.libridgebackend.core.MessageTypes.INVALID_RULESET_ME
 import static club.libridge.libridgebackend.core.MessageTypes.STRAIN_CHOOSER_MESSAGE;
 import static club.libridge.libridgebackend.core.MessageTypes.VALID_RULESET_MESSAGE;
 
-import club.libridge.libridgebackend.app.TableController;
+import club.libridge.libridgebackend.app.TableWebsocketController;
 import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.networking.websockets.TableMessageDTO;
@@ -19,7 +19,7 @@ import lombok.NonNull;
 public class WebSocketTableMessageServerSender {
 
     @NonNull
-    private final TableController tableController;
+    private final TableWebsocketController tableController;
 
     public void sendDealToTable(Deal deal, Table table) {
         TableMessageDTO tableDealDTO = createBuilderWithTable(table).withMessage(DEAL_MESSAGE).withDeal(deal).build();

@@ -20,6 +20,9 @@ mvn_package:
 mvn_integration_tests:
 	mvn -Dspring-boot.run.profiles=development verify
 
+run_development:
+	java -Dspring.profiles.active=development -jar libridge-server.jar
+
 copy_jar:
 	cp target/libridgebackend-server-1.0.0-alpha.jar ./libridge-server.jar
 
