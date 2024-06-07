@@ -21,7 +21,7 @@ public class TableController {
     @NonNull
     private final LibridgeServer libridgeServer;
 
-    @GetMapping("/")
+    @GetMapping
     public List<LobbyScreenTableDTO> getTables() {
         LOGGER.trace("getTables");
         return this.libridgeServer.getTablesDTO();

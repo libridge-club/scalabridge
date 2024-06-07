@@ -5,7 +5,6 @@ import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,6 @@ public class BoardController {
     @NonNull
     private final BoardRepository repository;
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/getRandom")
     public BoardDTO getRandomBoard() {
         LOGGER.trace("getRandomBoard");
