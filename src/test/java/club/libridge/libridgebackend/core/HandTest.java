@@ -95,4 +95,15 @@ public class HandTest {
         assertEquals(finalString, hand.toString());
     }
 
+    @Test
+    public void shouldBeEqualToAnotherHandWithSameCards() {
+        Card aceOfSpades = new Card(Suit.SPADES, Rank.ACE);
+        Hand hand1 = new Hand();
+        Hand hand2 = new Hand();
+        hand1.addCard(aceOfSpades);
+        hand2.addCard(aceOfSpades);
+
+        assertEquals(hand1, hand2);
+    }
+
 }

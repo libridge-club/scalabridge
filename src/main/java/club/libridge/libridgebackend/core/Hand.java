@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode
 public class Hand {
 
     private final List<Card> cards;
@@ -77,6 +75,26 @@ public class Hand {
             response.append("|");
         }
         return response.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Hand)) {
+            return false;
+        }
+        Hand other = (Hand) o;
+        HashSet<Card> myCards = new HashSet<Card>(this.getCards());
+        HashSet<Card> otherCards = new HashSet<Card>(other.getCards());
+        return myCards.equals(otherCards);
+    }
+
+    @Override
+    public int hashCode() {
+        HashSet<Card> myCards = new HashSet<Card>(this.getCards());
+        return myCards.hashCode();
     }
 
 }

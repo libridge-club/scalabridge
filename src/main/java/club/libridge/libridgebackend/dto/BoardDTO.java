@@ -10,6 +10,7 @@ import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.NumberOfTricks;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
+import lombok.Getter;
 import lombok.Setter;
 
 public class BoardDTO {
@@ -17,9 +18,9 @@ public class BoardDTO {
     @Setter
     private UUID id;
 
-    @SuppressWarnings("unused") // Spring serializes this in http responses.
+    @Getter
     private final Board board;
-    @SuppressWarnings("unused") // Spring serializes this in http responses.
+    @Getter
     private final String pavlicekNumber;
     private Map<Direction, Map<Strain, Integer>> doubleDummyTable;
 
