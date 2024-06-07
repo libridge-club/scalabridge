@@ -48,6 +48,7 @@
 		<libridge.jackson.version>2.16.2</libridge.jackson.version>
 		<libridge.lombok.version>1.18.32</libridge.lombok.version>
 
+        <libridge.plugin.spring-boot-maven-plugin.version>2.0.2.RELEASE</libridge.plugin.spring-boot-maven-plugin.version>
 		<libridge.plugin.maven-enforcer-plugin.version>3.4.1</libridge.plugin.maven-enforcer-plugin.version>
 		<libridge.plugin.maven-checkstyle-plugin.version>3.3.1</libridge.plugin.maven-checkstyle-plugin.version>
 		<libridge.plugin.maven-compiler-plugin.version>3.13.0</libridge.plugin.maven-compiler-plugin.version>
@@ -57,6 +58,8 @@
 		<libridge.plugin.pitest-maven-plugin.version>1.16.0</libridge.plugin.pitest-maven-plugin.version>
 		<libridge.plugin.pitest-maven-plugin-junit.version>1.2.1</libridge.plugin.pitest-maven-plugin-junit.version>
 		<libridge.plugin.maven-pmd-plugin.version>3.22.0</libridge.plugin.maven-pmd-plugin.version>
+        <libridge.plugin.build-helper-maven-plugin.version>3.6.0</libridge.plugin.build-helper-maven-plugin.version>
+        <libridge.plugin.maven-failsafe-plugin.version>3.2.5</libridge.plugin.maven-failsafe-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -97,6 +100,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${libridge.postgresql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency> <!-- Add this as a development dependency -->
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 		<dependency>
@@ -199,7 +207,7 @@
 
 			<!-- Phase: initialize - initialize build state, e.g. set properties or create directories. -->
 				<!-- Goal: jacoco-maven-plugin:prepare-agent -->
-
+            
 			<!-- Phase: process-resources - copy and process the resources into the destination directory, ready for packaging. -->
 				<!-- Goal: maven-resources-plugin:resources -->
 			<!-- Phase: compile - compile the source code -->
@@ -233,6 +241,28 @@
 				</configuration>
 			</plugin>
 
+            <!-- Phase: generate-test-sources -->
+            <plugin>
+				<!-- Goal: build-helper-maven-plugin:add-test-source -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${libridge.plugin.build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>add-integration-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/integration-test/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 			<!-- Phase: test - run unit tests -->
 			<plugin>
 				<!-- Goal: surefire:test -->
@@ -258,13 +288,52 @@
 				<!-- Goal: maven-jar-plugin:jar -->
 				<!-- Goal: spring-boot-maven-plugin:repackage -->
 			<plugin>
+                <!-- Phase: pre-integration-test -->
+                    <!-- Goal: spring-boot-maven-plugin:start -->
+                <!-- Phase: post-integration-test -->
+                    <!-- Goal: spring-boot-maven-plugin:stop -->
 				<!-- Anyway, the explicit addition of the plugin is needed -->
 				<!-- for spring boot to bind spring-boot-maven-plugin:repackage to package phase -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${libridge.plugin.spring-boot-maven-plugin.version}</version> 
+                <executions>
+                    <execution>
+                    <id>pre-integration-test</id>
+                    <goals>
+                        <goal>start</goal>
+                    </goals>
+                    </execution>
+                    <execution>
+                    <id>post-integration-test</id>
+                    <goals>
+                        <goal>stop</goal>
+                    </goals>
+                    </execution>
+                </executions>
 			</plugin>
 
+             <!-- Phase: integration-test - run unit tests -->
+            <plugin>
+                <!-- Goal: maven-failsafe-plugin:integration-test -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${libridge.plugin.maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                </configuration>
+            </plugin>
+
 			<!-- Phase: verify - run any checks to verify the package is valid and meets quality criteria. -->
+                <!-- Goal: maven-failsafe-plugin:verify - verify if the integration tests failed or not -->
 			<plugin>
 				<!-- There are many different goals in jacoco-->
 				<!-- According to documentation, prepare-agent and report should bind themselves automatically -->

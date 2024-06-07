@@ -1,21 +1,26 @@
 APP_NAME=rulojuka/libridge-backend
 
-all: package
+all: integration_tests
 
 clean:
 	mvn clean
 	rm -f ./libridge-server.jar
 	docker rmi $(APP_NAME); true
 
-package: kill_server package_server copy_server
+package: kill_server mvn_package copy_jar
+
+integration_tests: kill_server mvn_integration_tests copy_jar
 
 kill_server:
 	@./kill_server.sh
 
-package_server:
+mvn_package:
 	mvn clean package
 
-copy_server:
+mvn_integration_tests:
+	mvn -Dspring-boot.run.profiles=development verify
+
+copy_jar:
 	cp target/libridgebackend-server-1.0.0-alpha.jar ./libridge-server.jar
 
 build:

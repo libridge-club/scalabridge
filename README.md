@@ -15,11 +15,18 @@ libridge-backend uses Java 21 (LTS) in development and in runtime. It will be up
 libridge uses Makefile and [Maven](https://maven.apache.org/) to build. The following line should be enough:
 
 ```
-make server
+make
 ```
 
 This should clean your directory, compile, run all tests, package the final .jar at the `target/` directory and copy it into `./libridge-server.jar`. Use `java -jar ./libridge-server.jar` to run it.
 
+## Only unit tests
+
+If you'd like to run only the unit tests:
+
+```
+mvn test
+```
 
 ## Code quality
 
