@@ -15,6 +15,7 @@ import lombok.Setter;
 public class PlayerDTO {
 
     private UUID player;
+    private String nickname;
     private UUID table;
     private boolean spectator;
     private Direction direction;

@@ -26,6 +26,7 @@ import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Deal;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Player;
+import club.libridge.libridgebackend.core.RandomNameGenerator;
 import club.libridge.libridgebackend.core.RandomUtils;
 import club.libridge.libridgebackend.core.Strain;
 import club.libridge.libridgebackend.dds.DoubleDummyTable;
@@ -71,7 +72,7 @@ public class LibridgeServer {
     }
 
     public void addUnnammedPlayer(UUID identifier) {
-        Player player = new Player(identifier, "LibridgeServer Unnamed");
+        Player player = new Player(identifier, RandomNameGenerator.getRandomName());
         this.identifierToPlayerMap.put(identifier, player);
     }
 
@@ -161,10 +162,14 @@ public class LibridgeServer {
         this.webSocketTableMessageServerSender.sendStrainChooserToTable(direction, table);
     }
 
-    public void setNickname(UUID identifier, String nickname) {
+    public PlayerDTO setNickname(UUID identifier, String nickname) {
         LOGGER.debug("Setting nickname for player {}", identifier);
         Player player = identifierToPlayerMap.get(identifier);
         player.setNickname(nickname);
+        PlayerDTO playerDTO = new PlayerDTO();
+        playerDTO.setPlayer(player.getIdentifier());
+        playerDTO.setNickname(player.getNickname());
+        return playerDTO;
     }
 
     public String getNicknameFromIdentifier(UUID identifier) {
@@ -303,7 +308,7 @@ public class LibridgeServer {
                 isSpectator = table.isSpectator(player);
                 direction = table.getDirectionFrom(player);
             }
-            PlayerDTO playerDTO = new PlayerDTO(playerIdentifier, tableIdentifier, isSpectator, direction, gameName);
+            PlayerDTO playerDTO = new PlayerDTO(playerIdentifier, player.getNickname(), tableIdentifier, isSpectator, direction, gameName);
             list.add(playerDTO);
             LOGGER.debug("Added player: {} {} {} {}", playerIdentifier, tableIdentifier, isSpectator, direction);
         }

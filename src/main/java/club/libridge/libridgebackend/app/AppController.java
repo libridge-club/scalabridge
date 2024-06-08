@@ -22,6 +22,7 @@ import club.libridge.libridgebackend.dto.RequestWithString;
 import club.libridge.libridgebackend.networking.messages.GameServerFromGameNameIdentifier;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import club.libridge.libridgebackend.networking.server.gameserver.GameServer;
+import club.libridge.libridgebackend.networking.websockets.PlayerDTO;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
@@ -89,9 +90,9 @@ public class AppController {
     }
 
     @PutMapping("/player/nickname")
-    public void setNickname(@RequestHeader("PlayerUUID") String playerUUID, @RequestBody RequestWithString requestWithString) {
+    public PlayerDTO setNickname(@RequestHeader("PlayerUUID") String playerUUID, @RequestBody RequestWithString requestWithString) {
         LOGGER.trace("setNickname");
-        this.libridgeServer.setNickname(getUUID(playerUUID), requestWithString.getContent());
+        return this.libridgeServer.setNickname(getUUID(playerUUID), requestWithString.getContent());
     }
 
     @PostMapping("/claim")
