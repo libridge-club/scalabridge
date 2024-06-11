@@ -1,19 +1,14 @@
 package club.libridge.libridgebackend.pbn;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import club.libridge.libridgebackend.core.Board;
-import club.libridge.libridgebackend.core.Card;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.core.HandBuilder;
-import club.libridge.libridgebackend.core.Suit;
-import club.libridge.libridgebackend.core.comparators.CardInsideHandComparator;
 
 public final class PBNUtils {
 
@@ -77,18 +72,7 @@ public final class PBNUtils {
      * - Defined at section 3.4.11  The Deal tag
      */
     private static String dealTagPartialStringFromHand(Hand hand) {
-        StringBuilder returnValue = new StringBuilder(20);
-        hand.sort(new CardInsideHandComparator());
-        Collection<Card> cards = hand.getCards();
-        List<Suit> suitsInDescendingOrder = List.of(Suit.SPADES, Suit.HEARTS, Suit.DIAMONDS, Suit.CLUBS);
-        for (Suit currentSuit : suitsInDescendingOrder) {
-            if (Suit.SPADES != currentSuit) {
-                returnValue.append(".");
-            }
-            cards.stream().filter(x -> x.getSuit() == currentSuit).map(x -> x.getRank().getSymbol()).forEach(returnValue::append);
-        }
-
-        return returnValue.toString();
+        return hand.toString();
     }
 
     /**

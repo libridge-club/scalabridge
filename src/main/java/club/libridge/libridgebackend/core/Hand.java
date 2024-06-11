@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import club.libridge.libridgebackend.core.comparators.CardInsideHandComparator;
+
 public class Hand {
 
     private final List<Card> cards;
@@ -66,15 +68,23 @@ public class Hand {
         return Collections.unmodifiableList(this.cards);
     }
 
+    /**
+     * Implemented from PBN Standard 2.1
+     * - Defined at section 3.4.11  The Deal tag
+     */
     @Override
     public String toString() {
-        StringBuilder response = new StringBuilder();
-        response.append("|");
-        for (Card card : cards) {
-            response.append(card.toString());
-            response.append("|");
+        StringBuilder returnValue = new StringBuilder(20);
+        this.sort(new CardInsideHandComparator());
+        List<Suit> suitsInDescendingOrder = List.of(Suit.SPADES, Suit.HEARTS, Suit.DIAMONDS, Suit.CLUBS);
+        for (Suit currentSuit : suitsInDescendingOrder) {
+            if (Suit.SPADES != currentSuit) {
+                returnValue.append(".");
+            }
+            this.getCards().stream().filter(card -> card.getSuit() == currentSuit).map(card -> card.getRank().getSymbol())
+                    .forEach(returnValue::append);
         }
-        return response.toString();
+        return returnValue.toString();
     }
 
     @Override
