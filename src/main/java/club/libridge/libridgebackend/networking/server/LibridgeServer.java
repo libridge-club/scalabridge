@@ -381,7 +381,7 @@ public class LibridgeServer {
             // TODO: handle exception
         }
 
-        System.out.println(wholeFile);
+        // System.out.println(wholeFile);
         String[] lines = wholeFile.split("\n");
         for (int i = 0; i < 2000 && ((i + 1) < lines.length); i += 2) {
             String[] pbn = lines[i].split("\"");
