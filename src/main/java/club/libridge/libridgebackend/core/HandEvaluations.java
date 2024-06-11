@@ -141,4 +141,27 @@ public final class HandEvaluations {
         return this.getNumberOfCardsPerSuit().values().stream().reduce(0, Math::max);
     }
 
+    /**
+     * @return Return the longest major if they have different lengths. If they have equal lengths, return spades.
+     */
+    public Suit getLongestMajor() {
+        return this.compareSuitLengthWithPriority(Suit.SPADES, Suit.HEARTS);
+    }
+
+    /**
+     * @return Return the longest minor if they have different lengths. If they have equal lengths, return clubs.
+     */
+    public Suit getLongestMinor() {
+        return this.compareSuitLengthWithPriority(Suit.CLUBS, Suit.DIAMONDS);
+    }
+
+    private Suit compareSuitLengthWithPriority(Suit highPrioritySuit, Suit lowPrioritySuit) {
+        Map<Suit, Integer> map = this.getNumberOfCardsPerSuit();
+        if (map.get(lowPrioritySuit) > map.get(highPrioritySuit)) {
+            return lowPrioritySuit;
+        } else {
+            return highPrioritySuit;
+        }
+    }
+
 }

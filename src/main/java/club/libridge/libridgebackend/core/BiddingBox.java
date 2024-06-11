@@ -59,4 +59,9 @@ public final class BiddingBox {
         throw new IllegalArgumentException("Call must be a PASS, DOUBLE, REDOUBLE or BID");
     }
 
+    public static Call getBid(@NonNull OddTricks oddTricks, @NonNull Strain strain) {
+        String label = oddTricks.getSymbol() + strain.getSymbol();
+        return (Bid) get(label);
+    }
+
 }

@@ -26,13 +26,17 @@ public class BoardFactory {
     private final PavlicekNumber pavlicekNumberGenerator;
 
     public Board fromEntity(BoardEntity boardEntity) {
-        return pavlicekNumberGenerator.getBoardFromNumber(new BigInteger(boardEntity.getPavlicekNumber()));
+        return this.fromPavlicekNumber(boardEntity.getPavlicekNumber());
     }
 
     public Board getRandom() {
         BoardDealer boardDealer = new ShuffledBoardDealer();
         CardDeck anyCardDeck = new Complete52CardDeck();
         return boardDealer.dealBoard(Direction.NORTH, anyCardDeck.getDeck());
+    }
+
+    public Board fromPavlicekNumber(String pavlicekNumber) {
+        return pavlicekNumberGenerator.getBoardFromNumber(new BigInteger(pavlicekNumber));
     }
 
 }

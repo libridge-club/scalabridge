@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import club.libridge.libridgebackend.core.Call;
 import club.libridge.libridgebackend.core.rulesets.abstractrulesets.Ruleset;
+import club.libridge.libridgebackend.networking.jackson.CallSerializer;
 import club.libridge.libridgebackend.networking.jackson.RulesetSerializer;
 
 @Configuration
@@ -27,6 +29,7 @@ public class ServerObjectMapperConfiguration {
         // Add custom Serializers
         SimpleModule module = new SimpleModule();
         module.addSerializer(Ruleset.class, new RulesetSerializer());
+        module.addSerializer(Call.class, new CallSerializer());
 
         objectMapperOnlyFields.registerModule(module);
 
