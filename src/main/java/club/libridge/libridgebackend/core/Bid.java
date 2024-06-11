@@ -28,4 +28,9 @@ public class Bid extends Call implements Comparable<Bid> {
         return this.getStrain().compareTo(o.getStrain());
     }
 
+    @Override
+    public String toString() {
+        return oddTricks.getSymbol() + strain.getSymbol();
+    }
+
 }

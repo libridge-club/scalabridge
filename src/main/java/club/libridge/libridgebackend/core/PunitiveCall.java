@@ -41,4 +41,13 @@ public final class PunitiveCall extends Call {
         }
     }
 
+    @Override
+    public String toString() {
+        if (this.isDouble()) {
+            return "X";
+        } else {
+            return "XX";
+        }
+    }
+
 }

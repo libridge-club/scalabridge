@@ -13,4 +13,9 @@ public class PassingCall extends Call {
         return randomInt;
     }
 
+    @Override
+    public String toString() {
+        return "P";
+    }
+
 }
