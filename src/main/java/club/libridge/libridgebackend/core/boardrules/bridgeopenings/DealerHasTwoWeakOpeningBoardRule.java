@@ -6,7 +6,7 @@ import club.libridge.libridgebackend.core.HandEvaluations;
 import club.libridge.libridgebackend.core.Suit;
 import club.libridge.libridgebackend.core.boardrules.BoardRule;
 
-public class DealerHasTwoWeakOpeningBoardRule implements BoardRule {
+public class DealerHasTwoWeakOpeningBoardRule extends SingletonEqualsAndHashcode implements BoardRule {
 
     @Override
     public boolean isValid(Board board) {
