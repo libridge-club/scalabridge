@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 
-@SpringBootTest() // FIXME so that this does not start another server instance and use the already running server
+@SpringBootTest()
 @ActiveProfiles("development")
 public class TableControllerIT {
 

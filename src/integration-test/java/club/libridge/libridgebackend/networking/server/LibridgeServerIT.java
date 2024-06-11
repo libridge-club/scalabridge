@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest() // FIXME so that this does not start another server instance and use the already running server
+@SpringBootTest()
 @ActiveProfiles("development")
 public class LibridgeServerIT {
 

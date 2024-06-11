@@ -23,7 +23,7 @@ import club.libridge.libridgebackend.app.persistence.BoardRepository;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.dto.BoardDTO;
 
-@SpringBootTest() // FIXME so that this does not start another server instance and use the already running server
+@SpringBootTest()
 @ActiveProfiles("development")
 public class BoardControllerIT {
 
