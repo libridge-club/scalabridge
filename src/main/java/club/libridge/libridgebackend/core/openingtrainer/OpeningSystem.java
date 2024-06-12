@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import club.libridge.libridgebackend.core.BiddingBox;
 import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Call;
@@ -22,6 +24,7 @@ import club.libridge.libridgebackend.core.boardrules.bridgeopenings.DealerHasTwo
 import club.libridge.libridgebackend.core.boardrules.bridgeopenings.DealerHasTwoNoTrumpOpeningBoardRule;
 import club.libridge.libridgebackend.core.boardrules.bridgeopenings.DealerHasTwoWeakOpeningBoardRule;
 
+@Component
 public class OpeningSystem {
 
     interface BiddableFromBoard {

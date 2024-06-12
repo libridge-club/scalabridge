@@ -15,8 +15,11 @@ import org.springframework.web.server.ResponseStatusException;
 import club.libridge.libridgebackend.app.persistence.BoardEntity;
 import club.libridge.libridgebackend.app.persistence.BoardFactory;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
+import club.libridge.libridgebackend.core.Call;
 import club.libridge.libridgebackend.core.Direction;
+import club.libridge.libridgebackend.core.Hand;
 import club.libridge.libridgebackend.dto.ExpectedCallDTO;
+import club.libridge.libridgebackend.dto.HandWithCallDTO;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -33,6 +36,9 @@ public class OpeningTrainerController {
     @NonNull
     private final BoardFactory boardFactory;
 
+    @NonNull
+    private final OpeningTrainerService openingTrainerService;
+
     @GetMapping("/{boardId}/{direction}")
     public ExpectedCallDTO getExpectedCall(@PathVariable UUID boardId, @PathVariable Direction direction) {
         LOGGER.trace("getExpectedCall");
@@ -42,6 +48,14 @@ public class OpeningTrainerController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no board in the database with this ID");
         }
+    }
+
+    @GetMapping("/getRandom")
+    public HandWithCallDTO getRandom() {
+        LOGGER.trace("openingTrainer_getRandom");
+        Hand hand = openingTrainerService.getRandom();
+        Call call = openingTrainerService.getCall(hand);
+        return new HandWithCallDTO(hand, call);
     }
 
 }
