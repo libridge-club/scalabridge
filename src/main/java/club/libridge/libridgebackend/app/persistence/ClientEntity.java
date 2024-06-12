@@ -25,7 +25,7 @@ public class ClientEntity {
 
     @Column
     @NotNull
-    private String address;
+    private byte[] address;
 
     @Column
     @NotNull
