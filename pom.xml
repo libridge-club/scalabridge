@@ -60,6 +60,7 @@
 		<libridge.plugin.maven-pmd-plugin.version>3.22.0</libridge.plugin.maven-pmd-plugin.version>
         <libridge.plugin.build-helper-maven-plugin.version>3.6.0</libridge.plugin.build-helper-maven-plugin.version>
         <libridge.plugin.maven-failsafe-plugin.version>3.2.5</libridge.plugin.maven-failsafe-plugin.version>
+        <libridge.spring-boot-starter-webflux.version>3.3.0</libridge.spring-boot-starter-webflux.version>
 	</properties>
 
 	<dependencies>
@@ -144,6 +145,11 @@
 			<version>${libridge.lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${libridge.spring-boot-starter-webflux.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build> <!-- Run mvn fr.jcgay.maven.plugins:buildplan-maven-plugin:list-phase to see the phase and goals-->

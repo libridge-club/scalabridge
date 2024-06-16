@@ -1,18 +1,22 @@
 package club.libridge.libridgebackend.dto;
 
+import java.util.List;
+
 import club.libridge.libridgebackend.core.Call;
 import club.libridge.libridgebackend.core.Hand;
 import lombok.Value;
 
 @Value
-public class HandWithCallDTO {
+public class HandWithCandidateBidsDTO {
 
     private String hand;
     private String call;
+    private List<CallWithProbabilityDTO> candidates;
 
-    public HandWithCallDTO(Hand hand, Call call) {
+    public HandWithCandidateBidsDTO(Hand hand, Call call, List<CallWithProbabilityDTO> candidates) {
         this.hand = hand.toString();
         this.call = call.toString();
+        this.candidates = candidates;
     }
 
 }
