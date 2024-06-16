@@ -1,5 +1,7 @@
 package club.libridge.libridgebackend.ben;
 
+import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
+
 import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,8 @@ public class BenWebClient {
                     .block();
             return Optional.of(objectMapper.readValue(jsonText, BenResponse.class));
         } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
             return Optional.empty();
         }
     }
