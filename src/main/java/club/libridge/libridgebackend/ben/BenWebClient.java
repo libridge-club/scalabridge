@@ -16,7 +16,7 @@ import club.libridge.libridgebackend.core.Hand;
 @Component
 public class BenWebClient {
 
-    private static final String DEFAULT_BEN_URL = "http://localhost:8082";
+    private static final String DEFAULT_BEN_URL = "http://ben-api:8082";
     private static final String BID_ENDPOINT = "/bid/";
     private ObjectMapper objectMapper = new ObjectMapper();
     private WebClient client;
