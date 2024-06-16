@@ -21,6 +21,8 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    networks:
+      - network-with-ben
 
   db:
     image: 'postgres:16.3'
@@ -30,8 +32,13 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=libridge
     restart: always
+    networks:
+      - network-with-ben
 
 secrets:
   keystore-file:
     file: ${KEYSTORE_LOCATION}
 
+networks:
+  network-with-ben:
+    name: my-network-with-ben
