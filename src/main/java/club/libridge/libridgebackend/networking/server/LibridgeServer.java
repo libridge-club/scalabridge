@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
-import club.libridge.libridgebackend.app.PlayerController;
 import club.libridge.libridgebackend.app.TableWebsocketController;
+import club.libridge.libridgebackend.app.controller.PlayerController;
 import club.libridge.libridgebackend.app.persistence.BoardEntity;
 import club.libridge.libridgebackend.app.persistence.BoardFactory;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;

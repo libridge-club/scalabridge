@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import club.libridge.libridgebackend.app.controller.TableController;
 import club.libridge.libridgebackend.dto.LobbyScreenTableDTO;
 import club.libridge.libridgebackend.networking.server.LibridgeServer;
 

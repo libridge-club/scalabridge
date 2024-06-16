@@ -1,4 +1,4 @@
-package club.libridge.libridgebackend.app;
+package club.libridge.libridgebackend.app.service;
 
 import org.springframework.stereotype.Service;
 

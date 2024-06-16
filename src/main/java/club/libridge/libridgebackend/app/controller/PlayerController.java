@@ -1,4 +1,4 @@
-package club.libridge.libridgebackend.app;
+package club.libridge.libridgebackend.app.controller;
 
 import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 

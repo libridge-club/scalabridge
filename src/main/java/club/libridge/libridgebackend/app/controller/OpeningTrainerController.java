@@ -1,4 +1,4 @@
-package club.libridge.libridgebackend.app;
+package club.libridge.libridgebackend.app.controller;
 
 import static club.libridge.libridgebackend.logging.LibridgeLogger.LOGGER;
 
@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import club.libridge.libridgebackend.app.persistence.BoardEntity;
 import club.libridge.libridgebackend.app.persistence.BoardFactory;
 import club.libridge.libridgebackend.app.persistence.BoardRepository;
+import club.libridge.libridgebackend.app.service.OpeningTrainerService;
 import club.libridge.libridgebackend.core.Call;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
