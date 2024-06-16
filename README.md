@@ -6,6 +6,8 @@
 
 libridge is a free/libre, open-source bridge server and it is (soon) available in [libridge.club](https://libridge.club/).
 
+libridge uses [ben](https://github.com/lorserker/ben) for bidding suggestions (and more in the future). Don't forget to check out this awesome bridge engine.
+
 ## Java version
 
 libridge-backend uses Java 21 (LTS) in development and in runtime. It will be updated to Java 25 LTS after its launch at September 2025.
