@@ -13,6 +13,7 @@ import club.libridge.libridgebackend.core.Board;
 import club.libridge.libridgebackend.core.Call;
 import club.libridge.libridgebackend.core.Direction;
 import club.libridge.libridgebackend.core.Hand;
+import club.libridge.libridgebackend.core.exceptions.ImpossibleBoardException;
 import club.libridge.libridgebackend.core.openingtrainer.OpeningSystem;
 import club.libridge.libridgebackend.dto.CallWithProbabilityDTO;
 import club.libridge.libridgebackend.dto.HandWithCandidateBidsDTO;
@@ -32,6 +33,8 @@ public class OpeningTrainerService {
     @NonNull
     private final BenWebClient benWebClient;
 
+    private static final int MAXIMUM_NUMBER_OF_TRIES = 1000;
+
     private Hand getRandom() {
         return this.boardFactory.getRandom().getHandOf(Direction.NORTH);
     }
@@ -41,9 +44,19 @@ public class OpeningTrainerService {
         return this.openingSystem.getCall(boardWithProvidedHand);
     }
 
-    public HandWithCandidateBidsDTO getRandomHandWithCandidateBidsDTO() {
-        Hand hand = this.getRandom();
-        Call call = this.getCall(hand);
+    public HandWithCandidateBidsDTO getRandomHandWithCandidateBids(@NonNull Boolean avoidPass) {
+        Hand hand;
+        Call call;
+        int numberOfTries = 0;
+        do {
+            if (numberOfTries > MAXIMUM_NUMBER_OF_TRIES) {
+                throw new ImpossibleBoardException();
+            } else {
+                numberOfTries++;
+            }
+            hand = this.getRandom();
+            call = this.getCall(hand);
+        } while (avoidPass && call.isPass());
         Optional<BenResponse> benResponseOptional = benWebClient.getBidForEmptyAuction(hand);
         if (benResponseOptional.isEmpty()) {
             return new HandWithCandidateBidsDTO(hand, call, null);
