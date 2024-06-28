@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>club.libridge</groupId>
-	<artifactId>libridgebackend-server</artifactId>
+	<artifactId>libridgebackend</artifactId>
 	<version>1.0.0-alpha</version>
 	<name>libridge backend server</name>
 	<description>More information at https://github.com/rulojuka/libridge-backend</description>
