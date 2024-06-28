@@ -17,6 +17,10 @@ lib/
 # vscode
 .vscode/
 
+# Metals
+.metals/
+.bloop/
+
 # Eclipse
 .checkstyle
 
