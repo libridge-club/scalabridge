@@ -12,4 +12,8 @@ public enum Rank {
     private final String name;
     private final String symbol;
 
+    public String getSymbol() { // FIXME This is not lomboked because scala cannot cope with it very well
+        return this.symbol;
+    }
+
 }

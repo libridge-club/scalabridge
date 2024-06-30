@@ -239,6 +239,12 @@
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>${libridge.plugin.scala-maven-plugin.version}</version>
+                <configuration>
+                    <recompileMode>incremental</recompileMode>
+                    <!-- Don't know why, but this is the only compileOrder that works. -->
+                    <!-- Probably because the scala compiler cant see the Lombok generated code if the Java code is not yet compiled  -->
+                    <compileOrder>JavaThenScala</compileOrder> 
+                </configuration>
                 <executions>
 					<execution>
                         <id>scala-compile</id>
