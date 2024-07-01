@@ -19,14 +19,16 @@ class DuplicateBoardTest extends AnyFlatSpec {
     )
     val board15 = DuplicateBoardNumber.FIFTEEN
     val hands = CompleteDeckInFourHands(allCompleteHands)
+    val subject = DuplicateBoard(board15, hands)
     "A DuplicateBoard" should "get the correct dealer" in {
         val dealerForBoard15 = Direction.SOUTH
-        val subject = DuplicateBoard(board15, hands)
         assertResult(dealerForBoard15)(subject.getDealer())
     }
     "A DuplicateBoard" should "get the correct vulnerability" in {
-        val subject = DuplicateBoard(board15, hands)
         assertResult(true)(subject.isVulnerable(Side.NORTHSOUTH))
         assertResult(false)(subject.isVulnerable(Side.EASTWEST))
+    }
+    "A DuplicateBoard" should "get hand of a direction" in {
+        assertResult(completeHand2)(subject.getHandOf(Direction.EAST))
     }
 }
