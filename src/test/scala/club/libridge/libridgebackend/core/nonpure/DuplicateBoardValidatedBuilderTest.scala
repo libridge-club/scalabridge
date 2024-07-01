@@ -2,9 +2,10 @@ package club.libridge.libridgebackend.core.nonpure
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
-import club.libridge.libridgebackend.core.DuplicateBoardNumber
+import club.libridge.libridgebackend.core.EffectiveDuplicateBoardNumber
 import club.libridge.libridgebackend.core.Direction
 import club.libridge.libridgebackend.core.CompleteHand
+import club.libridge.libridgebackend.core.PositiveInteger
 
 @Test
 class DuplicateBoardValidatedBuilderTest extends AnyFlatSpec {
@@ -18,7 +19,7 @@ class DuplicateBoardValidatedBuilderTest extends AnyFlatSpec {
     val northCompleteHand = CompleteHand(northPbnString)
     "A DuplicateBoardValidatedBuilder" should "build a DuplicateBoard from int and pbnDealTag" in {
         val subject = DuplicateBoardValidatedBuilder.build(boardNumber,pbnDealTag)
-        assertResult(DuplicateBoardNumber.ONE)(subject.number)
+        assertResult(PositiveInteger(boardNumber))(subject.number)
         assertResult(northCompleteHand)(subject.hands.getHandOf(Direction.NORTH))
     }
     "A DuplicateBoardValidatedBuilder" should "throw exception if something is invalid" in {

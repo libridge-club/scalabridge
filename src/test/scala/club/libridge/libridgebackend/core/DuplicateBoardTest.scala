@@ -4,6 +4,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import club.libridge.libridgebackend.core.CompleteHand
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
+import club.libridge.libridgebackend.core.nonpure.PositiveIntegerValidatedBuilder
 
 @Test
 class DuplicateBoardTest extends AnyFlatSpec {
@@ -17,7 +18,7 @@ class DuplicateBoardTest extends AnyFlatSpec {
         Direction.SOUTH -> completeHand3,
         Direction.WEST -> completeHand4
     )
-    val board15 = DuplicateBoardNumber.FIFTEEN
+    val board15 = PositiveIntegerValidatedBuilder.build(PositiveInteger(15))
     val hands = CompleteDeckInFourHands(allCompleteHands)
     val subject = DuplicateBoard(board15, hands)
     "A DuplicateBoard" should "get the correct dealer" in {
