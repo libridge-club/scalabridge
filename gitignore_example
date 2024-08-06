@@ -23,6 +23,11 @@ lib/
 
 # Eclipse
 .checkstyle
+*.iml
+
+# IntelliJ
+.idea/
+
 
 # configuration file example
 src/main/resources/config.dev.xml
