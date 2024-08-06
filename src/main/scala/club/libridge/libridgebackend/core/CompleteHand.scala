@@ -19,7 +19,7 @@ case object CompleteHand:
     )
     private val SEPARATOR_CHAR:Char = '.'
     private def INVALID_RANK_SYMBOL(rankSymbol:Char):String = s"${rankSymbol} is an invalid rank symbol."
-    private val INVALID_NUMBER_OF_CARDS = s"A complete hand must have ${GameConstants.SIZE_OF_HAND} cards."
+    private def INVALID_NUMBER_OF_CARDS(pbnString:String) = s"Failed with hand: ${pbnString}. A complete hand must have ${GameConstants.SIZE_OF_HAND} cards."
 
     private def validate(pbnString: String): Either[Iterable[Exception], CompleteHand] = {
         getCardsFromPbnString(pbnString) match {
@@ -28,7 +28,7 @@ case object CompleteHand:
                 if (cards.size == GameConstants.SIZE_OF_HAND)
                     Right(CompleteHand(pbnString))
                 else
-                    Left(Iterable(new IllegalArgumentException(INVALID_NUMBER_OF_CARDS)))
+                    Left(Iterable(new IllegalArgumentException(INVALID_NUMBER_OF_CARDS(pbnString))))
             }
         }
 
