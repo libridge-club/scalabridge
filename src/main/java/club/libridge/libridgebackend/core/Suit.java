@@ -1,5 +1,6 @@
 package club.libridge.libridgebackend.core;
 
+import club.libridge.libridgebackend.core.exceptions.SuitDoesNotExistException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,5 +12,18 @@ public enum Suit {
     private final String name;
     private final String symbol;
     private final char unicodeSymbol;
+
+    // Static copy to avoid many copies
+    private static Suit[] vals = values();
+
+    public static Suit getFromAbbreviation(char abbreviation) {
+        char lowercase = Character.toLowerCase(abbreviation);
+        for (Suit suit : vals) {
+            if (suit.symbol.toLowerCase().charAt(0) == lowercase) {
+                return suit;
+            }
+        }
+        throw new SuitDoesNotExistException();
+    }
 
 }

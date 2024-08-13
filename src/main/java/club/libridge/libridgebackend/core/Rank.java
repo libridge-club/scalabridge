@@ -1,5 +1,6 @@
 package club.libridge.libridgebackend.core;
 
+import club.libridge.libridgebackend.core.exceptions.RankDoesNotExistException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,6 +15,19 @@ public enum Rank {
 
     public String getSymbol() { // FIXME This is not lomboked because scala cannot cope with it very well
         return this.symbol;
+    }
+
+    // Static copy to avoid many copies
+    private static Rank[] vals = values();
+
+    public static Rank getFromAbbreviation(char abbreviation) {
+        char lowercase = Character.toLowerCase(abbreviation);
+        for (Rank rank : vals) {
+            if (rank.symbol.toLowerCase().charAt(0) == lowercase) {
+                return rank;
+            }
+        }
+        throw new RankDoesNotExistException();
     }
 
 }

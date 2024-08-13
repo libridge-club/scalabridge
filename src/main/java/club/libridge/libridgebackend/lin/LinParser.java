@@ -5,6 +5,9 @@ import java.util.List;
 
 import club.libridge.libridgebackend.core.BiddingBox;
 import club.libridge.libridgebackend.core.Call;
+import club.libridge.libridgebackend.core.Card;
+import club.libridge.libridgebackend.core.Rank;
+import club.libridge.libridgebackend.core.Suit;
 
 /**
  * LIN files are text files and usually smaller than 1MB.
@@ -38,12 +41,12 @@ public class LinParser {
     }
 
     @SuppressWarnings("checkstyle:NoWhitespaceAfter")
-    public static Call parseFromLinCall(String linCall) {
+    public static Call parseFromLinMB(String mb) {
         String pass = "P";
         String[] ddouble = { "D", "DBL" };
         String[] redouble = { "DD", "REDBL", "R" };
 
-        String linCallWithoutAlert = linCall.replace("!", "").toUpperCase();
+        String linCallWithoutAlert = mb.replace("!", "").toUpperCase();
 
         if (pass.equals(linCallWithoutAlert)) {
             return BiddingBox.PASS;
@@ -60,5 +63,13 @@ public class LinParser {
         }
         String label = linCallWithoutAlert.substring(0, 2);
         return BiddingBox.get(label);
+    }
+
+    public static Card parseFromLinPC(String pc) {
+        Character suitSymbol = pc.charAt(0);
+        Character rankSymbol = pc.charAt(1);
+        Suit suit = Suit.getFromAbbreviation(suitSymbol);
+        Rank rank = Rank.getFromAbbreviation(rankSymbol);
+        return new Card(suit, rank);
     }
 }

@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.core;
 
-import club.libridge.libridgebackend.core.exceptions.DirectionDoesNotExist;
+import club.libridge.libridgebackend.core.exceptions.DirectionDoesNotExistException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -72,6 +72,6 @@ public enum Direction {
                 return direction;
             }
         }
-        throw new DirectionDoesNotExist();
+        throw new DirectionDoesNotExistException();
     }
 }

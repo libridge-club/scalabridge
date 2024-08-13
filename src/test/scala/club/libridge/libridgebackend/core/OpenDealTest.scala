@@ -1,6 +1,6 @@
 package club.libridge.libridgebackend.core
 
-import club.libridge.libridgebackend.core.events.PlayCardEvent
+import club.libridge.libridgebackend.core.events.{Event, PlayCardEvent}
 import club.libridge.libridgebackend.core.nonpure.DuplicateBoardValidatedBuilder
 import org.junit.jupiter.api.Test
 import org.scalatest.flatspec.AnyFlatSpec
@@ -30,7 +30,7 @@ class OpenDealTest extends AnyFlatSpec {
   }
 
 
-  "An OpenDeal " should "finish a valid card play" in {
+  "An OpenDeal " should "return its deal actions in first to last order" in {
     val boardNumber: Int = 2
     val pbnDealTag: String = "S:J.QJ953.K43.AT52 98765.A.QJ9.K964 QT43.T8762.AT.J7 AK2.K4.87652.Q83"
     val validDuplicateBoard: DuplicateBoard = DuplicateBoardValidatedBuilder.build(boardNumber, pbnDealTag)
@@ -39,9 +39,18 @@ class OpenDealTest extends AnyFlatSpec {
 
     var openDeal: OpenDeal = OpenDeal.empty(validDuplicateBoard)
     for (card <- listOfCards) {
-      openDeal = openDeal.addAction(PlayCardEvent(Instant.now, findDirection(card, validDuplicateBoard), card))
+      openDeal = openDeal.addEvent(PlayCardEvent(Instant.now, findDirection(card, validDuplicateBoard), card))
     }
-    assertResult(listOfCardStrings.size, openDeal.getDealActions.size)
+    val dealActions = openDeal.getDealEvents
+    assertEventIsCorrect("h2", dealActions(0))
+    assertEventIsCorrect("c9", dealActions.last)
+  }
+
+  private def assertEventIsCorrect(expectedCardString: String, event: Event) = {
+    assert(event.isInstanceOf[PlayCardEvent])
+    val expectedCard = new Card(getSuit(expectedCardString), getRank(expectedCardString))
+    val actualCard = event.asInstanceOf[PlayCardEvent].card
+    assertResult(expectedCard)(actualCard)
   }
 
 

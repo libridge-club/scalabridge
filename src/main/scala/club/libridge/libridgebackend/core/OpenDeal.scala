@@ -4,15 +4,15 @@ import club.libridge.libridgebackend.core.events.Event
 
 case class OpenDeal(duplicateBoard:DuplicateBoard, private val laterFirstDealEvents:List[Event]){
 
-    def addAction(dealAction:Event):OpenDeal = {
-        this.copy(laterFirstDealEvents=(dealAction +: this.laterFirstDealEvents))
+    def addEvent(dealEvent:Event):OpenDeal = {
+        this.copy(laterFirstDealEvents=(dealEvent +: this.laterFirstDealEvents))
     }
 
     /**
      * @return A Vector with the Deal Events. This is a vector to allow a client to resume
      *         reading the Events from a specific point in case they want it.
      */
-    def getDealActions:Vector[Event] = {
+    def getDealEvents:Vector[Event] = {
         this.laterFirstDealEvents.reverse.toVector
     }
 }

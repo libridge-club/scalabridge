@@ -1,5 +1,6 @@
 package club.libridge.libridgebackend.lin;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -10,7 +11,17 @@ import club.libridge.libridgebackend.core.Auction;
 import club.libridge.libridgebackend.core.BoardNumber;
 import club.libridge.libridgebackend.core.Call;
 import club.libridge.libridgebackend.core.Direction;
+import club.libridge.libridgebackend.core.OpenDeal;
 import club.libridge.libridgebackend.core.PlasticBoard;
+import club.libridge.libridgebackend.core.events.CallEvent;
+import club.libridge.libridgebackend.core.events.PlayCardEvent;
+import club.libridge.libridgebackend.core.nonpure.DuplicateBoardValidatedBuilder;
+import club.libridge.libridgebackend.pbn.PBNUtils;
+
+/**
+ * You can use https://www.bridgebase.com/tools/handviewer.html?lin=<lin>
+ * to see what bridge base expects from a LIN.
+ */
 
 public class ParsedLin {
 
@@ -62,7 +73,7 @@ public class ParsedLin {
                         currentAuction = new Auction(dealer);
                         currentDirection = dealer;
                     } else if (key.equals(LinKey.MB)) { // For every bid
-                        Call currentCall = LinParser.parseFromLinCall(value);
+                        Call currentCall = LinParser.parseFromLinMB(value);
                         currentAuction.makeCall(currentDirection, currentCall);
                         currentDirection = currentDirection.next();
                     }
@@ -72,6 +83,55 @@ public class ParsedLin {
             this.auctions = auctionList;
             return this.getAuctions(); // Guaranteeing memoization
         }
+    }
+
+    public List<OpenDeal> getDeals() {
+        List<OpenDeal> dealList = new ArrayList<OpenDeal>();
+        List<Integer> qxIndexes = symbolToListOfIndexes.get(LinKey.QX);
+        if (!qxIndexes.isEmpty()) {
+            int firstQxIndex = qxIndexes.get(0);
+            Direction currentDealer = null;
+            Direction currentDirectionToMakeCall = null;
+            Direction currentDirectionToPlayCard = null;
+            boolean firstPlayedCard = true;
+            Integer boardNumber = null;
+            OpenDeal currentDeal = null;
+            boolean firstBoard = true;
+            for (int currentIndex = firstQxIndex; currentIndex < list.size(); currentIndex++) {
+                LinKey key = list.get(currentIndex).getKey();
+                String value = list.get(currentIndex).getValue();
+                if (key.equals(LinKey.QX)) {
+                    if (firstBoard) {
+                        firstBoard = false;
+                    } else { // Board is finished. Add deal to list
+                        dealList.add(currentDeal);
+                    }
+                    // Then start the new board
+                    boardNumber = Integer.parseInt(value.substring(1));
+                    currentDealer = Direction.WEST.next(boardNumber);
+                    currentDirectionToMakeCall = currentDealer;
+                    currentDirectionToPlayCard = null;
+                    firstPlayedCard = true;
+                } else if (key.equals(LinKey.MD)) { // Hands definition
+                    String dealTagString = PBNUtils.getDealTagStringFromLinMD(value, currentDealer);
+                    currentDeal = OpenDeal.empty(DuplicateBoardValidatedBuilder.build(boardNumber, dealTagString));
+                } else if (key.equals(LinKey.MB)) { // For every call
+                    currentDeal = currentDeal.addEvent(new CallEvent(Instant.now(), currentDirectionToMakeCall, LinParser.parseFromLinMB(value)));
+                    currentDirectionToMakeCall = currentDirectionToMakeCall.next();
+                } else if (key.equals(LinKey.PC)) { // For every card played
+                    // FIXME Play card direction is wrong for now.
+                    // It needs to check who is declarer for first trick and who won the trick for the other tricks.
+                    currentDirectionToPlayCard = Direction.NORTH;
+                    currentDeal = currentDeal.addEvent(new PlayCardEvent(Instant.now(), currentDirectionToPlayCard, LinParser.parseFromLinPC(value)));
+                }
+            }
+            dealList.add(currentDeal); // Finish last deal.
+        }
+        return dealList;
+    }
+
+    public ArrayList<LinKeyValuePair> getAllValuePairs() {
+        return this.list;
     }
 
 }

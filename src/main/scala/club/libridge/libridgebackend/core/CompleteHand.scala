@@ -10,7 +10,6 @@ case class CompleteHand(pbnString: String) extends Validated[CompleteHand]:
 
 end CompleteHand
 case object CompleteHand:
-    private val SYMBOL_TO_RANK_MAP = Rank.values().map( (rank) => (rank.getSymbol().charAt(0) -> rank) ).toMap
     private val ORDER_OF_SUITS_MAP = Map(
         0 -> Suit.SPADES,
         1 -> Suit.HEARTS,
@@ -18,7 +17,6 @@ case object CompleteHand:
         3 -> Suit.CLUBS,
     )
     private val SEPARATOR_CHAR:Char = '.'
-    private def INVALID_RANK_SYMBOL(rankSymbol:Char):String = s"${rankSymbol} is an invalid rank symbol."
     private def INVALID_NUMBER_OF_CARDS(pbnString:String) = s"Failed with hand: ${pbnString}. A complete hand must have ${GameConstants.SIZE_OF_HAND} cards."
 
     private def validate(pbnString: String): Either[Iterable[Exception], CompleteHand] = {
@@ -58,9 +56,11 @@ case object CompleteHand:
     }
 
     private def getCardOptionFromRankSymbolAndSuit(rankSymbol:Char, suit: Suit): Either[IllegalArgumentException, Card] = {
-        SYMBOL_TO_RANK_MAP.get(rankSymbol) match {
-            case Some(rank) => Right(new Card(suit,rank))
-            case None => Left(new IllegalArgumentException(INVALID_RANK_SYMBOL(rankSymbol)))
+        try {
+            val rank = Rank.getFromAbbreviation(rankSymbol)
+            Right(new Card(suit,rank))
+        } catch {
+            case e: Throwable => Left(new IllegalArgumentException(e.getMessage))
         }
     }
 end CompleteHand
