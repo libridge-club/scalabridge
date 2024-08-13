@@ -66,33 +66,6 @@ public class CardTest {
     }
 
     @Test
-    public void shouldReturnIfItIsAManOrNot() {
-        assertTrue(jackOfClubs.isMan());
-        assertTrue(kingOfDiamonds.isMan());
-        assertFalse(twoOfDiamonds.isMan());
-
-    }
-
-    @Test
-    public void shouldReturnIfItIsAWomanOrNot() {
-        assertFalse(jackOfClubs.isWoman());
-        assertTrue(queenOfDiamonds.isWoman());
-    }
-
-    @Test
-    public void shouldReturnIfItIsAHeartOrNot() {
-        assertFalse(jackOfClubs.isHeart());
-        assertTrue(queenOfHearts.isHeart());
-    }
-
-    @Test
-    public void shouldReturnIfItIsTheKingOfHeartsOrNot() {
-        assertFalse(kingOfDiamonds.isKingOfHearts());
-        assertFalse(queenOfHearts.isKingOfHearts());
-        assertTrue(kingOfHearts.isKingOfHearts());
-    }
-
-    @Test
     public void shouldTransformToStringUsingSuitAndRankSymbol() {
         String kingOfHeartsString = "hK";
         String threeOfClubsString = "c3";

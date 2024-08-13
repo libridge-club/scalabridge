@@ -131,48 +131,6 @@ public class Trick { // FIXME to remove all of the king only features
         return false;
     }
 
-    public int getNumberOfMen() {
-        int men = 0;
-        for (Card c : this.getCards()) {
-            if (c.isMan()) {
-                men++;
-            }
-        }
-        return men;
-    }
-
-    public int getNumberOfWomen() {
-        int women = 0;
-        for (Card c : this.getCards()) {
-            if (c.isWoman()) {
-                women++;
-            }
-        }
-        return women;
-    }
-
-    public void setLastTwo() {
-        this.lastTwo = true;
-    }
-
-    public boolean hasKingOfHearts() {
-        for (Card c : this.getCards()) {
-            if (c.isKingOfHearts()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public int getNumberOfHeartsCards() {
-        int hearts = 0;
-        for (Card c : this.getCards()) {
-            if (c.isHeart()) {
-                hearts++;
-            }
-        }
-        return hearts;
-    }
 
     private int getNumberOfCards() {
         return this.getCards().size();

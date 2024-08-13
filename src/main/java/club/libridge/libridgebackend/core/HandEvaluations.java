@@ -57,10 +57,6 @@ public final class HandEvaluations {
         return numberOfCards == 2;
     }
 
-    public boolean onlyHasHearts() {
-        return this.getCards().stream().map(Card::isHeart).reduce(true, Boolean::logicalAnd);
-    }
-
     public boolean hasFiveOrMoreCardsInAMajorSuit() {
         int longestMajor = this.getNumberOfCardsPerSuit().entrySet().stream().filter(this::isMajorSuit).map(Entry::getValue).reduce(0, Math::max);
         return longestMajor >= 5;

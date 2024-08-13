@@ -36,30 +36,6 @@ public class Card {
         return this.getSuit().compareTo(otherCard.getSuit());
     }
 
-    public boolean isMan() {
-        return this.isJack() || this.isKing();
-    }
-
-    public boolean isWoman() {
-        return this.getRank() == Rank.QUEEN;
-    }
-
-    public boolean isKingOfHearts() {
-        return this.isKing() && this.isHeart();
-    }
-
-    private boolean isJack() {
-        return this.getRank() == Rank.JACK;
-    }
-
-    private boolean isKing() {
-        return this.getRank() == Rank.KING;
-    }
-
-    public boolean isHeart() {
-        return this.getSuit() == Suit.HEARTS;
-    }
-
     @Override
     public String toString() {
         return this.suit.getSymbol() + this.rank.getSymbol();

@@ -1,7 +1,5 @@
 package club.libridge.libridgebackend.core;
 
-import static club.libridge.libridgebackend.core.GameConstants.NUMBER_OF_TRICKS_IN_A_COMPLETE_HAND;
-
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -174,10 +172,6 @@ public class Deal {
     private Trick startNewTrick() {
         Trick newTrick = new Trick(currentPlayer);
         tricks.add(newTrick);
-        boolean isOneOfLastTwoTricks = completedTricks >= (NUMBER_OF_TRICKS_IN_A_COMPLETE_HAND - 2);
-        if (isOneOfLastTwoTricks) {
-            newTrick.setLastTwo();
-        }
         return newTrick;
     }
 

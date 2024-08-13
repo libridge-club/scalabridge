@@ -139,21 +139,6 @@ public class HandEvaluationsTest extends TestWithMocks {
     }
 
     @Test
-    public void shouldReturnIfItOnlyHasHearts() {
-        when(aceOfSpades.isHeart()).thenReturn(false);
-        when(kingOfHearts.isHeart()).thenReturn(true);
-
-        Hand firstHand = this.createMockedHandWithDistribution(this.createSuitDistribution(0, 1, 0, 0));
-        Hand secondHand = this.createMockedHandWithDistribution(this.createSuitDistribution(1, 1, 0, 0));
-
-        HandEvaluations onlyHeartsHandEvaluations = new HandEvaluations(firstHand);
-        HandEvaluations notOnlyHeartsHandEvaluations = new HandEvaluations(secondHand);
-
-        assertTrue(onlyHeartsHandEvaluations.onlyHasHearts());
-        assertFalse(notOnlyHeartsHandEvaluations.onlyHasHearts());
-    }
-
-    @Test
     public void shouldReturnIfItHasFiveOrMoreCardsInAMajorSuit() {
         Hand firstHand = this.createMockedHandWithDistribution(this.createSuitDistribution(0, 0, 0, 5));
         Hand secondHand = this.createMockedHandWithDistribution(this.createSuitDistribution(0, 5, 0, 5));
