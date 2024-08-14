@@ -20,17 +20,23 @@ lib/
 # Metals
 .metals/
 .bloop/
+.bsp
+project/metals.sbt
 
 # Eclipse
 .checkstyle
 *.iml
+/.classpath
+/.project
+/.settings/
 
 # IntelliJ
 .idea/
 
+# sbt
+project/.bloop/
+project/project
+project/target
 
-# configuration file example
-src/main/resources/config.dev.xml
-
-# docker compose environment file
-.env
+target
+.scala-build/
