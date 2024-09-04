@@ -1,7 +1,12 @@
 package scalabridge
 
-/** The Laws of Bridge use "Denomination" but we will use Strain as it is more
+import scalabridge.exceptions.StrainException
+import scala.collection.immutable.ListMap
+
+/** 
+  * The Laws of Bridge use "Denomination" but we will use Strain as it is more
   * common.
+  * LAW 18 - BIDS specify the order of the Strains. We use it here.
   */
 enum Strain(name: String) extends java.lang.Enum[Strain] {
   case CLUBS extends Strain("Clubs")
@@ -9,21 +14,28 @@ enum Strain(name: String) extends java.lang.Enum[Strain] {
   case HEARTS extends Strain("Hearts")
   case SPADES extends Strain("Spades")
   case NOTRUMPS extends Strain("No Trumps")
-  def getSymbol: String = String.valueOf(this.name.charAt(0))
   def getName: String = this.name
+  def getSymbol: String = String.valueOf(this.name.charAt(0))
 }
 object Strain {
-  val mapFromSuit: Map[Suit, Strain] = Map(
-    Suit.SPADES -> Strain.SPADES,
-    Suit.HEARTS -> Strain.HEARTS,
-    Suit.DIAMONDS -> Strain.DIAMONDS,
-    Suit.CLUBS -> Strain.CLUBS
-  )
   def fromSuit(suit: Suit): Strain =
-    mapFromSuit.getOrElse(suit, Strain.NOTRUMPS)
+    suit match
+      case scalabridge.Suit.CLUBS =>  Strain.CLUBS
+      case scalabridge.Suit.DIAMONDS => Strain.DIAMONDS
+      case scalabridge.Suit.HEARTS => Strain.HEARTS
+      case scalabridge.Suit.SPADES => Strain.SPADES
+
+  // Guessing a ListMap is faster than a HashMap here. If this becomes an issue:
+  // Benchmark it, write the results here and refactor.
+  // Static copy to avoid many copies
+  private val nameToStrainMap = ListMap.empty ++ Strain.values
+    .map(strain => strain.getSymbol.substring(0,1) -> strain)
+    .toMap
+    
   def fromName(name: String): Strain = {
-    Strain.values.find(strain => strain.getName == name) match
+    val uppercase = name.toUpperCase()
+    nameToStrainMap.get(uppercase) match
       case Some(value) => value
-      case None        => Strain.NOTRUMPS
+      case None        => throw StrainException() // FIXME make it free of side effects
   }
 }

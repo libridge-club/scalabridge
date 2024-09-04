@@ -1,7 +1,12 @@
 package scalabridge
 
 import scalabridge.exceptions.RankException
+import scala.collection.immutable.HashMap
 
+/**
+  * LAW 1 - THE PACK specify that the ranks are ordered.
+  * We follow that order here.
+  */
 enum Rank(name: String, symbol: String) extends java.lang.Enum[Rank] {
   case TWO extends Rank("Two", "2")
   case THREE extends Rank("Three", "3")
@@ -18,32 +23,21 @@ enum Rank(name: String, symbol: String) extends java.lang.Enum[Rank] {
   case ACE extends Rank("Ace", "A")
   def getName: String = this.name
   def getSymbol: String = this.symbol
+  override def toString: String = this.symbol
 }
 object Rank {
-  // Static copy to avoid many copies // TODO refactor into a map or treemap
-  private val vals = List(
-    Rank.TWO,
-    Rank.THREE,
-    Rank.FOUR,
-    Rank.FIVE,
-    Rank.SIX,
-    Rank.SEVEN,
-    Rank.EIGHT,
-    Rank.NINE,
-    Rank.TEN,
-    Rank.JACK,
-    Rank.QUEEN,
-    Rank.KING,
-    Rank.ACE
-  )
+  // Guessing a HashMap is faster than a ListMap here. If this becomes an issue:
+  // Benchmark it, write the results here and refactor.
+  // Static value to avoid many copies
+  private val symbolToRankMap = HashMap.empty ++ Rank.values
+    .map(rank => rank.getSymbol -> rank)
+    .toMap
 
   def getFromAbbreviation(abbreviation: Char): Rank = {
-    val lowercase = Character.toLowerCase(abbreviation)
-    try {
-      vals.find(rank => rank.getSymbol.toLowerCase.charAt(0) == lowercase).get
-    } catch {
-      case e: NoSuchElementException => throw RankException()
-    }
+    val uppercase = Character.toUpperCase(abbreviation).toString()
+    symbolToRankMap.get(uppercase) match
+      case None => throw RankException() // FIXME make it free of side effects
+      case Some(value) => value
   }
 
 }
