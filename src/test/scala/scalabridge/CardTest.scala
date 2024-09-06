@@ -26,4 +26,8 @@ class CardTest extends AnyFlatSpec {
         assert(twoOfDiamonds.getPoints == 0)
         assert(queenOfHearts.getPoints == 2)
     }
+    "A Card" should "have getters for suit and rank for java interoperability" in {
+        assert(twoOfDiamonds.getSuit == Suit.DIAMONDS)
+        assert(twoOfDiamonds.getRank == Rank.TWO)
+    }
 }

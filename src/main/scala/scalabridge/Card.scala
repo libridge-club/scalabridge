@@ -7,6 +7,8 @@ case class Card(suit: Suit, rank: Rank) {
   def compareSuit(otherCard: Card): Int = this.suit.compareTo(otherCard.suit)
   def getPoints: Int = Card.getPoints(this)
   override def toString: String = this.suit.getSymbol + this.rank.getSymbol
+  def getSuit: Suit = this.suit;
+  def getRank: Rank = this.rank;
 }
 private case object Card {
   // Guessing a ListMap is faster than a HashMap here. If this becomes an issue:
