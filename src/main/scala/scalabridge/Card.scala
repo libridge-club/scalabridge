@@ -13,7 +13,7 @@ case class Card(suit: Suit, rank: Rank) {
 private case object Card {
   // Guessing a ListMap is faster than a HashMap here. If this becomes an issue:
   // Benchmark it, write the results here and refactor.
-  private val pointsMap = ListMap( 
+  private val pointsMap = ListMap(
     Rank.ACE -> 4,
     Rank.KING -> 3,
     Rank.QUEEN -> 2,

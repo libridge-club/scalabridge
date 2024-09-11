@@ -5,5 +5,4 @@ import scalabridge.Direction
 
 import java.time.Instant
 
-case class PlayCardEvent(timestamp: Instant, direction: Direction, card: Card)
-    extends DealEvent {}
+case class PlayCardEvent(timestamp: Instant, direction: Direction, card: Card) extends DealEvent {}

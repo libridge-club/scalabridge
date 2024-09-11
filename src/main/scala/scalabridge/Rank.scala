@@ -26,6 +26,19 @@ enum Rank(name: String, symbol: String) extends java.lang.Enum[Rank] {
   override def toString: String = this.symbol
 }
 object Rank {
+  def getTWO(): Rank = TWO
+  def getTHREE(): Rank = THREE
+  def getFOUR(): Rank = FOUR
+  def getFIVE(): Rank = FIVE
+  def getSIX(): Rank = SIX
+  def getSEVEN(): Rank = SEVEN
+  def getEIGHT(): Rank = EIGHT
+  def getNINE(): Rank = NINE
+  def getTEN(): Rank = TEN
+  def getJACK(): Rank = JACK
+  def getQUEEN(): Rank = QUEEN
+  def getKING(): Rank = KING
+  def getACE(): Rank = ACE
   // Guessing a HashMap is faster than a ListMap here. If this becomes an issue:
   // Benchmark it, write the results here and refactor.
   // Static value to avoid many copies
@@ -36,7 +49,7 @@ object Rank {
   def getFromAbbreviation(abbreviation: Char): Rank = {
     val uppercase = Character.toUpperCase(abbreviation).toString()
     symbolToRankMap.get(uppercase) match
-      case None => throw RankException() // FIXME make it free of side effects
+      case None        => throw RankException() // FIXME make it free of side effects
       case Some(value) => value
   }
 

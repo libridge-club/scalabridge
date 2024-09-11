@@ -18,20 +18,25 @@ enum Strain(name: String) extends java.lang.Enum[Strain] {
   def getSymbol: String = String.valueOf(this.name.charAt(0))
 }
 object Strain {
+  def getCLUBS() = CLUBS
+  def getDIAMONDS() = DIAMONDS
+  def getHEARTS() = HEARTS
+  def getSPADES() = SPADES
+  def getNOTRUMPS() = NOTRUMPS
   def fromSuit(suit: Suit): Strain =
     suit match
-      case scalabridge.Suit.CLUBS =>  Strain.CLUBS
+      case scalabridge.Suit.CLUBS    => Strain.CLUBS
       case scalabridge.Suit.DIAMONDS => Strain.DIAMONDS
-      case scalabridge.Suit.HEARTS => Strain.HEARTS
-      case scalabridge.Suit.SPADES => Strain.SPADES
+      case scalabridge.Suit.HEARTS   => Strain.HEARTS
+      case scalabridge.Suit.SPADES   => Strain.SPADES
 
   // Guessing a ListMap is faster than a HashMap here. If this becomes an issue:
   // Benchmark it, write the results here and refactor.
   // Static copy to avoid many copies
   private val nameToStrainMap = ListMap.empty ++ Strain.values
-    .map(strain => strain.getSymbol.substring(0,1) -> strain)
+    .map(strain => strain.getSymbol.substring(0, 1) -> strain)
     .toMap
-    
+
   def fromName(name: String): Strain = {
     val uppercase = name.toUpperCase()
     nameToStrainMap.get(uppercase) match

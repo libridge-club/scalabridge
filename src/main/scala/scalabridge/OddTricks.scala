@@ -1,7 +1,6 @@
 package scalabridge
 
-enum OddTricks(name: String, symbol: String, level: Int)
-    extends java.lang.Enum[OddTricks] {
+enum OddTricks(name: String, symbol: String, level: Int) extends java.lang.Enum[OddTricks] {
   case ONE extends OddTricks("One", "1", 1)
   case TWO extends OddTricks("Two", "2", 2)
   case THREE extends OddTricks("Three", "3", 3)
@@ -14,7 +13,14 @@ enum OddTricks(name: String, symbol: String, level: Int)
   def getLevel: Int = this.level
 }
 object OddTricks {
-  val mapFromLevel: Map[Int, OddTricks] =
+  def getONE() = ONE
+  def getTWO() = TWO
+  def getTHREE() = THREE
+  def getFOUR() = FOUR
+  def getFIVE() = FIVE
+  def getSIX() = SIX
+  def getSEVEN() = SEVEN
+  private val mapFromLevel: Map[Int, OddTricks] =
     OddTricks.values.map(oddTrick => oddTrick.getLevel -> oddTrick).toMap
 
   def fromLevel(level: Int): OddTricks = {

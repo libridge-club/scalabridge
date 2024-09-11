@@ -16,9 +16,8 @@ object DuplicateBoardValidatedBuilder {
       val first = pbnDealTag.charAt(0)
       val firstDirection = Direction.getFromAbbreviation(first)
       val hands = pbnDealTag.substring(2).split(" ")
-      val completeHands = hands.map((handString) =>
-        CompleteHandValidatedBuilder.build(CompleteHand(handString))
-      )
+      val completeHands =
+        hands.map((handString) => CompleteHandValidatedBuilder.build(CompleteHand(handString)))
       val directionToCompleteHandMap = completeHands.zipWithIndex
         .map((hand, index) => (firstDirection.next(index) -> hand))
         .toMap

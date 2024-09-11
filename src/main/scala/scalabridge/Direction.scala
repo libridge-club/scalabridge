@@ -1,6 +1,11 @@
 package scalabridge
 
 import scalabridge.exceptions.DirectionException
+import scala.jdk.CollectionConverters.*
+
+import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
 
 enum Direction(completeName: String, abbreviation: Char) extends java.lang.Enum[Direction] {
   case NORTH extends Direction("North", 'N')
@@ -9,31 +14,34 @@ enum Direction(completeName: String, abbreviation: Char) extends java.lang.Enum[
   case WEST extends Direction("West", 'W')
   def getCompleteName: String = this.completeName
   def getAbbreviation: Char = this.abbreviation
-  def isNorth: Boolean = Direction.NORTH == this
-  def isEast: Boolean = Direction.EAST == this
-  def isSouth: Boolean = Direction.SOUTH == this
-  def isWest: Boolean = Direction.WEST == this
+  def isNorth: Boolean = NORTH == this
+  def isEast: Boolean = EAST == this
+  def isSouth: Boolean = SOUTH == this
+  def isWest: Boolean = WEST == this
   def isNorthSouth: Boolean = this.isNorth || this.isSouth
   def isEastWest: Boolean = this.isEast || this.isWest
-  def next(n: Int): Direction = 
-    Direction.values((this.ordinal + n) % Direction.length)
+  def next(n: Int): Direction = Direction.next(this, n)
   def next: Direction = this.next(1)
 }
 object Direction {
-  private val length = Direction.values.length
-
-  def differenceBetween(leader: Direction, direction: Direction): Int = {
-    val result = (direction.ordinal - leader.ordinal) % Direction.length
+  def getNorth(): Direction = NORTH
+  def getEast(): Direction = EAST
+  def getSouth(): Direction = SOUTH
+  def getWest(): Direction = WEST
+  private val length = values.size
+  def next(direction: Direction, n: Int): Direction = {
+    Direction.fromOrdinal((direction.ordinal + n) % Direction.length)
+  }
+  def differenceBetween(directionA: Direction, directionB: Direction): Int = {
+    val result = (directionB.ordinal - directionA.ordinal) % Direction.length
     if (result < 0) return Direction.length + result
     result
   }
 
   def getFromAbbreviation(abbreviation: Char): Direction = {
-    try {
-      values.find(direction => direction.getAbbreviation == abbreviation.toUpper).get
-    } catch {
-      case e: NoSuchElementException => throw DirectionException()
-    }
+    Try(values.find(direction => direction.getAbbreviation == abbreviation.toUpper).get) match
+      case Success(value)     => value
+      case Failure(exception) => throw DirectionException()
   }
 
 }

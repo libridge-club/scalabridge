@@ -9,8 +9,7 @@ case class CompleteDeckInFourHands(hands: Map[Direction, CompleteHand])
     extends Validated[CompleteDeckInFourHands]:
   import CompleteDeckInFourHands._
 
-  override def getValid()
-      : Either[Iterable[Exception], CompleteDeckInFourHands] = validate(
+  override def getValid(): Either[Iterable[Exception], CompleteDeckInFourHands] = validate(
     this.hands
   )
 
@@ -21,9 +20,9 @@ case class CompleteDeckInFourHands(hands: Map[Direction, CompleteHand])
 end CompleteDeckInFourHands
 case object CompleteDeckInFourHands:
   private val MISSING_HAND =
-    "A plastic board must be constructed with a complete hand for all directions."
+    "A duplicate board must be constructed with a complete hand for all directions."
   private val MISSING_CARD =
-    "A plastic board must be constructed with all cards of the deck."
+    "A duplicate board must be constructed with all cards of the deck."
   private val TOTAL_NUMBER_OF_CARDS =
     GameConstants.NUMBER_OF_HANDS * GameConstants.SIZE_OF_HAND
 
