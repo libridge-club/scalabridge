@@ -1,6 +1,6 @@
 package scalabridge.exceptions
 
-final case class DirectionException(
-    private val message: String =
-      "This direction does not exist. Please use the correct abbreviation."
-) extends RuntimeException(message)
+final case class DirectionException(val illegalDirection: Char)
+    extends IllegalArgumentException(
+      s"The direction ${illegalDirection} does not exist. Please use the correct abbreviation."
+    )

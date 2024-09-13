@@ -1,7 +1,7 @@
 package scalabridge
 
 import scalabridge.events.{Event, PlayCardEvent}
-import scalabridge.nonpure.DuplicateBoardValidatedBuilder
+import scalabridge.nonpure.DuplicateBoardBuilder
 import org.junit.jupiter.api.Test
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -33,7 +33,7 @@ class OpenDealTest extends AnyFlatSpec {
     val boardNumber: Int = 2
     val pbnDealTag: String = "S:J.QJ953.K43.AT52 98765.A.QJ9.K964 QT43.T8762.AT.J7 AK2.K4.87652.Q83"
     val validDuplicateBoard: DuplicateBoard =
-      DuplicateBoardValidatedBuilder.build(boardNumber, pbnDealTag)
+      DuplicateBoardBuilder.build(boardNumber, pbnDealTag)
     val listOfCardStrings = List(
       "h2",
       "h4",

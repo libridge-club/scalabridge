@@ -1,9 +1,13 @@
 package scalabridge
 
+import scala.util.Try
+import scala.util.Failure
+import scala.util.Success
+
 case class CompleteHand(pbnString: String) extends Validated[CompleteHand]:
   import CompleteHand._
 
-  override def getValid(): Either[Iterable[Exception], CompleteHand] = validate(
+  override def getValid(): Either[Iterable[Throwable], CompleteHand] = validate(
     this.pbnString
   )
   val cards = getCardsFromPbnString(this.pbnString).getOrElse(Set.empty)
@@ -24,7 +28,7 @@ case object CompleteHand:
 
   private def validate(
       pbnString: String
-  ): Either[Iterable[Exception], CompleteHand] = {
+  ): Either[Iterable[Throwable], CompleteHand] = {
     getCardsFromPbnString(pbnString) match {
       case Left(exceptions) => Left(exceptions)
       case Right(cards) => {
@@ -43,7 +47,7 @@ case object CompleteHand:
 
   private def getCardsFromPbnString(
       pbnString: String
-  ): Either[Set[IllegalArgumentException], Set[Card]] = {
+  ): Either[Set[Throwable], Set[Card]] = {
     val suits = pbnString.split(SEPARATOR_CHAR);
     val (exceptions, cards) = suits.zipWithIndex.toSet
       .map { case (suit, index) =>
@@ -59,25 +63,22 @@ case object CompleteHand:
   private def createCardsFromStringAndSuit(
       cardsString: String,
       suit: Suit
-  ): Either[Set[IllegalArgumentException], Set[Card]] = {
+  ): Either[Set[Throwable], Set[Card]] = {
     val (exceptions, cards) = cardsString.toSet
-      .map((rankSymbol) => getCardOptionFromRankSymbolAndSuit(rankSymbol, suit))
-      .partitionMap(identity)
+      .map(getCardTryFromRankSymbolAndSuit(_, suit))
+      .partitionMap(_.toEither)
     if (exceptions.nonEmpty)
       Left(exceptions)
     else
       Right(cards)
   }
 
-  private def getCardOptionFromRankSymbolAndSuit(
+  private def getCardTryFromRankSymbolAndSuit(
       rankSymbol: Char,
       suit: Suit
-  ): Either[IllegalArgumentException, Card] = {
-    try {
-      val rank = Rank.getFromAbbreviation(rankSymbol)
-      Right(new Card(suit, rank))
-    } catch {
-      case e: Throwable => Left(new IllegalArgumentException(e.getMessage))
-    }
+  ): Try[Card] = {
+    Rank
+      .getFromAbbreviation(rankSymbol)
+      .collect(new Card(suit, _))
   }
 end CompleteHand

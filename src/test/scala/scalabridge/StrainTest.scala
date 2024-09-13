@@ -3,25 +3,29 @@ package scalabridge
 import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import scalabridge.exceptions.StrainException
+import scala.util.Success
 
 @Test
 class StrainTest extends AnyFlatSpec {
-    val clubs = Strain.CLUBS
-    val notrumps = Strain.NOTRUMPS
-    "A Strain" should "get from suit" in {
-        assert(Strain.fromSuit(Suit.CLUBS)==Strain.CLUBS)
-    }
-    "A Strain" should "get from name" in {
-        assert(Strain.fromName("c")==Strain.CLUBS)
-        assert(Strain.fromName("C")==Strain.CLUBS)
-        assert(Strain.fromName("N")==Strain.NOTRUMPS)
-        assertThrows[StrainException] {
-            Strain.fromName("x")
-        }
-    }
-    "A Strain" should "have order" in {
-        assert(clubs.compareTo(clubs) == 0)
-        assert(clubs.compareTo(notrumps) < 0)
-        assert(notrumps.compareTo(clubs) > 0)
-    }
+  val clubs = Strain.CLUBS
+  val notrumps = Strain.NOTRUMPS
+  "A Strain" should "get from suit" in {
+    assertResult(Strain.CLUBS)(Strain.fromSuit(Suit.CLUBS))
+  }
+  "A Strain" should "get from name" in {
+    assertResult(Success(Strain.CLUBS))(Strain.fromName("c"))
+    assertResult(Success(Strain.CLUBS))(Strain.fromName("C"))
+    assertResult(Success(Strain.NOTRUMPS))(Strain.fromName("N"))
+  }
+  "A Strain" should "return the correct exception when fromName fails" in {
+    val myIllegalStrain = "x"
+    val exception: StrainException =
+      Strain.fromName(myIllegalStrain).failed.get.asInstanceOf[StrainException]
+    assertResult(myIllegalStrain)(exception.illegalStrain)
+  }
+  "A Strain" should "have order" in {
+    assert(clubs.compareTo(clubs) == 0)
+    assert(clubs.compareTo(notrumps) < 0)
+    assert(notrumps.compareTo(clubs) > 0)
+  }
 }

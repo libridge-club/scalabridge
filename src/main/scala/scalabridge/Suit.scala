@@ -2,6 +2,9 @@ package scalabridge
 
 import scalabridge.exceptions.SuitException
 import scala.collection.immutable.ListMap
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 /**
   * LAW 1 - THE PACK specify that the suits are ordered.
@@ -29,11 +32,11 @@ object Suit {
     .map(suit => suit.getSymbol -> suit)
     .toMap
 
-  def getFromAbbreviation(abbreviation: Char): Suit = {
+  def getFromAbbreviation(abbreviation: Char): Try[Suit] = {
     val lowercase = Character.toLowerCase(abbreviation).toString()
     symbolToSuitMap.get(lowercase) match
-      case None        => throw SuitException() // FIXME make it free of side effects
-      case Some(value) => value
+      case Some(value) => Success(value)
+      case None        => Failure(SuitException(abbreviation))
   }
 
 }

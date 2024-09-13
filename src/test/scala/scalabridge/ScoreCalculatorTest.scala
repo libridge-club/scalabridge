@@ -3,45 +3,49 @@ package scalabridge
 import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import TricksMade._
+import scalabridge.nonpure.ContractFromTextValidatedBuilder
 
 @Test
 class ScoreCalculatorTest extends AnyFlatSpec {
+  private def getContract(text: String, vulnerabilityStatus: VulnerabilityStatus) =
+    ContractFromTextValidatedBuilder.build(text, vulnerabilityStatus)
+
   private val nonVul = VulnerabilityStatus.NONVULNERABLE
   private val vul = VulnerabilityStatus.VULNERABLE
   "A ScoreCalculator" should "score 1N= correctly" in {
-    assertResult(90)(ScoreCalculator.score(Contract.fromText("1N", nonVul), SEVEN))
-    assertResult(90)(ScoreCalculator.score(Contract.fromText("1N", vul), SEVEN))
+    assertResult(90)(ScoreCalculator.score(getContract("1N", nonVul), SEVEN))
+    assertResult(90)(ScoreCalculator.score(getContract("1N", vul), SEVEN))
   }
   "A ScoreCalculator" should "score 3N= correctly" in {
-    assertResult(400)(ScoreCalculator.score(Contract.fromText("3N", nonVul), NINE))
-    assertResult(600)(ScoreCalculator.score(Contract.fromText("3N", vul), NINE))
+    assertResult(400)(ScoreCalculator.score(getContract("3N", nonVul), NINE))
+    assertResult(600)(ScoreCalculator.score(getContract("3N", vul), NINE))
   }
   "A ScoreCalculator" should "score 7NXX= correctly" in {
-    assertResult(2280)(ScoreCalculator.score(Contract.fromText("7NXX", nonVul), THIRTEEN))
-    assertResult(2980)(ScoreCalculator.score(Contract.fromText("7NXX", vul), THIRTEEN))
+    assertResult(2280)(ScoreCalculator.score(getContract("7NXX", nonVul), THIRTEEN))
+    assertResult(2980)(ScoreCalculator.score(getContract("7NXX", vul), THIRTEEN))
   }
   "A ScoreCalculator" should "score some arbitrary contracts correctly" in {
-    assertResult(70)(ScoreCalculator.score(Contract.fromText("1C", vul), SEVEN));
-    assertResult(80)(ScoreCalculator.score(Contract.fromText("1H", vul), SEVEN));
-    assertResult(90)(ScoreCalculator.score(Contract.fromText("1C", vul), EIGHT));
-    assertResult(90)(ScoreCalculator.score(Contract.fromText("1N", vul), SEVEN));
-    assertResult(110)(ScoreCalculator.score(Contract.fromText("1H", vul), EIGHT));
-    assertResult(120)(ScoreCalculator.score(Contract.fromText("1N", vul), EIGHT));
-    assertResult(180)(ScoreCalculator.score(Contract.fromText("2DX", vul), EIGHT));
-    assertResult(180)(ScoreCalculator.score(Contract.fromText("1NX", vul), SEVEN));
-    assertResult(230)(ScoreCalculator.score(Contract.fromText("3S", nonVul), TWELVE));
-    assertResult(380)(ScoreCalculator.score(Contract.fromText("2DX", vul), NINE));
-    assertResult(420)(ScoreCalculator.score(Contract.fromText("5D", nonVul), TWELVE));
-    assertResult(620)(ScoreCalculator.score(Contract.fromText("5D", vul), TWELVE));
-    assertResult(670)(ScoreCalculator.score(Contract.fromText("3DX", vul), NINE));
-    assertResult(750)(ScoreCalculator.score(Contract.fromText("3NX", nonVul), ELEVEN));
-    assertResult(760)(ScoreCalculator.score(Contract.fromText("2DXX", vul), EIGHT));
-    assertResult(870)(ScoreCalculator.score(Contract.fromText("3DX", vul), TEN));
-    assertResult(980)(ScoreCalculator.score(Contract.fromText("6H", nonVul), TWELVE));
-    assertResult(1160)(ScoreCalculator.score(Contract.fromText("2DXX", vul), NINE));
-    assertResult(1330)(ScoreCalculator.score(Contract.fromText("3HX", vul), TWELVE));
-    assertResult(1370)(ScoreCalculator.score(Contract.fromText("6C", vul), TWELVE));
-    assertResult(1430)(ScoreCalculator.score(Contract.fromText("6H", vul), TWELVE));
+    assertResult(70)(ScoreCalculator.score(getContract("1C", vul), SEVEN));
+    assertResult(80)(ScoreCalculator.score(getContract("1H", vul), SEVEN));
+    assertResult(90)(ScoreCalculator.score(getContract("1C", vul), EIGHT));
+    assertResult(90)(ScoreCalculator.score(getContract("1N", vul), SEVEN));
+    assertResult(110)(ScoreCalculator.score(getContract("1H", vul), EIGHT));
+    assertResult(120)(ScoreCalculator.score(getContract("1N", vul), EIGHT));
+    assertResult(180)(ScoreCalculator.score(getContract("2DX", vul), EIGHT));
+    assertResult(180)(ScoreCalculator.score(getContract("1NX", vul), SEVEN));
+    assertResult(230)(ScoreCalculator.score(getContract("3S", nonVul), TWELVE));
+    assertResult(380)(ScoreCalculator.score(getContract("2DX", vul), NINE));
+    assertResult(420)(ScoreCalculator.score(getContract("5D", nonVul), TWELVE));
+    assertResult(620)(ScoreCalculator.score(getContract("5D", vul), TWELVE));
+    assertResult(670)(ScoreCalculator.score(getContract("3DX", vul), NINE));
+    assertResult(750)(ScoreCalculator.score(getContract("3NX", nonVul), ELEVEN));
+    assertResult(760)(ScoreCalculator.score(getContract("2DXX", vul), EIGHT));
+    assertResult(870)(ScoreCalculator.score(getContract("3DX", vul), TEN));
+    assertResult(980)(ScoreCalculator.score(getContract("6H", nonVul), TWELVE));
+    assertResult(1160)(ScoreCalculator.score(getContract("2DXX", vul), NINE));
+    assertResult(1330)(ScoreCalculator.score(getContract("3HX", vul), TWELVE));
+    assertResult(1370)(ScoreCalculator.score(getContract("6C", vul), TWELVE));
+    assertResult(1430)(ScoreCalculator.score(getContract("6H", vul), TWELVE));
   }
   "A ScoreCalculator" should "score all failed contracts correctly" in {
     // Trusting completely in http://rpbridge.net/cgi-bin/xsc2.pl

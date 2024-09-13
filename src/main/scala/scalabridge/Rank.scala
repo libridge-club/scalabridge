@@ -2,6 +2,9 @@ package scalabridge
 
 import scalabridge.exceptions.RankException
 import scala.collection.immutable.HashMap
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 /**
   * LAW 1 - THE PACK specify that the ranks are ordered.
@@ -46,11 +49,11 @@ object Rank {
     .map(rank => rank.getSymbol -> rank)
     .toMap
 
-  def getFromAbbreviation(abbreviation: Char): Rank = {
+  def getFromAbbreviation(abbreviation: Char): Try[Rank] = {
     val uppercase = Character.toUpperCase(abbreviation).toString()
     symbolToRankMap.get(uppercase) match
-      case None        => throw RankException() // FIXME make it free of side effects
-      case Some(value) => value
+      case Some(value) => Success(value)
+      case None        => Failure(RankException(abbreviation))
   }
 
 }

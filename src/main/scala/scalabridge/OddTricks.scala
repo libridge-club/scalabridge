@@ -1,5 +1,10 @@
 package scalabridge
 
+import scalabridge.exceptions.OddTricksException
+import scala.util.Success
+import scala.util.Failure
+import scala.util.Try
+
 enum OddTricks(name: String, symbol: String, level: Int) extends java.lang.Enum[OddTricks] {
   case ONE extends OddTricks("One", "1", 1)
   case TWO extends OddTricks("Two", "2", 2)
@@ -23,17 +28,10 @@ object OddTricks {
   private val mapFromLevel: Map[Int, OddTricks] =
     OddTricks.values.map(oddTrick => oddTrick.getLevel -> oddTrick).toMap
 
-  def fromLevel(level: Int): OddTricks = {
-    if (level < 1 || level > 7)
-      throw new IllegalArgumentException(
-        "Level should be between 1 and 7 inclusive."
-      )
+  def fromLevel(level: Int): Try[OddTricks] = {
     OddTricks.mapFromLevel.get(level) match {
-      case Some(oddTrick) => oddTrick
-      case None =>
-        throw new IllegalArgumentException(
-          "Level should be between 1 and 7 inclusive."
-        )
+      case Some(oddTrick) => Success(oddTrick)
+      case None           => Failure(OddTricksException(level.toString))
     }
   }
 }

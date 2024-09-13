@@ -2,6 +2,9 @@ package scalabridge
 
 import scalabridge.exceptions.StrainException
 import scala.collection.immutable.ListMap
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 /** 
   * The Laws of Bridge use "Denomination" but we will use Strain as it is more
@@ -37,10 +40,9 @@ object Strain {
     .map(strain => strain.getSymbol.substring(0, 1) -> strain)
     .toMap
 
-  def fromName(name: String): Strain = {
-    val uppercase = name.toUpperCase()
-    nameToStrainMap.get(uppercase) match
-      case Some(value) => value
-      case None        => throw StrainException() // FIXME make it free of side effects
+  def fromName(name: String): Try[Strain] = {
+    nameToStrainMap.get(name.toUpperCase()) match
+      case Some(value) => Success(value)
+      case None        => Failure(StrainException(name))
   }
 }

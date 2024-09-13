@@ -7,14 +7,14 @@ import scalabridge.Direction
 import scalabridge.CompleteHand
 import scalabridge.CompleteDeckInFourHands
 
-object DuplicateBoardValidatedBuilder {
+object DuplicateBoardBuilder {
 
   def build(boardNumber: Int, pbnDealTag: String): DuplicateBoard = {
     try {
       val positiveInteger =
         PositiveIntegerValidatedBuilder.build(PositiveInteger(boardNumber))
       val first = pbnDealTag.charAt(0)
-      val firstDirection = Direction.getFromAbbreviation(first)
+      val firstDirection = Direction.getFromAbbreviation(first).get
       val hands = pbnDealTag.substring(2).split(" ")
       val completeHands =
         hands.map((handString) => CompleteHandValidatedBuilder.build(CompleteHand(handString)))

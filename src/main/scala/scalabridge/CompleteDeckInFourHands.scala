@@ -9,7 +9,7 @@ case class CompleteDeckInFourHands(hands: Map[Direction, CompleteHand])
     extends Validated[CompleteDeckInFourHands]:
   import CompleteDeckInFourHands._
 
-  override def getValid(): Either[Iterable[Exception], CompleteDeckInFourHands] = validate(
+  override def getValid(): Either[Iterable[Throwable], CompleteDeckInFourHands] = validate(
     this.hands
   )
 
@@ -28,7 +28,7 @@ case object CompleteDeckInFourHands:
 
   private def validate(
       hands: Map[Direction, CompleteHand]
-  ): Either[Iterable[Exception], CompleteDeckInFourHands] = {
+  ): Either[Iterable[Throwable], CompleteDeckInFourHands] = {
     val (exceptions, validatedCompleteHands) = Direction.values.toList
       .map((direction) => hands.get(direction))
       .partitionMap((handOption) => {

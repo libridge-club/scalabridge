@@ -2,9 +2,12 @@ package scalabridge
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
+import scalabridge.nonpure.ContractFromTextValidatedBuilder
 
 @Test
 class ContractTest extends AnyFlatSpec {
+  private def getContract(text: String, vulnerabilityStatus: VulnerabilityStatus) =
+    ContractFromTextValidatedBuilder.build(text, vulnerabilityStatus)
   "A Contract" should "be constructable from text" in {
     val fourSpadesNonVul =
       Contract(OddTricks.FOUR, Strain.SPADES, PenaltyStatus.NONE, VulnerabilityStatus.NONVULNERABLE)
@@ -38,15 +41,15 @@ class ContractTest extends AnyFlatSpec {
         PenaltyStatus.REDOUBLED,
         VulnerabilityStatus.VULNERABLE
       )
-    assertResult(fourSpadesNonVul)(Contract.fromText("4S", VulnerabilityStatus.NONVULNERABLE))
+    assertResult(fourSpadesNonVul)(getContract("4S", VulnerabilityStatus.NONVULNERABLE))
     assertResult(fourSpadesDoubledNonVul)(
-      Contract.fromText("4SX", VulnerabilityStatus.NONVULNERABLE)
+      getContract("4SX", VulnerabilityStatus.NONVULNERABLE)
     )
     assertResult(fourSpadesRedoubledNonVul)(
-      Contract.fromText("4SXX", VulnerabilityStatus.NONVULNERABLE)
+      getContract("4SXX", VulnerabilityStatus.NONVULNERABLE)
     )
-    assertResult(fourSpadesVul)(Contract.fromText("4S", VulnerabilityStatus.VULNERABLE))
-    assertResult(fourSpadesDoubledVul)(Contract.fromText("4SX", VulnerabilityStatus.VULNERABLE))
-    assertResult(fourSpadesRedoubledVul)(Contract.fromText("4SXX", VulnerabilityStatus.VULNERABLE))
+    assertResult(fourSpadesVul)(getContract("4S", VulnerabilityStatus.VULNERABLE))
+    assertResult(fourSpadesDoubledVul)(getContract("4SX", VulnerabilityStatus.VULNERABLE))
+    assertResult(fourSpadesRedoubledVul)(getContract("4SXX", VulnerabilityStatus.VULNERABLE))
   }
 }

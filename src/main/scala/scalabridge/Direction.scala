@@ -38,10 +38,13 @@ object Direction {
     result
   }
 
-  def getFromAbbreviation(abbreviation: Char): Direction = {
-    Try(values.find(direction => direction.getAbbreviation == abbreviation.toUpper).get) match
-      case Success(value)     => value
-      case Failure(exception) => throw DirectionException()
+  def getFromAbbreviation(abbreviation: Char): Try[Direction] = {
+    abbreviation.toUpper match
+      case 'N' => Success(NORTH)
+      case 'E' => Success(EAST)
+      case 'S' => Success(SOUTH)
+      case 'W' => Success(WEST)
+      case _   => Failure(DirectionException(abbreviation))
   }
 
 }
