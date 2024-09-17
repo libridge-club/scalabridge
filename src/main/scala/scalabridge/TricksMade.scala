@@ -1,6 +1,6 @@
 package scalabridge
 
-enum TricksMade(val tricks: Int) {
+enum TricksMade(val tricks: Int) { // FIXME this should be called NumberOfTricks
   case ZERO extends TricksMade(0)
   case ONE extends TricksMade(1)
   case TWO extends TricksMade(2)
