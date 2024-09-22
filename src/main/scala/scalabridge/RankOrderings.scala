@@ -23,4 +23,5 @@ object RankOrderings {
     * AKQJT98765432
     */
   val highestFirst: Ordering[Rank] = (x: Rank, y: Rank) => highestFirstValues(x) - highestFirstValues(y)
+  val defaultRankOrder: Ordering[Rank] = highestFirst.reverse
 }
