@@ -20,7 +20,8 @@ case class HandEvaluations(hand: Hand) {
     case Rank.ACE | Rank.KING | Rank.QUEEN | Rank.JACK | Rank.TEN => true
     case _                                                        => false
 
-  val getHCP: Int = hand.cards.toSeq.map(_.getPoints).sum // Without toSeq, Set.map() clobbers the points
+  val getHCP: Int =
+    hand.cards.toSeq.map(_.getPoints).sum // Without toSeq, Set.map() clobbers the points
   val getShortestSuitLength: Int = numberOfCardsPerSuit.values.minOption.getOrElse(0)
   val getLongestSuitLength: Int = numberOfCardsPerSuit.values.maxOption.getOrElse(0)
   val getNumberOfDoubletonSuits: Int = numberOfCardsPerSuit.values.count(_ == 2)

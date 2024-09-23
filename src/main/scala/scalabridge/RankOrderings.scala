@@ -22,6 +22,7 @@ object RankOrderings {
     * This ordering will sort the ranks in this order from left to right: 
     * AKQJT98765432
     */
-  val highestFirst: Ordering[Rank] = (x: Rank, y: Rank) => highestFirstValues(x) - highestFirstValues(y)
+  val highestFirst: Ordering[Rank] = (x: Rank, y: Rank) =>
+    highestFirstValues(x) - highestFirstValues(y)
   val defaultRankOrder: Ordering[Rank] = highestFirst.reverse
 }
