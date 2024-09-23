@@ -3,12 +3,10 @@ package scalabridge
 import scalabridge.events.{Event, PlayCardEvent}
 import scalabridge.nonpure.DuplicateBoardBuilder
 import org.junit.jupiter.api.Test
-import org.scalatest.flatspec.AnyFlatSpec
-
 import java.time.Instant
 
 @Test
-class OpenDealTest extends AnyFlatSpec {
+class OpenDealTest extends UnitFlatSpec {
 
   private def getSuit(s: String): Suit = {
     Suit.values
@@ -72,9 +70,8 @@ class OpenDealTest extends AnyFlatSpec {
       "cA",
       "c9"
     )
-    val listOfCards = listOfCardStrings.map((cardString: String) =>
-      Card(getSuit(cardString), getRank(cardString))
-    )
+    val listOfCards =
+      listOfCardStrings.map((cardString: String) => Card(getSuit(cardString), getRank(cardString)))
 
     var openDeal: OpenDeal = OpenDeal.empty(validDuplicateBoard)
     for (card <- listOfCards) {

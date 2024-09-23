@@ -1,12 +1,11 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.junit.jupiter.api.Test
 import scalabridge.nonpure.ContractFromTextValidatedBuilder
 import scala.collection.immutable.SortedSet
+import org.junit.jupiter.api.Test
 
 @Test
-class HandEvaluationsTest extends AnyFlatSpec {
+class HandEvaluationsTest extends UnitFlatSpec {
   private def getHandEvaluations(hand: String) = HandEvaluations(Hand(CompleteHand(hand)))
   private val sampleHand1 = getHandEvaluations("AQJ5.K32..AJ9876")
   private val sampleHand2 = getHandEvaluations("AJ75.K32.Q73.J97")

@@ -1,13 +1,12 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.junit.jupiter.api.Test
 import scalabridge.nonpure.ContractFromTextValidatedBuilder
 import scala.collection.immutable.SortedSet
 import scalabridge.exceptions.TrickAlreadyFullException
+import org.junit.jupiter.api.Test
 
 @Test
-class TrickTest extends AnyFlatSpec {
+class TrickTest extends UnitFlatSpec {
 
   val aceOfSpades = Card(Suit.SPADES, Rank.ACE)
   val tenOfSpades = Card(Suit.SPADES, Rank.TEN)

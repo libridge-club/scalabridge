@@ -1,11 +1,10 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.junit.jupiter.api.Test
 import scalabridge.nonpure.ContractFromTextValidatedBuilder
+import org.junit.jupiter.api.Test
 
 @Test
-class ContractTest extends AnyFlatSpec {
+class ContractTest extends UnitFlatSpec {
   private def getContract(text: String, vulnerabilityStatus: VulnerabilityStatus) =
     ContractFromTextValidatedBuilder.build(text, vulnerabilityStatus)
   "A Contract" should "be constructable from text" in {

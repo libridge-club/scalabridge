@@ -1,13 +1,12 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import scalabridge.CompleteHand
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
 import scalabridge.nonpure.PositiveIntegerValidatedBuilder
 
 @Test
-class DuplicateBoardTest extends AnyFlatSpec {
+class DuplicateBoardTest extends UnitFlatSpec {
   val completeHand1 = CompleteHand("86.KT2.K85.Q9742")
   val completeHand2 = CompleteHand("KJT932.97.942.86")
   val completeHand3 = CompleteHand("54.8653.AQJT73.3")

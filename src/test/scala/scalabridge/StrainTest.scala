@@ -1,12 +1,11 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import scalabridge.exceptions.StrainException
 import scala.util.Success
 
 @Test
-class StrainTest extends AnyFlatSpec {
+class StrainTest extends UnitFlatSpec {
   val clubs = Strain.CLUBS
   val notrumps = Strain.NOTRUMPS
   "A Strain" should "get from suit" in {

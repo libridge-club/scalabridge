@@ -1,12 +1,11 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import scala.util.Success
 import scalabridge.exceptions.OddTricksException
 
 @Test
-class OddTricksTest extends AnyFlatSpec {
+class OddTricksTest extends UnitFlatSpec {
   "An OddTricks" should "be comparable" in {
     assert(OddTricks.FIVE.compareTo(OddTricks.FIVE) == 0)
     assert(OddTricks.FIVE.compareTo(OddTricks.FOUR) > 0)

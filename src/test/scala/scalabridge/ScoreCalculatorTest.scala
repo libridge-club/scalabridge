@@ -1,12 +1,11 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import TricksMade._
 import scalabridge.nonpure.ContractFromTextValidatedBuilder
 
 @Test
-class ScoreCalculatorTest extends AnyFlatSpec {
+class ScoreCalculatorTest extends UnitFlatSpec {
   private def getContract(text: String, vulnerabilityStatus: VulnerabilityStatus) =
     ContractFromTextValidatedBuilder.build(text, vulnerabilityStatus)
 

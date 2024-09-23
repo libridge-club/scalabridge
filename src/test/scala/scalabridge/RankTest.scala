@@ -1,12 +1,11 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import scalabridge.exceptions.RankException
 import scala.util.Success
 
 @Test
-class RankTest extends AnyFlatSpec {
+class RankTest extends UnitFlatSpec {
   val three = Rank.THREE
   val queen = Rank.QUEEN
   "A Rank" should "be serializable toString" in {

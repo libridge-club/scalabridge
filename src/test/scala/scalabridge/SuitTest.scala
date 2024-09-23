@@ -1,13 +1,12 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import scalabridge.exceptions.SuitException
 import scala.util.Success
 import scala.util.Failure
 
 @Test
-class SuitTest extends AnyFlatSpec {
+class SuitTest extends UnitFlatSpec {
   val clubs = Suit.CLUBS
   val diamonds = Suit.DIAMONDS
   "A Suit" should "be serializable toString" in {

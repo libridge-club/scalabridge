@@ -1,13 +1,12 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 import scala.util.Success
 import scala.util.Failure
 import scalabridge.exceptions.DirectionException
 
 @Test
-class DirectionTest extends AnyFlatSpec {
+class DirectionTest extends UnitFlatSpec {
   val north = Direction.NORTH
   val east = Direction.EAST
   val south = Direction.SOUTH

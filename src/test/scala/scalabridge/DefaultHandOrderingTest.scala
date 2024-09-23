@@ -1,10 +1,9 @@
 package scalabridge
 
-import org.scalatest.flatspec.AnyFlatSpec
 import org.junit.jupiter.api.Test
 
 @Test
-class DefaultHandOrderingTest extends AnyFlatSpec {
+class DefaultHandOrderingTest extends UnitFlatSpec {
   val subject = DefaultHandOrdering
   val fourOfClubs = Card(Suit.CLUBS, Rank.FOUR)
   val tenOfClubs = Card(Suit.CLUBS, Rank.TEN)

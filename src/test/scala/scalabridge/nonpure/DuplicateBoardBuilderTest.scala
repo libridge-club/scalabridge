@@ -1,14 +1,14 @@
 package scalabridge.nonpure
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.junit.jupiter.api.Test
 import scalabridge.EffectiveDuplicateBoardNumber
 import scalabridge.Direction
 import scalabridge.CompleteHand
 import scalabridge.PositiveInteger
+import scalabridge.UnitFlatSpec
+import org.junit.jupiter.api.Test
 
 @Test
-class DuplicateBoardBuilderTest extends AnyFlatSpec {
+class DuplicateBoardBuilderTest extends UnitFlatSpec {
   val boardNumber = 1
   val negativeBoardNumber = -1
   val pbnDealTag = "E:86.KT2.K85.Q9742 KJT932.97.942.86 54.8653.AQJT73.3 AQ7.AQJ4.6.AKJT5"
