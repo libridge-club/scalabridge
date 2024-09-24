@@ -5,7 +5,7 @@ import scala.collection.immutable.SortedSet
 import org.junit.jupiter.api.Test
 
 @Test
-class HandEvaluationsTest extends UnitFlatSpec {
+class HandEvaluationsTest extends UnitFunSpec {
   private def getHandEvaluations(hand: String) = HandEvaluations(Hand(CompleteHand(hand)))
   private val sampleHand1 = getHandEvaluations("AQJ5.K32..AJ9876")
   private val sampleHand2 = getHandEvaluations("AJ75.K32.Q73.J97")
@@ -14,125 +14,126 @@ class HandEvaluationsTest extends UnitFlatSpec {
   private val sampleHand5 = getHandEvaluations("AKJ75432.KQ32..7")
   private val sampleHand6 = getHandEvaluations("KQ32.AKJ7542.2.7")
 
-  "HandEvaluations" should "getHCP" in {
-    assertResult(15)(sampleHand1.getHCP)
-    assertResult(11)(sampleHand2.getHCP)
-    assertResult(14)(sampleHand3.getHCP)
-  }
-  "HandEvaluations" should "getShortestSuitLength" in {
-    assertResult(0)(sampleHand1.getShortestSuitLength)
-    assertResult(3)(sampleHand2.getShortestSuitLength)
-    assertResult(2)(sampleHand3.getShortestSuitLength)
-  }
-  "HandEvaluations" should "getLongestSuitLength" in {
-    assertResult(6)(sampleHand1.getLongestSuitLength)
-    assertResult(4)(sampleHand2.getLongestSuitLength)
-    assertResult(5)(sampleHand3.getLongestSuitLength)
-  }
-  "HandEvaluations" should "getNumberOfDoubletonSuits" in {
-    assertResult(0)(sampleHand1.getNumberOfDoubletonSuits)
-    assertResult(0)(sampleHand2.getNumberOfDoubletonSuits)
-    assertResult(1)(sampleHand3.getNumberOfDoubletonSuits)
-  }
+  describe("HandEvaluations") {
+    it("should getHCP") {
+      sampleHand1.getHCP shouldBe 15
+      sampleHand2.getHCP shouldBe 11
+      sampleHand3.getHCP shouldBe 14
+    }
+    it("should getShortestSuitLength") {
+      sampleHand1.getShortestSuitLength shouldBe 0
+      sampleHand2.getShortestSuitLength shouldBe 3
+      sampleHand3.getShortestSuitLength shouldBe 2
+    }
+    it("should getLongestSuitLength") {
+      sampleHand1.getLongestSuitLength shouldBe 6
+      sampleHand2.getLongestSuitLength shouldBe 4
+      sampleHand3.getLongestSuitLength shouldBe 5
+    }
+    it("should getNumberOfDoubletonSuits") {
+      sampleHand1.getNumberOfDoubletonSuits shouldBe 0
+      sampleHand2.getNumberOfDoubletonSuits shouldBe 0
+      sampleHand3.getNumberOfDoubletonSuits shouldBe 1
+    }
 
-  "HandEvaluations" should "correctly return hasFiveOrMoreCardsInAMajorSuit" in {
-    assertResult(false)(sampleHand1.hasFiveOrMoreCardsInAMajorSuit)
-    assertResult(false)(sampleHand2.hasFiveOrMoreCardsInAMajorSuit)
-    assertResult(true)(sampleHand3.hasFiveOrMoreCardsInAMajorSuit)
-  }
+    it("should correctly return hasFiveOrMoreCardsInAMajorSuit") {
+      sampleHand1.hasFiveOrMoreCardsInAMajorSuit shouldBe false
+      sampleHand2.hasFiveOrMoreCardsInAMajorSuit shouldBe false
+      sampleHand3.hasFiveOrMoreCardsInAMajorSuit shouldBe true
+    }
 
-  "HandEvaluations" should "correctly return hasThreeOrMoreCardsInAMinorSuit" in {
-    assertResult(true)(sampleHand1.hasThreeOrMoreCardsInAMinorSuit)
-    assertResult(true)(sampleHand2.hasThreeOrMoreCardsInAMinorSuit)
-    assertResult(true)(sampleHand3.hasThreeOrMoreCardsInAMinorSuit)
-    assertResult(false)(sampleHand4.hasThreeOrMoreCardsInAMinorSuit)
-  }
+    it("should correctly return hasThreeOrMoreCardsInAMinorSuit") {
+      sampleHand1.hasThreeOrMoreCardsInAMinorSuit shouldBe true
+      sampleHand2.hasThreeOrMoreCardsInAMinorSuit shouldBe true
+      sampleHand3.hasThreeOrMoreCardsInAMinorSuit shouldBe true
+      sampleHand4.hasThreeOrMoreCardsInAMinorSuit shouldBe false
+    }
 
-  "HandEvaluations" should "correctly return isBalanced" in {
-    assertResult(false)(sampleHand1.isBalanced)
-    assertResult(true)(sampleHand2.isBalanced)
-    assertResult(true)(sampleHand3.isBalanced)
-    assertResult(false)(sampleHand4.isBalanced)
-  }
+    it("should correctly return isBalanced") {
+      sampleHand1.isBalanced shouldBe false
+      sampleHand2.isBalanced shouldBe true
+      sampleHand3.isBalanced shouldBe true
+      sampleHand4.isBalanced shouldBe false
+    }
 
-  "HandEvaluations" should "correctly return hasEightOrMoreCardsInAnySuit" in {
-    assertResult(false)(sampleHand1.hasEightOrMoreCardsInAnySuit)
-    assertResult(false)(sampleHand2.hasEightOrMoreCardsInAnySuit)
-    assertResult(false)(sampleHand3.hasEightOrMoreCardsInAnySuit)
-    assertResult(false)(sampleHand4.hasEightOrMoreCardsInAnySuit)
-    assertResult(true)(sampleHand5.hasEightOrMoreCardsInAnySuit)
-  }
+    it("should correctly return hasEightOrMoreCardsInAnySuit") {
+      sampleHand1.hasEightOrMoreCardsInAnySuit shouldBe false
+      sampleHand2.hasEightOrMoreCardsInAnySuit shouldBe false
+      sampleHand3.hasEightOrMoreCardsInAnySuit shouldBe false
+      sampleHand4.hasEightOrMoreCardsInAnySuit shouldBe false
+      sampleHand5.hasEightOrMoreCardsInAnySuit shouldBe true
+    }
 
-  "HandEvaluations" should "correctly return hasSevenCardsInLongestSuit" in {
-    assertResult(false)(sampleHand1.hasSevenCardsInLongestSuit)
-    assertResult(false)(sampleHand2.hasSevenCardsInLongestSuit)
-    assertResult(false)(sampleHand3.hasSevenCardsInLongestSuit)
-    assertResult(false)(sampleHand4.hasSevenCardsInLongestSuit)
-    assertResult(false)(sampleHand5.hasSevenCardsInLongestSuit)
-    assertResult(true)(sampleHand6.hasSevenCardsInLongestSuit)
-  }
+    it("should correctly return hasSevenCardsInLongestSuit") {
+      sampleHand1.hasSevenCardsInLongestSuit shouldBe false
+      sampleHand2.hasSevenCardsInLongestSuit shouldBe false
+      sampleHand3.hasSevenCardsInLongestSuit shouldBe false
+      sampleHand4.hasSevenCardsInLongestSuit shouldBe false
+      sampleHand5.hasSevenCardsInLongestSuit shouldBe false
+      sampleHand6.hasSevenCardsInLongestSuit shouldBe true
+    }
 
-  "HandEvaluations" should "correctly return hasSixCardsInLongestSuit" in {
-    assertResult(true)(sampleHand1.hasSixCardsInLongestSuit)
-    assertResult(false)(sampleHand2.hasSixCardsInLongestSuit)
-    assertResult(false)(sampleHand3.hasSixCardsInLongestSuit)
-    assertResult(false)(sampleHand4.hasSixCardsInLongestSuit)
-    assertResult(false)(sampleHand5.hasSixCardsInLongestSuit)
-    assertResult(false)(sampleHand6.hasSixCardsInLongestSuit)
-  }
+    it("should correctly return hasSixCardsInLongestSuit") {
+      sampleHand1.hasSixCardsInLongestSuit shouldBe true
+      sampleHand2.hasSixCardsInLongestSuit shouldBe false
+      sampleHand3.hasSixCardsInLongestSuit shouldBe false
+      sampleHand4.hasSixCardsInLongestSuit shouldBe false
+      sampleHand5.hasSixCardsInLongestSuit shouldBe false
+      sampleHand6.hasSixCardsInLongestSuit shouldBe false
+    }
 
-  "HandEvaluations" should "correctly return hasTwoOutOfThreeHigherCards" in {
-    assertResult(false)(sampleHand1.hasTwoOutOfThreeHigherCards(Suit.HEARTS))
-    assertResult(false)(sampleHand2.hasTwoOutOfThreeHigherCards(Suit.HEARTS))
-    assertResult(false)(sampleHand3.hasTwoOutOfThreeHigherCards(Suit.HEARTS))
-    assertResult(true)(sampleHand4.hasTwoOutOfThreeHigherCards(Suit.HEARTS))
-    assertResult(true)(sampleHand5.hasTwoOutOfThreeHigherCards(Suit.HEARTS))
-    assertResult(true)(sampleHand6.hasTwoOutOfThreeHigherCards(Suit.HEARTS))
-  }
+    it("should correctly return hasTwoOutOfThreeHigherCards") {
+      sampleHand1.hasTwoOutOfThreeHigherCards(Suit.HEARTS) shouldBe false
+      sampleHand2.hasTwoOutOfThreeHigherCards(Suit.HEARTS) shouldBe false
+      sampleHand3.hasTwoOutOfThreeHigherCards(Suit.HEARTS) shouldBe false
+      sampleHand4.hasTwoOutOfThreeHigherCards(Suit.HEARTS) shouldBe true
+      sampleHand5.hasTwoOutOfThreeHigherCards(Suit.HEARTS) shouldBe true
+      sampleHand6.hasTwoOutOfThreeHigherCards(Suit.HEARTS) shouldBe true
+    }
 
-  "HandEvaluations" should "correctly return hasThreeOutOfFiveHigherCards" in {
-    assertResult(true)(sampleHand1.hasThreeOutOfFiveHigherCards(Suit.SPADES))
-    assertResult(false)(sampleHand2.hasThreeOutOfFiveHigherCards(Suit.SPADES))
-    assertResult(true)(sampleHand3.hasThreeOutOfFiveHigherCards(Suit.SPADES))
-    assertResult(true)(sampleHand4.hasThreeOutOfFiveHigherCards(Suit.SPADES))
-    assertResult(true)(sampleHand5.hasThreeOutOfFiveHigherCards(Suit.SPADES))
-    assertResult(false)(sampleHand6.hasThreeOutOfFiveHigherCards(Suit.SPADES))
-  }
+    it("should correctly return hasThreeOutOfFiveHigherCards") {
+      sampleHand1.hasThreeOutOfFiveHigherCards(Suit.SPADES) shouldBe true
+      sampleHand2.hasThreeOutOfFiveHigherCards(Suit.SPADES) shouldBe false
+      sampleHand3.hasThreeOutOfFiveHigherCards(Suit.SPADES) shouldBe true
+      sampleHand4.hasThreeOutOfFiveHigherCards(Suit.SPADES) shouldBe true
+      sampleHand5.hasThreeOutOfFiveHigherCards(Suit.SPADES) shouldBe true
+      sampleHand6.hasThreeOutOfFiveHigherCards(Suit.SPADES) shouldBe false
+    }
 
-  "HandEvaluations" should "getLongestSuit" in {
-    assertResult(Suit.CLUBS)(sampleHand1.getLongestSuit)
-    assertResult(Suit.SPADES)(sampleHand2.getLongestSuit)
-    assertResult(Suit.SPADES)(sampleHand3.getLongestSuit)
-    assertResult(Suit.SPADES)(sampleHand4.getLongestSuit)
-    assertResult(Suit.SPADES)(sampleHand5.getLongestSuit)
-    assertResult(Suit.HEARTS)(sampleHand6.getLongestSuit)
-  }
+    it("should getLongestSuit") {
+      sampleHand1.getLongestSuit shouldBe Suit.CLUBS
+      sampleHand2.getLongestSuit shouldBe Suit.SPADES
+      sampleHand3.getLongestSuit shouldBe Suit.SPADES
+      sampleHand4.getLongestSuit shouldBe Suit.SPADES
+      sampleHand5.getLongestSuit shouldBe Suit.SPADES
+      sampleHand6.getLongestSuit shouldBe Suit.HEARTS
+    }
 
-  "HandEvaluations" should "correctly return hasFourOrMoreCardsInMajorSuitExcludingLongestSuit" in {
-    assertResult(true)(sampleHand1.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit)
-    assertResult(false)(sampleHand2.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit)
-    assertResult(false)(sampleHand3.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit)
-    assertResult(true)(sampleHand4.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit)
-    assertResult(true)(sampleHand5.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit)
-    assertResult(true)(sampleHand6.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit)
-  }
+    it("should correctly return hasFourOrMoreCardsInMajorSuitExcludingLongestSuit") {
+      sampleHand1.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit shouldBe true
+      sampleHand2.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit shouldBe false
+      sampleHand3.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit shouldBe false
+      sampleHand4.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit shouldBe true
+      sampleHand5.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit shouldBe true
+      sampleHand6.hasFourOrMoreCardsInMajorSuitExcludingLongestSuit shouldBe true
+    }
 
-  "HandEvaluations" should "getLongestMajor" in {
-    assertResult(Suit.SPADES)(sampleHand1.getLongestMajor)
-    assertResult(Suit.SPADES)(sampleHand2.getLongestMajor)
-    assertResult(Suit.SPADES)(sampleHand3.getLongestMajor)
-    assertResult(Suit.SPADES)(sampleHand4.getLongestMajor)
-    assertResult(Suit.SPADES)(sampleHand5.getLongestMajor)
-    assertResult(Suit.HEARTS)(sampleHand6.getLongestMajor)
-  }
+    it("should getLongestMajor") {
+      sampleHand1.getLongestMajor shouldBe Suit.SPADES
+      sampleHand2.getLongestMajor shouldBe Suit.SPADES
+      sampleHand3.getLongestMajor shouldBe Suit.SPADES
+      sampleHand4.getLongestMajor shouldBe Suit.SPADES
+      sampleHand5.getLongestMajor shouldBe Suit.SPADES
+      sampleHand6.getLongestMajor shouldBe Suit.HEARTS
+    }
 
-  "HandEvaluations" should "getLongestMinor" in {
-    assertResult(Suit.CLUBS)(sampleHand1.getLongestMinor)
-    assertResult(Suit.CLUBS)(sampleHand2.getLongestMinor)
-    assertResult(Suit.DIAMONDS)(sampleHand3.getLongestMinor)
-    assertResult(Suit.CLUBS)(sampleHand4.getLongestMinor)
-    assertResult(Suit.CLUBS)(sampleHand5.getLongestMinor)
-    assertResult(Suit.CLUBS)(sampleHand6.getLongestMinor)
+    it("should getLongestMinor") {
+      sampleHand1.getLongestMinor shouldBe Suit.CLUBS
+      sampleHand2.getLongestMinor shouldBe Suit.CLUBS
+      sampleHand3.getLongestMinor shouldBe Suit.DIAMONDS
+      sampleHand4.getLongestMinor shouldBe Suit.CLUBS
+      sampleHand5.getLongestMinor shouldBe Suit.CLUBS
+      sampleHand6.getLongestMinor shouldBe Suit.CLUBS
+    }
   }
-
 }

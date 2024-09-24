@@ -5,28 +5,30 @@ import scalabridge.exceptions.RankException
 import scala.util.Success
 
 @Test
-class RankTest extends UnitFlatSpec {
+class RankTest extends UnitFunSpec {
   val three = Rank.THREE
   val queen = Rank.QUEEN
-  "A Rank" should "be serializable toString" in {
-    assertResult("3")(three.toString)
-    assertResult("Q")(queen.toString)
-  }
-  "A Rank" should "get from abbreviation" in {
-    assertResult(Success(three))(Rank.getFromAbbreviation('3'))
-    assertResult(Success(queen))(Rank.getFromAbbreviation('Q'))
-    assertResult(Success(queen))(Rank.getFromAbbreviation('q'))
-    assert(Rank.getFromAbbreviation('x').isFailure)
-  }
-  "A Rank" should "return the correct exception when getFromAbbreviation fails" in {
-    val myIllegalRank = 'x'
-    val exception: RankException =
-      Rank.getFromAbbreviation(myIllegalRank).failed.get.asInstanceOf[RankException]
-    assertResult(myIllegalRank)(exception.illegalRank)
-  }
-  "A Rank" should "have order" in {
-    assert(three.compareTo(three) == 0)
-    assert(three.compareTo(queen) < 0)
-    assert(queen.compareTo(three) > 0)
+  describe("A Rank"){
+    it("should be serializable toString") {
+      three.toString shouldBe "3"
+      queen.toString shouldBe "Q"
+    }
+    it("should get from abbreviation") {
+      Rank.getFromAbbreviation('3') shouldBe Success(three)
+      Rank.getFromAbbreviation('Q') shouldBe Success(queen)
+      Rank.getFromAbbreviation('q') shouldBe Success(queen)
+      assert(Rank.getFromAbbreviation('x').isFailure)
+    }
+    it("should return the correct exception when getFromAbbreviation fails") {
+      val myIllegalRank = 'x'
+      val exception: RankException =
+        Rank.getFromAbbreviation(myIllegalRank).failed.get.asInstanceOf[RankException]
+      exception.illegalRank shouldBe myIllegalRank
+    }
+    it("should have order") {
+      three.compareTo(three) shouldBe 0
+      three.compareTo(queen) should be < 0
+      queen.compareTo(three) should be > 0
+    }
   }
 }

@@ -6,7 +6,7 @@ import java.lang.IllegalArgumentException
 import scalabridge.nonpure.PositiveIntegerValidatedBuilder
 
 @Test
-class DuplicateBoardTest extends UnitFlatSpec {
+class DuplicateBoardTest extends UnitFunSpec {
   val completeHand1 = CompleteHand("86.KT2.K85.Q9742")
   val completeHand2 = CompleteHand("KJT932.97.942.86")
   val completeHand3 = CompleteHand("54.8653.AQJT73.3")
@@ -20,15 +20,17 @@ class DuplicateBoardTest extends UnitFlatSpec {
   val board15 = PositiveIntegerValidatedBuilder.build(PositiveInteger(15))
   val hands = CompleteDeckInFourHands(allCompleteHands)
   val subject = DuplicateBoard(board15, hands)
-  "A DuplicateBoard" should "get the correct dealer" in {
-    val dealerForBoard15 = Direction.SOUTH
-    assertResult(dealerForBoard15)(subject.getDealer())
-  }
-  "A DuplicateBoard" should "get the correct vulnerability" in {
-    assertResult(true)(subject.isVulnerable(Side.NORTHSOUTH))
-    assertResult(false)(subject.isVulnerable(Side.EASTWEST))
-  }
-  "A DuplicateBoard" should "get hand of a direction" in {
-    assertResult(completeHand2)(subject.getHandOf(Direction.EAST))
+  describe("A DuplicateBoard") {
+    it("should get the correct dealer") {
+      val dealerForBoard15 = Direction.SOUTH
+      subject.getDealer() shouldBe dealerForBoard15
+    }
+    it("should get the correct vulnerability") {
+      subject.isVulnerable(Side.NORTHSOUTH) shouldBe true
+      subject.isVulnerable(Side.EASTWEST) shouldBe false
+    }
+    it("should get hand of a direction") {
+      subject.getHandOf(Direction.EAST) shouldBe completeHand2
+    }
   }
 }

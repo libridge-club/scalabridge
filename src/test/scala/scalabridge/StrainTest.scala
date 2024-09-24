@@ -5,26 +5,28 @@ import scalabridge.exceptions.StrainException
 import scala.util.Success
 
 @Test
-class StrainTest extends UnitFlatSpec {
+class StrainTest extends UnitFunSpec {
   val clubs = Strain.CLUBS
   val notrumps = Strain.NOTRUMPS
-  "A Strain" should "get from suit" in {
-    assertResult(Strain.CLUBS)(Strain.fromSuit(Suit.CLUBS))
-  }
-  "A Strain" should "get from name" in {
-    assertResult(Success(Strain.CLUBS))(Strain.fromName("c"))
-    assertResult(Success(Strain.CLUBS))(Strain.fromName("C"))
-    assertResult(Success(Strain.NOTRUMPS))(Strain.fromName("N"))
-  }
-  "A Strain" should "return the correct exception when fromName fails" in {
-    val myIllegalStrain = "x"
-    val exception: StrainException =
-      Strain.fromName(myIllegalStrain).failed.get.asInstanceOf[StrainException]
-    assertResult(myIllegalStrain)(exception.illegalStrain)
-  }
-  "A Strain" should "have order" in {
-    assert(clubs.compareTo(clubs) == 0)
-    assert(clubs.compareTo(notrumps) < 0)
-    assert(notrumps.compareTo(clubs) > 0)
+  describe("A Strain") {
+    it("should get from suit") {
+      Strain.fromSuit(Suit.CLUBS) shouldBe Strain.CLUBS
+    }
+    it("should get from name") {
+      Strain.fromName("c") shouldBe Success(Strain.CLUBS)
+      Strain.fromName("C") shouldBe Success(Strain.CLUBS)
+      Strain.fromName("N") shouldBe Success(Strain.NOTRUMPS)
+    }
+    it("should return the correct exception when fromName fails") {
+      val myIllegalStrain = "x"
+      val exception: StrainException =
+        Strain.fromName(myIllegalStrain).failed.get.asInstanceOf[StrainException]
+      exception.illegalStrain shouldBe myIllegalStrain
+    }
+    it("should have order") {
+      clubs.compareTo(clubs) shouldBe 0
+      clubs.compareTo(notrumps) should be < 0
+      notrumps.compareTo(clubs) should be > 0
+    }
   }
 }

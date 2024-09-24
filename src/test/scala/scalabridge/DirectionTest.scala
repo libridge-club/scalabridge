@@ -6,58 +6,65 @@ import scala.util.Failure
 import scalabridge.exceptions.DirectionException
 
 @Test
-class DirectionTest extends UnitFlatSpec {
+class DirectionTest extends UnitFunSpec {
   val north = Direction.NORTH
   val east = Direction.EAST
   val south = Direction.SOUTH
   val west = Direction.WEST
-  "A Direction" should "have a getCompleteName" in {
-    assertResult("North")(north.getCompleteName)
-  }
-  "A Direction" should "have a getAbbreviation" in {
-    assertResult('N')(north.getAbbreviation)
-  }
-  "A Direction" should "know its immediate next" in {
-    assertResult(east)(north.next)
-    assertResult(south)(east.next)
-    assertResult(west)(south.next)
-    assertResult(north)(west.next)
-  }
-  "A Direction" should "know its non immediate next" in {
-    assertResult(east)(north.next(1))
-    assertResult(south)(north.next(2))
-    assertResult(west)(north.next(3))
-    assertResult(north)(north.next(4))
-  }
-  "A Direction" should "be acessible from its abbreviation as a Try" in {
-    assertResult(Success(north))(Direction.getFromAbbreviation('n'))
-    assertResult(Success(north))(Direction.getFromAbbreviation('N'))
-    assertResult(Success(east))(Direction.getFromAbbreviation('E'))
-    assertResult(Success(south))(Direction.getFromAbbreviation('S'))
-    assertResult(Success(west))(Direction.getFromAbbreviation('W'))
-  }
-  "A Direction" should "return the correct exception when getFromAbbreviation fails" in {
-    val myIllegalDirection = 'x'
-    val exception: DirectionException =
-      Direction.getFromAbbreviation(myIllegalDirection).failed.get.asInstanceOf[DirectionException]
-    assertResult(myIllegalDirection)(exception.illegalDirection)
-  }
-  "Direction::differenceBetween" should "return zero when given the same direction" in {
-    val leader = Direction.WEST
-    assertResult(0)(Direction.differenceBetween(leader, leader))
-  }
-  "Direction::differenceBetween" should "return the distance between directions" in {
-    val leader = Direction.WEST
-    val direction = Direction.SOUTH
-    val direction2 = Direction.NORTH
+  describe("A Direction") {
+    it("should have a getCompleteName") {
+      north.getCompleteName shouldBe "North"
+    }
+    it("should have a getAbbreviation") {
+      north.getAbbreviation shouldBe 'N'
+    }
+    it("should know its immediate next") {
+      north.next shouldBe east
+      east.next shouldBe south
+      south.next shouldBe west
+      west.next shouldBe north
+    }
+    it("should know its non immediate next") {
+      north.next(1) shouldBe east
+      north.next(2) shouldBe south
+      north.next(3) shouldBe west
+      north.next(4) shouldBe north
+    }
+    it("should be acessible from its abbreviation as a Try") {
+      Direction.getFromAbbreviation('n') shouldBe Success(north)
+      Direction.getFromAbbreviation('N') shouldBe Success(north)
+      Direction.getFromAbbreviation('E') shouldBe Success(east)
+      Direction.getFromAbbreviation('S') shouldBe Success(south)
+      Direction.getFromAbbreviation('W') shouldBe Success(west)
+    }
+    it("should return the correct exception when getFromAbbreviation fails") {
+      val myIllegalDirection = 'x'
+      val exception: DirectionException = Direction
+        .getFromAbbreviation(myIllegalDirection)
+        .failed
+        .get
+        .asInstanceOf[DirectionException]
+      exception.illegalDirection shouldBe myIllegalDirection
+    }
+    describe("differenceBetween function") {
+      it("should return zero when given the same direction") {
+        val leader = Direction.WEST
+        Direction.differenceBetween(leader, leader) shouldBe 0
+      }
+      it("should return the distance between directions") {
+        val leader = Direction.WEST
+        val direction = Direction.SOUTH
+        val direction2 = Direction.NORTH
 
-    assertResult(3)(Direction.differenceBetween(leader, direction))
-    assertResult(1)(Direction.differenceBetween(leader, direction2))
-  }
-  "A Direction" should "have getters for java interoperability" in {
-    assertResult(Direction.NORTH)(Direction.getNorth())
-    assertResult(Direction.EAST)(Direction.getEast())
-    assertResult(Direction.SOUTH)(Direction.getSouth())
-    assertResult(Direction.WEST)(Direction.getWest())
+        Direction.differenceBetween(leader, direction) shouldBe 3
+        Direction.differenceBetween(leader, direction2) shouldBe 1
+      }
+    }
+    it("should have getters for java interoperability") {
+      Direction.getNorth() shouldBe Direction.NORTH
+      Direction.getEast() shouldBe Direction.EAST
+      Direction.getSouth() shouldBe Direction.SOUTH
+      Direction.getWest() shouldBe Direction.WEST
+    }
   }
 }

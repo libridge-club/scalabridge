@@ -3,9 +3,10 @@ package scalabridge
 import scalabridge.CompleteHand
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
+import org.scalatest.EitherValues
 
 @Test
-class CompleteDeckInFourHandsTest extends UnitFlatSpec {
+class CompleteDeckInFourHandsTest extends UnitFunSpec with EitherValues {
   val completeHand1 = CompleteHand("86.KT2.K85.Q9742")
   val completeHand2 = CompleteHand("KJT932.97.942.86")
   val completeHand3 = CompleteHand("54.8653.AQJT73.3")
@@ -28,21 +29,32 @@ class CompleteDeckInFourHandsTest extends UnitFlatSpec {
     Direction.SOUTH -> completeHand3,
     Direction.WEST -> lessCards
   )
-  "A CompleteDeckInFourHands" should "be valid when constructed using valid hands" in {
-    assert(CompleteDeckInFourHands(allCompleteHands).getValid().isRight)
+  describe("A CompleteDeckInFourHands") {
+    it("should be valid when constructed using valid hands") {
+      CompleteDeckInFourHands(allCompleteHands)
+        .getValid()
+        .value shouldBe CompleteDeckInFourHands(allCompleteHands)
+    }
+    it("should not be valid when created with a missing hand.") {
+      CompleteDeckInFourHands(missingAHand)
+        .getValid()
+        .left
+        .value
+        .head shouldBe an[IllegalArgumentException]
+    }
+    it("should not be valid when created with one invalid hand.") {
+      CompleteDeckInFourHands(oneInvalidHand)
+        .getValid()
+        .left
+        .value
+        .head shouldBe an[IllegalArgumentException]
+    }
+    it("should provide each of the hands when valid") {
+      val subject = CompleteDeckInFourHands(allCompleteHands)
+      subject.getHandOf(Direction.NORTH) shouldBe completeHand1
+      subject.getHandOf(Direction.EAST) shouldBe completeHand2
+      subject.getHandOf(Direction.SOUTH) shouldBe completeHand3
+      subject.getHandOf(Direction.WEST) shouldBe completeHand4
+    }
   }
-  "A CompleteDeckInFourHands" should "not be valid when created with a missing hand." in {
-    assert(CompleteDeckInFourHands(missingAHand).getValid().isLeft)
-  }
-  "A CompleteDeckInFourHands" should "not be valid when created with one invalid hand." in {
-    assert(CompleteDeckInFourHands(oneInvalidHand).getValid().isLeft)
-  }
-  "A valid CompleteDeckInFourHands" should "provide each of the hands" in {
-    val subject = CompleteDeckInFourHands(allCompleteHands)
-    assertResult(completeHand1)(subject.getHandOf(Direction.NORTH))
-    assertResult(completeHand2)(subject.getHandOf(Direction.EAST))
-    assertResult(completeHand3)(subject.getHandOf(Direction.SOUTH))
-    assertResult(completeHand4)(subject.getHandOf(Direction.WEST))
-  }
-
 }
