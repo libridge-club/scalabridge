@@ -37,11 +37,12 @@ case class Bid(oddTricks: OddTricks, strain: Strain) extends Call {
     * designates either the same number of odd tricks in a higher-ranking
     * denomination or a greater number of odd tricks in any denomination.
     */
-  def compareTo(other: Bid): Int = {
+  private def compareTo(other: Bid): Int = {
     val oddTricksComparation = this.oddTricks.compareTo(other.oddTricks)
     if (oddTricksComparation != 0) oddTricksComparation
     else this.strain.compareTo(other.strain)
   }
+  def supersedes(other: Bid): Boolean = this.compareTo(other) > 0
   override def toString: String = oddTricks.getSymbol + strain.getSymbol
   def getOddTricks: OddTricks = this.oddTricks
   def getStrain: Strain = this.strain

@@ -8,10 +8,10 @@ class CallTest extends UnitFunSpec {
   val threeSpadesBid = Bid(OddTricks.THREE, Strain.SPADES)
   val fourNoTrumpsBid = Bid(OddTricks.FOUR, Strain.NOTRUMPS)
   describe("A Bid") {
-    it("should be comparable") {
-      fourSpadesBid.compareTo(fourSpadesBid) shouldBe 0
-      fourSpadesBid.compareTo(threeSpadesBid) should be > 0
-      fourSpadesBid.compareTo(fourNoTrumpsBid) should be < 0
+    it("should return supersede correctly") {
+      fourSpadesBid.supersedes(fourSpadesBid) shouldBe false
+      fourSpadesBid.supersedes(threeSpadesBid) shouldBe true
+      fourSpadesBid.supersedes(fourNoTrumpsBid) shouldBe false
     }
     it("should be serializable toString") {
       fourSpadesBid.toString shouldBe "4S"

@@ -91,7 +91,9 @@ class OpenDealTest extends UnitFunSpec {
         )
       }
       val dealEvents = openDeal.getDealEvents
-      listOfCardStrings.zipWithIndex.foreach((expectedCard,index) => assertEventIsCorrect(expectedCard, dealEvents(index)) )
+      listOfCardStrings.zipWithIndex.foreach((expectedCard, index) =>
+        assertEventIsCorrect(expectedCard, dealEvents(index))
+      )
     }
 
   }

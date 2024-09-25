@@ -8,7 +8,7 @@ import scala.util.Success
 class RankTest extends UnitFunSpec {
   val three = Rank.THREE
   val queen = Rank.QUEEN
-  describe("A Rank"){
+  describe("A Rank") {
     it("should be serializable toString") {
       three.toString shouldBe "3"
       queen.toString shouldBe "Q"

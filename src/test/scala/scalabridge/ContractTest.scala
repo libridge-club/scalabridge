@@ -51,5 +51,10 @@ class ContractTest extends UnitFunSpec {
       getContract("4SX", vul) shouldBe fourSpadesDoubledVul
       getContract("4SXX", vul) shouldBe fourSpadesRedoubledVul
     }
+    it("should have an ALLPASS option") {
+      val subject = AllPassContract
+      subject.isAllPass shouldBe true
+      subject.toString() shouldBe "ALLPASS"
+    }
   }
 }

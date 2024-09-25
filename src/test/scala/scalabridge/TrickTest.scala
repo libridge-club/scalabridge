@@ -52,7 +52,7 @@ class TrickTest extends UnitFunSpec {
       assert(completeTrick.isComplete)
     }
 
-    describe("addCard"){
+    describe("addCard") {
       it("should add card until there is 4 cards") {
         val completeTrick = emptyTrick
           .addCard(aceOfSpades)
@@ -73,7 +73,7 @@ class TrickTest extends UnitFunSpec {
       }
     }
 
-    describe("addCardSafe"){
+    describe("addCardSafe") {
       it("should return the same object when the trick is already full") {
         completeTrick.addCardSafe(aceOfSpades) shouldBe completeTrick
       }
@@ -118,7 +118,7 @@ class TrickTest extends UnitFunSpec {
       myTrick.getLastPlayer shouldBe Direction.NORTH
     }
 
-    describe("getWinnerWithoutTrumpSuit"){
+    describe("getWinnerWithoutTrumpSuit") {
       it("should return correctly") {
         val myTrick = Trick(anyDirection, fourCards)
         val winnerOption = myTrick.getWinnerWithoutTrumpSuit
@@ -130,12 +130,13 @@ class TrickTest extends UnitFunSpec {
       }
     }
 
-    describe("getWinnerWithTrumpSuit"){
+    describe("getWinnerWithTrumpSuit") {
       it("should return correctly") {
         val twoOfHearts = Card(Suit.HEARTS, Rank.TWO)
         val fourCards = Vector(aceOfSpades, twoOfHearts, threeOfSpades, kingOfClubs)
         val myTrick = Trick(Direction.NORTH, fourCards)
-        val actualWinners = Suit.values.map(suit => (suit -> myTrick.getWinnerWithTrumpSuit(suit).get))
+        val actualWinners =
+          Suit.values.map(suit => (suit -> myTrick.getWinnerWithTrumpSuit(suit).get))
         val expectedWinners = Map(
           (Suit.CLUBS -> Direction.WEST),
           (Suit.DIAMONDS -> Direction.NORTH),
