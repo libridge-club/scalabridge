@@ -24,7 +24,21 @@ import scala.util.Try
 case class Auction(
     dealer: Direction,
     calls: List[Call] = List.empty
-) {
+) extends Validated[Auction] {
+
+  override def getValid()
+      : Either[Iterable[Throwable], Auction] = {
+    val intermediateCalls = calls.zipWithIndex
+      .map((callToTry, index) =>
+        (Auction(this.dealer, calls.drop(index + 1)), callToTry, this.currentTurn.next((index + 1)*3))
+      )
+    val failures = intermediateCalls
+      .map((auction, callToTry, directionToTry) => auction.makeCall(directionToTry, callToTry))
+      .collect { case Failure(throwable) => throwable }
+    if (failures.isEmpty) Right(this)
+    else Left(failures)
+  }
+
   import Auction.*
 
   def this(dealer: Direction) = this(dealer, List.empty)

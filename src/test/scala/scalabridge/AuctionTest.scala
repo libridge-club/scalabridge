@@ -10,14 +10,26 @@ import scala.util.Success
 
 @Test
 class AuctionTest extends UnitFunSpec {
+  val oneNTBid = Bid(OddTricks.ONE, Strain.NOTRUMPS)
+  val oneClubBid = Bid(OddTricks.ONE, Strain.CLUBS)
   describe("An Auction") {
     val anyDirection = Direction.NORTH
     it("should get dealer") {
       Auction(Direction.NORTH).dealer shouldBe Direction.NORTH
       Auction(Direction.EAST).dealer shouldBe Direction.EAST
     }
+    it("should validate itself") {
+      val validAuction = Auction(Direction.NORTH, List(oneNTBid,oneClubBid))
+      val invalidAuction = Auction(Direction.NORTH, List(oneClubBid,oneNTBid))
+      val invalidAuction2 = Auction(Direction.NORTH, List(DoubleCall,PassingCall,oneClubBid))
+      validAuction.getValid() shouldBe Right(validAuction)
+      invalidAuction.getValid().isLeft shouldBe true
+      invalidAuction.getValid().swap.getOrElse(List.empty).head shouldBe a [InsufficientBidException]
+      invalidAuction2.getValid().isLeft shouldBe true
+      invalidAuction2.getValid().swap.getOrElse(List.empty).head shouldBe a [InvalidCallException]
+    }
     it("should get a java.util.list of calls for java interoperability") {
-      Auction(anyDirection).getCalls() shouldBe a[java.util.List[?]]
+      Auction(anyDirection).getCalls() shouldBe a [java.util.List[?]]
     }
     it("should return exception when a player calls out of turn") {
       Auction(anyDirection)
@@ -45,8 +57,6 @@ class AuctionTest extends UnitFunSpec {
         .get shouldBe an[InvalidCallException]
     }
     it("should return exception when a player makeCall with an insufficient bid") {
-      val oneNTBid = Bid(OddTricks.ONE, Strain.NOTRUMPS)
-      val oneClubBid = Bid(OddTricks.ONE, Strain.CLUBS)
       val auctionWith1NT = Auction(anyDirection).makeCall(anyDirection, oneNTBid).get
       auctionWith1NT
         .makeCall(anyDirection.next, oneClubBid)
@@ -54,7 +64,6 @@ class AuctionTest extends UnitFunSpec {
         .get shouldBe an[InsufficientBidException]
     }
     it("should return exception when a player doubles a partner bid") {
-      val oneClubBid = Bid(OddTricks.ONE, Strain.CLUBS)
       val auctionWith1ClubAndPass = Auction(anyDirection)
         .makeCall(anyDirection, oneClubBid)
         .get
@@ -66,7 +75,6 @@ class AuctionTest extends UnitFunSpec {
         .get shouldBe an[InvalidCallException]
     }
     it("should return exception when a player redoubles a partner double") {
-      val oneClubBid = Bid(OddTricks.ONE, Strain.CLUBS)
       val auctionWith1ClubAndDoubleAndPass = Auction(anyDirection)
         .makeCall(anyDirection, oneClubBid)
         .get
