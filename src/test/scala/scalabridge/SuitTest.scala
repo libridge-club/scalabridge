@@ -2,8 +2,8 @@ package scalabridge
 
 import org.junit.jupiter.api.Test
 import scalabridge.exceptions.SuitException
+
 import scala.util.Success
-import scala.util.Failure
 
 @Test
 class SuitTest extends UnitFunSpec {

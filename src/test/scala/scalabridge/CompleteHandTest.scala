@@ -1,49 +1,41 @@
 package scalabridge
 
-import scalabridge.CompleteHand
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 import org.scalatest.EitherValues
+import scalabridge.pbn.PBNUtils
+
+import java.lang.IllegalArgumentException
 
 @Test
 class CompleteHandTest extends UnitFunSpec with EitherValues {
-  val completeCards = "A6.KT2.K85.Q9742"
-  val lessCards = "86.KT2.K85.Q974"
-  val moreCards = "86.KT2.K85.Q97432"
-  val completeCardsWrongChars = "8F.KT2.K8U.Q9742"
-  val completeCardsWrongChars2 = "P6.KT2.K85.Q9742"
+  def getHandFromString(handString: String) = PBNUtils.handFromPartialDealTag(handString).get
+  val handWithCompleteCards = getHandFromString("A6.KT2.K85.Q9742")
+  val completeCards = CompleteHand(handWithCompleteCards)
+  val lessCards = CompleteHand(getHandFromString("86.KT2.K85.Q974"))
+  val moreCards = CompleteHand(getHandFromString("86.KT2.K85.Q97432"))
   val handWithAceOfSpades = completeCards
-  val handWithoutAceOfSpades = "K6.KT2.K85.Q9742"
+  val handWithoutAceOfSpades = CompleteHand(getHandFromString("K6.KT2.K85.Q9742"))
   val aceOfSpades = Card(Suit.SPADES, Rank.ACE)
   describe("A CompleteHand") {
-    it("should be valid when constructed using a pbnString") {
-      assert(CompleteHand(completeCards).getValid().isRight)
+    it("should be valid when it has 13 cards") {
+      completeCards.getValid() shouldBe Right(completeCards)
     }
     it("should not be valid when created with a different number of cards.") {
-      CompleteHand(lessCards).getValid().left.value.head shouldBe an[IllegalArgumentException]
-      CompleteHand(moreCards).getValid().left.value.head shouldBe an[IllegalArgumentException]
+      lessCards.getValid().left.value.head shouldBe an[IllegalArgumentException]
+      moreCards.getValid().left.value.head shouldBe an[IllegalArgumentException]
     }
-    it("should not be valid when created with wrong characters for ranks.") {
-      CompleteHand(completeCardsWrongChars)
-        .getValid()
-        .left
-        .value
-        .head shouldBe an[IllegalArgumentException]
-      CompleteHand(completeCardsWrongChars2)
-        .getValid()
-        .left
-        .value
-        .head shouldBe an[IllegalArgumentException]
+    it("should have its hand accessible") {
+      completeCards.hand shouldBe handWithCompleteCards
     }
-    describe("hasCard function") {
+    describe("containsCard function") {
       it("should return if there is a specific card inside the hand") {
-        assert(CompleteHand(handWithAceOfSpades).hasCard(aceOfSpades))
-        assert(!CompleteHand(handWithoutAceOfSpades).hasCard(aceOfSpades))
+        handWithAceOfSpades.containsCard(aceOfSpades) shouldBe true
+        handWithoutAceOfSpades.containsCard(aceOfSpades) shouldBe false
       }
     }
     describe("cards function") {
       it("should return the correct set of cards") {
-        val actualSet = CompleteHand(completeCards).cards
+        val actualSet = completeCards.cards
         val expectedSet = Set(
           Card(Suit.SPADES, Rank.ACE),
           Card(Suit.SPADES, Rank.SIX),

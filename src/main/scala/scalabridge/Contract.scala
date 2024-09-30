@@ -1,7 +1,5 @@
 package scalabridge
 
-import scala.collection.immutable.ListMap
-
 sealed abstract class Contract {
   def isAllPass: Boolean
 }

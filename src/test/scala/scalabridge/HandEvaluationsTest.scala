@@ -1,12 +1,13 @@
 package scalabridge
 
-import scalabridge.nonpure.ContractFromTextValidatedBuilder
-import scala.collection.immutable.SortedSet
 import org.junit.jupiter.api.Test
+import scalabridge.pbn.PBNUtils
 
 @Test
 class HandEvaluationsTest extends UnitFunSpec {
-  private def getHandEvaluations(hand: String) = HandEvaluations(Hand(CompleteHand(hand)))
+  private def getHandEvaluations(handString: String) = HandEvaluations(
+    PBNUtils.handFromPartialDealTag(handString).get
+  )
   private val sampleHand1 = getHandEvaluations("AQJ5.K32..AJ9876")
   private val sampleHand2 = getHandEvaluations("AJ75.K32.Q73.J97")
   private val sampleHand3 = getHandEvaluations("AKJ75.K32.Q73.J7")

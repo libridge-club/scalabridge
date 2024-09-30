@@ -1,10 +1,5 @@
 package scalabridge
 
-import scalabridge.CompleteHand
-import scalabridge.Direction
-import scalabridge.GameConstants
-import scalabridge.Validated
-
 case class CompleteDeckInFourHands(hands: Map[Direction, CompleteHand])
     extends Validated[CompleteDeckInFourHands]:
   import CompleteDeckInFourHands._

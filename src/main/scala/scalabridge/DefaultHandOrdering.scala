@@ -1,7 +1,5 @@
 package scalabridge
 
-import scala.collection.immutable.HashMap
-
 object DefaultHandOrdering extends Ordering[Card] {
 
   override def compare(x: Card, y: Card): Int =

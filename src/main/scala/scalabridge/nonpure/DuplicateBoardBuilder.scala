@@ -1,11 +1,14 @@
 package scalabridge.nonpure
 
+import scalabridge.CompleteDeckInFourHands
+import scalabridge.CompleteHand
+import scalabridge.Direction
 import scalabridge.DuplicateBoard
 import scalabridge.PositiveInteger
-import scalabridge.EffectiveDuplicateBoardNumber
-import scalabridge.Direction
-import scalabridge.CompleteHand
-import scalabridge.CompleteDeckInFourHands
+import scalabridge.pbn.PBNDealTag
+
+import scala.util.Failure
+import scala.util.Success
 
 object DuplicateBoardBuilder {
 
@@ -13,12 +16,16 @@ object DuplicateBoardBuilder {
     try {
       val positiveInteger =
         PositiveIntegerValidatedBuilder.build(PositiveInteger(boardNumber))
-      val first = pbnDealTag.charAt(0)
-      val firstDirection = Direction.getFromAbbreviation(first).get
-      val hands = pbnDealTag.substring(2).split(" ")
-      val completeHands =
-        hands.map((handString) => CompleteHandValidatedBuilder.build(CompleteHand(handString)))
-      val directionToCompleteHandMap = completeHands.zipWithIndex
+      val validDealTag = PBNDealTag(pbnDealTag).getValid() match
+        case Left(value)  => throw value.head
+        case Right(value) => value
+      val (firstDirection, handOptions) = validDealTag.getParts match
+        case Failure(exception) => throw exception
+        case Success(value)     => value
+      val completeHands = handOptions.map(handOption => CompleteHand(handOption.get))
+      val validatedHands =
+        completeHands.map((completeHand) => CompleteHandValidatedBuilder.build(completeHand))
+      val directionToCompleteHandMap = validatedHands.zipWithIndex
         .map((hand, index) => (firstDirection.next(index) -> hand))
         .toMap
       val finalHands = CompleteDeckInFourHandsValidatedBuilder.build(

@@ -1,17 +1,20 @@
 package scalabridge
 
-import scalabridge.CompleteHand
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 import org.scalatest.EitherValues
+import scalabridge.pbn.PBNUtils
+
+import java.lang.IllegalArgumentException
 
 @Test
 class CompleteDeckInFourHandsTest extends UnitFunSpec with EitherValues {
-  val completeHand1 = CompleteHand("86.KT2.K85.Q9742")
-  val completeHand2 = CompleteHand("KJT932.97.942.86")
-  val completeHand3 = CompleteHand("54.8653.AQJT73.3")
-  val completeHand4 = CompleteHand("AQ7.AQJ4.6.AKJT5")
-  val lessCards = CompleteHand("86.KT2.K85.Q974")
+  def getCompleteHandFromPartialDealString(partialDealString: String) =
+    CompleteHand(PBNUtils.handFromPartialDealTag(partialDealString).get)
+  val completeHand1 = getCompleteHandFromPartialDealString("86.KT2.K85.Q9742")
+  val completeHand2 = getCompleteHandFromPartialDealString("KJT932.97.942.86")
+  val completeHand3 = getCompleteHandFromPartialDealString("54.8653.AQJT73.3")
+  val completeHand4 = getCompleteHandFromPartialDealString("AQ7.AQJ4.6.AKJT5")
+  val lessCards = getCompleteHandFromPartialDealString("86.KT2.K85.Q974")
   val allCompleteHands: Map[Direction, CompleteHand] = Map(
     Direction.NORTH -> completeHand1,
     Direction.EAST -> completeHand2,

@@ -1,9 +1,7 @@
 package scalabridge
 
-import scalabridge.nonpure.ContractFromTextValidatedBuilder
-import scala.collection.immutable.SortedSet
-import scalabridge.exceptions.TrickAlreadyFullException
 import org.junit.jupiter.api.Test
+import scalabridge.exceptions.TrickAlreadyFullException
 
 @Test
 class TrickTest extends UnitFunSpec {

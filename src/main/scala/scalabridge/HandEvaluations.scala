@@ -42,7 +42,7 @@ case class HandEvaluations(hand: Hand) {
   val hasFourOrMoreCardsInMajorSuitExcludingLongestSuit: Boolean = cardsPerSuit
     .filterNot((suit, _) => suit == getLongestSuit)
     .filter((suit, _) => isMajorSuit(suit))
-    .exists((suit, cards) => cards.size >= 4)
+    .exists((_, cards) => cards.size >= 4)
 
   /**
     * @return Return the longest major if they have different lengths. If they have equal lengths, return spades.

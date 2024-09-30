@@ -1,8 +1,6 @@
 package scalabridge
 
-import scalabridge.CompleteHand
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 import scalabridge.nonpure.PositiveIntegerValidatedBuilder
 
 @Test

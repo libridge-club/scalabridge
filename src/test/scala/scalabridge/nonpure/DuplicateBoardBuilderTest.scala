@@ -1,11 +1,11 @@
 package scalabridge.nonpure
 
-import scalabridge.EffectiveDuplicateBoardNumber
-import scalabridge.Direction
-import scalabridge.CompleteHand
-import scalabridge.PositiveInteger
 import org.junit.jupiter.api.Test
+import scalabridge.CompleteHand
+import scalabridge.Direction
+import scalabridge.PositiveInteger
 import scalabridge.UnitFunSpec
+import scalabridge.pbn.PBNUtils
 
 @Test
 class DuplicateBoardBuilderTest extends UnitFunSpec {
@@ -16,7 +16,7 @@ class DuplicateBoardBuilderTest extends UnitFunSpec {
   val invalidPbnDealTag2 = "N:P6.KT2.K85.Q9742 KJT932.97.942.86 54.8653.AQJT73.3 AQ7.AQJ4.6.AKJT5"
   val invalidPbnDealTag3 = "N:86.KT2.K85.Q9742 KJT932.97.942.86 54.8653.AQJT73.3"
   val northPbnString = "AQ7.AQJ4.6.AKJT5"
-  val northCompleteHand = CompleteHand(northPbnString)
+  val northCompleteHand = CompleteHand(PBNUtils.handFromPartialDealTag(northPbnString).get)
 
   describe("A DuplicateBoardBuilder") {
     describe("when all arguments are valid") {

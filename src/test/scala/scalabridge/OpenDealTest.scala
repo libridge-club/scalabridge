@@ -1,8 +1,10 @@
 package scalabridge
 
-import scalabridge.events.{Event, PlayCardEvent}
-import scalabridge.nonpure.DuplicateBoardBuilder
 import org.junit.jupiter.api.Test
+import scalabridge.events.Event
+import scalabridge.events.PlayCardEvent
+import scalabridge.nonpure.DuplicateBoardBuilder
+
 import java.time.Instant
 
 @Test
@@ -23,7 +25,7 @@ class OpenDealTest extends UnitFunSpec {
 
   private def findDirection(c: Card, board: DuplicateBoard): Direction = {
     Direction.values
-      .find(direction => board.getHandOf(direction).hasCard(c))
+      .find(direction => board.getHandOf(direction).containsCard(c))
       .getOrElse(Direction.NORTH)
   }
 

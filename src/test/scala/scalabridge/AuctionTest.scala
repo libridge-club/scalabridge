@@ -1,13 +1,12 @@
 package scalabridge
 
 import org.junit.jupiter.api.Test
-import scalabridge.nonpure.ContractFromTextValidatedBuilder
-import scala.collection.immutable.SortedSet
-import scalabridge.exceptions.auction.CallInAnotherPlayersTurnException
 import scalabridge.exceptions.auction.AuctionAlreadyFinishedException
-import scala.util.Success
-import scalabridge.exceptions.auction.InvalidCallException
+import scalabridge.exceptions.auction.CallInAnotherPlayersTurnException
 import scalabridge.exceptions.auction.InsufficientBidException
+import scalabridge.exceptions.auction.InvalidCallException
+
+import scala.util.Success
 
 @Test
 class AuctionTest extends UnitFunSpec {

@@ -13,7 +13,7 @@ class ValidatedBuilderTest extends UnitFunSpec {
   describe("A PositiveIntegerBuilder") {
     describe("when all arguments are valid") {
       it("should build a Valid positive integer") {
-        val subject = PositiveIntegerValidatedBuilder.build(PositiveInteger(1))
+        PositiveIntegerValidatedBuilder.build(PositiveInteger(1))
       }
     }
     describe("when some arguments are invalid") {

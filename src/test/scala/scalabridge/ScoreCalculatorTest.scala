@@ -1,7 +1,6 @@
 package scalabridge
 
 import org.junit.jupiter.api.Test
-import TricksMade._
 import scalabridge.nonpure.ContractFromTextValidatedBuilder
 
 @Test

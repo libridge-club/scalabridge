@@ -1,9 +1,9 @@
 package scalabridge
 
 import org.junit.jupiter.api.Test
-import scala.util.Success
-import scala.util.Failure
 import scalabridge.exceptions.DirectionException
+
+import scala.util.Success
 
 @Test
 class DirectionTest extends UnitFunSpec {

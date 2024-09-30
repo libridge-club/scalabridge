@@ -1,13 +1,12 @@
 package scalabridge
 
 import org.junit.jupiter.api.Test
-import scalabridge.nonpure.ContractFromTextValidatedBuilder
-import scala.collection.immutable.SortedSet
+import scalabridge.pbn.PBNUtils
 
 @Test
 class HandTest extends UnitFunSpec {
   private val validHandString = "KJT932.97.942.86"
-  private val completeHand = CompleteHand(validHandString)
+  private val completeHand = CompleteHand(PBNUtils.handFromPartialDealTag(validHandString).get)
   private val cardsInHand = completeHand.cards
 
   val aceOfSpades = Card(Suit.SPADES, Rank.ACE)
@@ -79,6 +78,7 @@ class HandTest extends UnitFunSpec {
     it("should transform toString using PBN implementation") {
       val myHand = Hand(Set(aceOfSpades, kingOfClubs))
       myHand.toString() shouldBe "A...K"
+      completeHand.hand.toString() shouldBe validHandString
     }
   }
 }

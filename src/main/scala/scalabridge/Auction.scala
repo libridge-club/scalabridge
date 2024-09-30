@@ -1,11 +1,11 @@
 package scalabridge
 
-import scala.jdk.javaapi.CollectionConverters
-import scala.util.Try
-import scala.util.Failure
 import scalabridge.exceptions.auction.*
+
+import scala.jdk.javaapi.CollectionConverters
+import scala.util.Failure
 import scala.util.Success
-import scalabridge.AllPassContract
+import scala.util.Try
 
 /**
   * The rules for Bridge Auction are as follows (paraphrasing/quoting the 2017 Laws of Bridge - LAWS 17-22):
@@ -57,8 +57,8 @@ case class Auction(
 
   private def copyWithCall(call: Call) = this.copy(calls = call +: this.calls)
 
-  val isFinished: Boolean = calls.equals(fourPasses) ||
-    (calls.startsWith(threePasses) && lastNonPassCall.isDefined)
+  val isFinished: Boolean = calls.equals(numberOfInitialPassesToEndAuction) ||
+    (calls.startsWith(numberOfConsecutivePassesToEndAuction) && lastNonPassCall.isDefined)
 
   def getCalls(): java.util.List[Call] = CollectionConverters.asJava(calls)
   def makeCall(direction: Direction, call: Call): Try[Auction] = {
@@ -100,8 +100,7 @@ case class Auction(
 }
 object Auction {
   def apply(dealer: Direction) = new Auction(dealer)
-  private val numberOfInitialPassesToEndAuction = 4
-  private val numberOfConsecutivePassesToEndAuction = 3
-  private val fourPasses = List(PassingCall, PassingCall, PassingCall, PassingCall)
-  private val threePasses = List(PassingCall, PassingCall, PassingCall)
+  private val numberOfInitialPassesToEndAuction =
+    List(PassingCall, PassingCall, PassingCall, PassingCall)
+  private val numberOfConsecutivePassesToEndAuction = List(PassingCall, PassingCall, PassingCall)
 }
