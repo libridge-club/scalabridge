@@ -15,6 +15,12 @@ libridge uses sbt to build. The following line should be enough:
 ```
 sbt package
 ```
+## Testing
+
+Unit tests: `sbt 'testOnly *Test'`
+
+Acceptance tests: `sbt 'testOnly *Feature'`
+
 
 ## Authors and copyright
 
