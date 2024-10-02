@@ -3,26 +3,32 @@ package scalabridge
 /**
  * This is governed by LAW 77 - DUPLICATE BRIDGE SCORING TABLE
  */
-object ScoreCalculator {
+case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksMade: TricksMade) {
+  private val NO_TRUMP_FIRST_TRICK_BONUS = 10
 
-  private def NO_TRUMP_FIRST_TRICK_BONUS = 10
-
-  def score(contract: Contract, tricksMade: TricksMade): Int = {
+  def calculate: Int = {
     contract match
       case defaultContract: DefaultContract => {
         val overOrUnderTricks = tricksMade.tricks - 6 - defaultContract.getLevel;
-        if (overOrUnderTricks >= 0) contractMadeScore(defaultContract, overOrUnderTricks)
+        if (overOrUnderTricks >= 0)
+          contractMadeScore(defaultContract, overOrUnderTricks)
         else -contractFailedScore(defaultContract, -overOrUnderTricks)
       }
       case AllPassContract => 0
   }
 
-  private def contractMadeScore(contract: DefaultContract, overtricks: Int): Int = {
+  private def contractMadeScore(
+      contract: DefaultContract,
+      overtricks: Int,
+  ): Int = {
     val penaltyMultiplier = getPenaltyMultiplier(contract);
     val trickScore = getTrickScore(contract, penaltyMultiplier) +
       getNoTrumpFirstTrickBonus(contract, penaltyMultiplier)
     val isGame = trickScore >= 100
-    trickScore + getPremiumScore(contract, isGame) + getOvertrickBonus(contract, overtricks);
+    trickScore + getPremiumScore(contract, isGame) + getOvertrickBonus(
+      contract,
+      overtricks
+    );
   }
 
   private def getPenaltyMultiplier(contract: DefaultContract): Int =
@@ -47,26 +53,35 @@ object ScoreCalculator {
       case Strain.SPADES   => 30
       case Strain.NOTRUMPS => 30
 
-  private def getPremiumScore(contract: DefaultContract, isGame: Boolean): Int = {
+  private def getPremiumScore(
+      contract: DefaultContract,
+      isGame: Boolean
+  ): Int = {
     getPremiumScoreGrandSlam(contract) +
       getPremiumScoreSmallSlam(contract) +
-      getPremiumScoreGameOrPartscore(contract, isGame) +
+      getPremiumScoreGameOrPartscore(isGame) +
       getPremiumScoreDoubledOrRedoubled(contract)
   }
-  private def getPremiumScoreGrandSlam(contract: DefaultContract): Int =
-    (contract.getLevel, contract.vulnerability) match
+  private def getPremiumScoreGrandSlam(
+      contract: DefaultContract,
+  ): Int =
+    (contract.getLevel, vulnerability) match
       case (7, VulnerabilityStatus.NONVULNERABLE) => 1000
       case (7, VulnerabilityStatus.VULNERABLE)    => 1500
       case _                                      => 0
 
-  private def getPremiumScoreSmallSlam(contract: DefaultContract): Int =
-    (contract.getLevel, contract.vulnerability) match
+  private def getPremiumScoreSmallSlam(
+      contract: DefaultContract,
+  ): Int =
+    (contract.getLevel, vulnerability) match
       case (6, VulnerabilityStatus.NONVULNERABLE) => 500
       case (6, VulnerabilityStatus.VULNERABLE)    => 750
       case _                                      => 0
 
-  private def getPremiumScoreGameOrPartscore(contract: DefaultContract, isGame: Boolean): Int =
-    (isGame, contract.vulnerability) match
+  private def getPremiumScoreGameOrPartscore(
+      isGame: Boolean,
+  ): Int =
+    (isGame, vulnerability) match
       case (true, VulnerabilityStatus.NONVULNERABLE) => 300
       case (true, VulnerabilityStatus.VULNERABLE)    => 500
       case _                                         => 50
@@ -77,8 +92,11 @@ object ScoreCalculator {
       case PenaltyStatus.DOUBLED   => 50
       case PenaltyStatus.REDOUBLED => 100
 
-  private def getOvertrickBonus(contract: DefaultContract, overtricks: Int): Int = {
-    val basevalue = (contract.penaltyStatus, contract.vulnerability) match
+  private def getOvertrickBonus(
+      contract: DefaultContract,
+      overtricks: Int,
+  ): Int = {
+    val basevalue = (contract.penaltyStatus, vulnerability) match
       case (PenaltyStatus.NONE, _) => getTrickScoreUndoubled(contract.strain)
       case (PenaltyStatus.DOUBLED, VulnerabilityStatus.NONVULNERABLE)   => 100
       case (PenaltyStatus.DOUBLED, VulnerabilityStatus.VULNERABLE)      => 200
@@ -87,9 +105,12 @@ object ScoreCalculator {
     overtricks * basevalue
   }
 
-  private def contractFailedScore(contract: DefaultContract, undertricks: Int): Int = {
+  private def contractFailedScore(
+      contract: DefaultContract,
+      undertricks: Int,
+  ): Int = {
     if (undertricks < 0) return 0
-    (contract.vulnerability, contract.penaltyStatus) match
+    (vulnerability, contract.penaltyStatus) match
       case (VulnerabilityStatus.NONVULNERABLE, PenaltyStatus.NONE) => undertricks * 50;
       case (VulnerabilityStatus.NONVULNERABLE, PenaltyStatus.DOUBLED) =>
         undertricks match {

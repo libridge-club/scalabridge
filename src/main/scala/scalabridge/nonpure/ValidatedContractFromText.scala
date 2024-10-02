@@ -1,7 +1,6 @@
 package scalabridge.nonpure
 
 import scalabridge.Contract
-import scalabridge.VulnerabilityStatus
 import scalabridge.OddTricks
 import scalabridge.Strain
 import scalabridge.PenaltyStatus
@@ -17,8 +16,7 @@ import scalabridge.exceptions.OddTricksException
    * S = strain ( [c,d,h,s,n] )
    * P = Penalty ( "X" for double and "XX" for redouble )
    */
-case class ValidatedContractFromText(text: String, vulnerabilityStatus: VulnerabilityStatus)
-    extends Validated[Contract] {
+case class ValidatedContractFromText(text: String) extends Validated[Contract] {
 
   override def getValid(): Either[Iterable[Throwable], Contract] = {
     val oddTricksTry = text.substring(0, 1).toIntOption match
@@ -39,7 +37,7 @@ case class ValidatedContractFromText(text: String, vulnerabilityStatus: Vulnerab
 
     val throwables = Seq(oddTricksTry, strainTry, penaltyStatusTry).partitionMap(_.toEither)._1
     if (throwables.isEmpty)
-      Right(Contract(oddTricksTry.get, strainTry.get, penaltyStatusTry.get, vulnerabilityStatus))
+      Right(Contract(oddTricksTry.get, strainTry.get, penaltyStatusTry.get))
     else
       Left(throwables)
 

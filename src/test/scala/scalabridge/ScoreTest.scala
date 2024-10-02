@@ -4,14 +4,15 @@ import org.junit.jupiter.api.Test
 import scalabridge.nonpure.ContractFromTextValidatedBuilder
 
 @Test
-class ScoreCalculatorTest extends UnitFunSpec {
+class ScoreTest extends UnitFunSpec {
   private def getScore(
       text: String,
       vulnerabilityStatus: VulnerabilityStatus,
       tricksMade: TricksMade
-  ) = {
-    val contract = ContractFromTextValidatedBuilder.build(text, vulnerabilityStatus)
-    ScoreCalculator.score(contract, tricksMade)
+  ) :Int = {
+    val contract = ContractFromTextValidatedBuilder.build(text)
+    val score = Score(contract, vulnerabilityStatus, tricksMade)
+    score.calculate
   }
 
   private val nonVul = VulnerabilityStatus.NONVULNERABLE
@@ -77,21 +78,21 @@ class ScoreCalculatorTest extends UnitFunSpec {
       val nonvulnerable = VulnerabilityStatus.NONVULNERABLE
       val vulnerable = VulnerabilityStatus.VULNERABLE
 
-      val nonVul = Contract(sevenOddTricks, anyStrain, none, nonvulnerable);
-      val nonVulX = Contract(sevenOddTricks, anyStrain, doubled, nonvulnerable)
-      val nonVulXX = Contract(sevenOddTricks, anyStrain, redoubled, nonvulnerable)
-      val vul = Contract(sevenOddTricks, anyStrain, none, vulnerable)
-      val vulX = Contract(sevenOddTricks, anyStrain, doubled, vulnerable)
-      val vulXX = Contract(sevenOddTricks, anyStrain, redoubled, vulnerable)
+      val nonVul = Contract(sevenOddTricks, anyStrain, none);
+      val nonVulX = Contract(sevenOddTricks, anyStrain, doubled)
+      val nonVulXX = Contract(sevenOddTricks, anyStrain, redoubled)
+      val vul = Contract(sevenOddTricks, anyStrain, none)
+      val vulX = Contract(sevenOddTricks, anyStrain, doubled)
+      val vulXX = Contract(sevenOddTricks, anyStrain, redoubled)
       values.foreach(downSome =>
         val (i, a, b, c, d, e, f) = downSome
         val tricksMade = TricksMade.fromInt(13 - i + 1)
-        ScoreCalculator.score(nonVul, tricksMade) shouldBe a
-        ScoreCalculator.score(nonVulX, tricksMade) shouldBe b
-        ScoreCalculator.score(nonVulXX, tricksMade) shouldBe c
-        ScoreCalculator.score(vul, tricksMade) shouldBe d
-        ScoreCalculator.score(vulX, tricksMade) shouldBe e
-        ScoreCalculator.score(vulXX, tricksMade) shouldBe f
+        Score(nonVul, nonvulnerable, tricksMade).calculate shouldBe a
+        Score(nonVulX, nonvulnerable, tricksMade).calculate shouldBe b
+        Score(nonVulXX, nonvulnerable, tricksMade).calculate shouldBe c
+        Score(vul, vulnerable, tricksMade).calculate shouldBe d
+        Score(vulX, vulnerable, tricksMade).calculate shouldBe e
+        Score(vulXX, vulnerable, tricksMade).calculate shouldBe f
       )
     }
   }

@@ -51,8 +51,10 @@ object PBNDealTag {
   private val firstRegex: String = s"[NESW]{1}"
   private val oneSuitRegex: String = s"[AKQJT98765432]*"
   private val emptyHandRegex: String = "-"
-  private val nonEmptyHandRegex: String = s"${oneSuitRegex}\\.${oneSuitRegex}\\.${oneSuitRegex}\\.${oneSuitRegex}"
-  private val nonEmptyHandRegexWithMatchers: String = s"(${oneSuitRegex})\\.(${oneSuitRegex})\\.(${oneSuitRegex})\\.(${oneSuitRegex})"
+  private val nonEmptyHandRegex: String =
+    s"${oneSuitRegex}\\.${oneSuitRegex}\\.${oneSuitRegex}\\.${oneSuitRegex}"
+  private val nonEmptyHandRegexWithMatchers: String =
+    s"(${oneSuitRegex})\\.(${oneSuitRegex})\\.(${oneSuitRegex})\\.(${oneSuitRegex})"
   private val oneHandRegex: String =
     s"${emptyHandRegex}|${nonEmptyHandRegex}"
   private val completeRegex: Regex =

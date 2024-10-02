@@ -6,7 +6,7 @@ sealed abstract class Call { // Not a trait because it will be called from Java 
   def isRedouble: Boolean
   def isBid: Boolean
 }
-object PassingCall extends Call {
+case object PassingCall extends Call {
   def instance: Call = this
   def isPass: Boolean = true
   def isDouble: Boolean = false
@@ -17,12 +17,12 @@ sealed abstract class PunitiveCall extends Call {
   def isPass: Boolean = false
   def isBid: Boolean = false
 }
-object DoubleCall extends PunitiveCall {
+case object DoubleCall extends PunitiveCall {
   def instance: PunitiveCall = this
   def isDouble: Boolean = true
   def isRedouble: Boolean = false
 }
-object RedoubleCall extends PunitiveCall {
+case object RedoubleCall extends PunitiveCall {
   def instance: PunitiveCall = this
   def isDouble: Boolean = false
   def isRedouble: Boolean = true

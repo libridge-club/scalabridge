@@ -24,10 +24,12 @@ object PBNUtils { // FIXME add all the methods from the java class and their tes
     partialDealTag match
       case oneNonEmptyHandRegex(suit1, suit2, suit3, suit4) => {
         val suitStrings = List(suit1, suit2, suit3, suit4)
-        val existsInvalidSuitString = suitStrings.exists(suitString => !oneSuitRegex.matches(suitString))
+        val existsInvalidSuitString =
+          suitStrings.exists(suitString => !oneSuitRegex.matches(suitString))
         if (existsInvalidSuitString) None
         else {
-          val cards = suitOrder.zip(suitStrings)
+          val cards = suitOrder
+            .zip(suitStrings)
             .toSet
             .flatMap((suit, suitString) => getCardsFromSuitAndSuitString(suit, suitString))
           Some(Hand(cards))

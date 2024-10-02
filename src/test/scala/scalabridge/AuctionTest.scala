@@ -19,17 +19,17 @@ class AuctionTest extends UnitFunSpec {
       Auction(Direction.EAST).dealer shouldBe Direction.EAST
     }
     it("should validate itself") {
-      val validAuction = Auction(Direction.NORTH, List(oneNTBid,oneClubBid))
-      val invalidAuction = Auction(Direction.NORTH, List(oneClubBid,oneNTBid))
-      val invalidAuction2 = Auction(Direction.NORTH, List(DoubleCall,PassingCall,oneClubBid))
+      val validAuction = Auction(Direction.NORTH, List(oneNTBid, oneClubBid))
+      val invalidAuction = Auction(Direction.NORTH, List(oneClubBid, oneNTBid))
+      val invalidAuction2 = Auction(Direction.NORTH, List(DoubleCall, PassingCall, oneClubBid))
       validAuction.getValid() shouldBe Right(validAuction)
       invalidAuction.getValid().isLeft shouldBe true
-      invalidAuction.getValid().swap.getOrElse(List.empty).head shouldBe a [InsufficientBidException]
+      invalidAuction.getValid().swap.getOrElse(List.empty).head shouldBe a[InsufficientBidException]
       invalidAuction2.getValid().isLeft shouldBe true
-      invalidAuction2.getValid().swap.getOrElse(List.empty).head shouldBe a [InvalidCallException]
+      invalidAuction2.getValid().swap.getOrElse(List.empty).head shouldBe a[InvalidCallException]
     }
     it("should get a java.util.list of calls for java interoperability") {
-      Auction(anyDirection).getCalls() shouldBe a [java.util.List[?]]
+      Auction(anyDirection).getCalls() shouldBe a[java.util.List[?]]
     }
     it("should return exception when a player calls out of turn") {
       Auction(anyDirection)
@@ -96,7 +96,7 @@ class AuctionTest extends UnitFunSpec {
         emptyAuction.isFinished shouldBe false
       }
       it("should return no Contract") {
-        emptyAuction.getFinalContract(VulnerabilityStatus.NONVULNERABLE) shouldBe None
+        emptyAuction.getFinalContract shouldBe None
       }
     }
     describe("when finished") {
@@ -118,7 +118,7 @@ class AuctionTest extends UnitFunSpec {
         finishedAuction.makeCallSafe(Direction.NORTH, PassingCall) shouldBe finishedAuction
       }
       it("should return its Contract") {
-        finishedAuction.getFinalContract(VulnerabilityStatus.NONVULNERABLE) shouldBe Some(
+        finishedAuction.getFinalContract shouldBe Some(
           AllPassContract
         )
         val otherFinishedAuction = Auction(Direction.NORTH)
@@ -132,13 +132,12 @@ class AuctionTest extends UnitFunSpec {
           .get
           .makeCall(Direction.NORTH, PassingCall)
           .get
-        otherFinishedAuction.getFinalContract(VulnerabilityStatus.NONVULNERABLE) shouldBe
+        otherFinishedAuction.getFinalContract shouldBe
           Some(
             Contract(
               OddTricks.FOUR,
               Strain.SPADES,
-              PenaltyStatus.DOUBLED,
-              VulnerabilityStatus.NONVULNERABLE
+              PenaltyStatus.DOUBLED
             )
           )
       }
