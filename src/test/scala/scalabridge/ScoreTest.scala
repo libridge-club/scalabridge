@@ -9,7 +9,7 @@ class ScoreTest extends UnitFunSpec {
       text: String,
       vulnerabilityStatus: VulnerabilityStatus,
       tricksMade: TricksMade
-  ) :Int = {
+  ): Int = {
     val contract = ContractFromTextValidatedBuilder.build(text)
     val score = Score(contract, vulnerabilityStatus, tricksMade)
     score.calculate

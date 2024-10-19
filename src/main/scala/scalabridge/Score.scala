@@ -19,7 +19,7 @@ case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksM
 
   private def contractMadeScore(
       contract: DefaultContract,
-      overtricks: Int,
+      overtricks: Int
   ): Int = {
     val penaltyMultiplier = getPenaltyMultiplier(contract);
     val trickScore = getTrickScore(contract, penaltyMultiplier) +
@@ -63,7 +63,7 @@ case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksM
       getPremiumScoreDoubledOrRedoubled(contract)
   }
   private def getPremiumScoreGrandSlam(
-      contract: DefaultContract,
+      contract: DefaultContract
   ): Int =
     (contract.getLevel, vulnerability) match
       case (7, VulnerabilityStatus.NONVULNERABLE) => 1000
@@ -71,7 +71,7 @@ case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksM
       case _                                      => 0
 
   private def getPremiumScoreSmallSlam(
-      contract: DefaultContract,
+      contract: DefaultContract
   ): Int =
     (contract.getLevel, vulnerability) match
       case (6, VulnerabilityStatus.NONVULNERABLE) => 500
@@ -79,7 +79,7 @@ case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksM
       case _                                      => 0
 
   private def getPremiumScoreGameOrPartscore(
-      isGame: Boolean,
+      isGame: Boolean
   ): Int =
     (isGame, vulnerability) match
       case (true, VulnerabilityStatus.NONVULNERABLE) => 300
@@ -94,7 +94,7 @@ case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksM
 
   private def getOvertrickBonus(
       contract: DefaultContract,
-      overtricks: Int,
+      overtricks: Int
   ): Int = {
     val basevalue = (contract.penaltyStatus, vulnerability) match
       case (PenaltyStatus.NONE, _) => getTrickScoreUndoubled(contract.strain)
@@ -107,7 +107,7 @@ case class Score(contract: Contract, vulnerability: VulnerabilityStatus, tricksM
 
   private def contractFailedScore(
       contract: DefaultContract,
-      undertricks: Int,
+      undertricks: Int
   ): Int = {
     if (undertricks < 0) return 0
     (vulnerability, contract.penaltyStatus) match
