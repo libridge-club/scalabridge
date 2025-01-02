@@ -11,9 +11,9 @@ case class Trick(leader: Direction, cards: Vector[Card]) {
     this(leader, Vector.empty) // Java interop doesn't work with default value
 
   private val directionToCardMap: Map[Direction, Card] =
-    cards.zipWithIndex.map((card, index) => (leader.next(index) -> card)).toMap
+    cards.zipWithIndex.map((card, index) => (leader.next(PositiveInteger(index)) -> card)).toMap
   private val cardToDirectionMap: Map[Card, Direction] =
-    cards.zipWithIndex.map((card, index) => (card -> leader.next(index))).toMap
+    cards.zipWithIndex.map((card, index) => (card -> leader.next(PositiveInteger(index)))).toMap
   private val leadSuit: Option[Suit] = if (cards.isEmpty) None else Some(cards(0).suit)
 
   private def hasSuit(suit: Suit) = cards.map(_.suit).contains(suit);
@@ -29,7 +29,7 @@ case class Trick(leader: Direction, cards: Vector[Card]) {
   val isEmpty: Boolean = cards.isEmpty
   val isComplete = cards.length == GameConstants.COMPLETE_TRICK_NUMBER_OF_CARDS
   val getLeadSuit: Option[Suit] = leadSuit
-  val getLastPlayer: Direction = leader.next(3)
+  val getLastPlayer: Direction = leader.next(PositiveInteger(GameConstants.NUMBER_OF_HANDS - 1))
 
   def getCardDirectionMap: java.util.Map[Card, Direction] =
     CollectionConverters.asJava(cardToDirectionMap)

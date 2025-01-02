@@ -6,6 +6,7 @@ import scala.jdk.CollectionConverters.*
 import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
+import scala.annotation.tailrec
 
 enum Direction(completeName: String, abbreviation: Char) extends java.lang.Enum[Direction] {
   case NORTH extends Direction("North", 'N')
@@ -18,10 +19,16 @@ enum Direction(completeName: String, abbreviation: Char) extends java.lang.Enum[
   def isEast: Boolean = EAST == this
   def isSouth: Boolean = SOUTH == this
   def isWest: Boolean = WEST == this
-  def isNorthSouth: Boolean = this.isNorth || this.isSouth
-  def isEastWest: Boolean = this.isEast || this.isWest
-  def next(n: Int): Direction = Direction.next(this, n)
-  def next: Direction = this.next(1)
+  def isSide(side: Side): Boolean = side match
+    case Side.NORTHSOUTH => this.isNorth || this.isSouth
+    case Side.EASTWEST   => this.isEast || this.isWest
+  def next(n: PositiveInteger): Direction = Direction.next(this, n)
+  def next: Direction = this match
+    case NORTH => EAST
+    case EAST  => SOUTH
+    case SOUTH => WEST
+    case WEST  => NORTH
+
 }
 object Direction {
   def getNorth(): Direction = NORTH
@@ -29,8 +36,14 @@ object Direction {
   def getSouth(): Direction = SOUTH
   def getWest(): Direction = WEST
   private val length = values.size
-  def next(direction: Direction, n: Int): Direction = {
-    Direction.fromOrdinal((direction.ordinal + n) % Direction.length)
+  def next(direction: Direction, n: PositiveInteger): Direction = {
+    val stepsToGo = n.number % Direction.length
+    @tailrec
+    def nextTailrec(currentDirection: Direction, stepsToGo: Int): Direction = {
+      if (stepsToGo <= 0) currentDirection
+      else nextTailrec(currentDirection.next, stepsToGo - 1)
+    }
+    nextTailrec(direction, stepsToGo)
   }
   def differenceBetween(directionA: Direction, directionB: Direction): Int = {
     val result = (directionB.ordinal - directionA.ordinal) % Direction.length

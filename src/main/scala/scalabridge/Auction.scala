@@ -28,13 +28,15 @@ case class Auction(
 
   override def getValid(): Either[Iterable[Throwable], Auction] = {
     val intermediateCalls = calls.zipWithIndex
-      .map((callToTry, index) =>
+      .map((callToTry, index) => {
+        val nextIndex = (index + 1) * 3
+        assert(nextIndex >= 0, "If this is negative, the logic is wrong.")
         (
           Auction(this.dealer, calls.drop(index + 1)),
           callToTry,
-          this.currentTurn.next((index + 1) * 3)
+          this.currentTurn.next(PositiveInteger(nextIndex))
         )
-      )
+      })
     val failures = intermediateCalls
       .map((auction, callToTry, directionToTry) => auction.makeCall(directionToTry, callToTry))
       .collect { case Failure(throwable) => throwable }
@@ -52,14 +54,15 @@ case class Auction(
       case None => None
       case Some((call, index)) => {
         val positionsFromDealer = calls.size - index - 1
-        Some(call, dealer.next(positionsFromDealer))
+        assert(positionsFromDealer >= 0, "This should never be negative.")
+        Some(call, dealer.next(PositiveInteger(positionsFromDealer)))
       }
   }
   private lazy val lastBidOption: Option[Bid] = calls.collectFirst({ case x: Bid =>
     x.asInstanceOf[Bid]
   })
 
-  private val currentTurn: Direction = dealer.next(calls.size)
+  private val currentTurn: Direction = dealer.next(PositiveInteger(calls.size))
 
   private def isDoubleValid = lastNonPassCall match
     case None                    => false

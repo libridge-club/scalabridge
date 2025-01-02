@@ -31,7 +31,8 @@ case object DuplicateBoard:
       number: EffectiveDuplicateBoardNumber
   ): Direction = {
     val mod = number.ordinal() % Direction.values.size;
-    Direction.NORTH.next(mod);
+    assert(mod >= 0, "As .ordinal() is non-negative, then the remainder is also non-negative.")
+    Direction.NORTH.next(PositiveInteger(mod));
   }
 
   /** Neither Side Vulnerable Boards 1 8 11 14 North-South Vulnerable Boards 2 5

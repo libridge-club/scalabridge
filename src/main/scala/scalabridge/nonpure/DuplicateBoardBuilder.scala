@@ -26,7 +26,7 @@ object DuplicateBoardBuilder {
       val validatedHands =
         completeHands.map((completeHand) => CompleteHandValidatedBuilder.build(completeHand))
       val directionToCompleteHandMap = validatedHands.zipWithIndex
-        .map((hand, index) => (firstDirection.next(index) -> hand))
+        .map((hand, index) => (firstDirection.next(PositiveInteger(index)) -> hand))
         .toMap
       val finalHands = CompleteDeckInFourHandsValidatedBuilder.build(
         CompleteDeckInFourHands(directionToCompleteHandMap)

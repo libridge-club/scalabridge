@@ -14,6 +14,8 @@ class AuctionTest extends UnitFunSpec {
   val oneClubBid = Bid(OddTricks.ONE, Strain.CLUBS)
   describe("An Auction") {
     val anyDirection = Direction.NORTH
+    val positiveTwo = PositiveInteger(2)
+    val positiveThree = PositiveInteger(3)
     it("should get dealer") {
       Auction(Direction.NORTH).dealer shouldBe Direction.NORTH
       Auction(Direction.EAST).dealer shouldBe Direction.EAST
@@ -70,7 +72,7 @@ class AuctionTest extends UnitFunSpec {
         .makeCall(anyDirection.next, PassingCall)
         .get
       auctionWith1ClubAndPass
-        .makeCall(anyDirection.next(2), DoubleCall)
+        .makeCall(anyDirection.next(positiveTwo), DoubleCall)
         .failed
         .get shouldBe an[InvalidCallException]
     }
@@ -80,10 +82,10 @@ class AuctionTest extends UnitFunSpec {
         .get
         .makeCall(anyDirection.next, DoubleCall)
         .get
-        .makeCall(anyDirection.next(2), PassingCall)
+        .makeCall(anyDirection.next(positiveTwo), PassingCall)
         .get
       auctionWith1ClubAndDoubleAndPass
-        .makeCall(anyDirection.next(3), RedoubleCall)
+        .makeCall(anyDirection.next(positiveThree), RedoubleCall)
         .failed
         .get shouldBe an[InvalidCallException]
     }

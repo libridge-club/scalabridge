@@ -95,7 +95,7 @@ class TrickTest extends UnitFunSpec {
 
       val actualMap = trick.getCardDirectionMap
       val expectedPairs = fourCards.zipWithIndex
-        .map((card, index) => (card -> anyDirection.next(index)))
+        .map((card, index) => (card -> anyDirection.next(PositiveInteger(index))))
 
       actualMap shouldBe a[java.util.Map[?, ?]]
       expectedPairs.foreach((card, direction) => actualMap.get(card) shouldBe direction)

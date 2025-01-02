@@ -25,10 +25,10 @@ class DirectionTest extends UnitFunSpec {
       west.next shouldBe north
     }
     it("should know its non immediate next") {
-      north.next(1) shouldBe east
-      north.next(2) shouldBe south
-      north.next(3) shouldBe west
-      north.next(4) shouldBe north
+      north.next(PositiveInteger(1)) shouldBe east
+      north.next(PositiveInteger(2)) shouldBe south
+      north.next(PositiveInteger(3)) shouldBe west
+      north.next(PositiveInteger(4)) shouldBe north
     }
     it("should be acessible from its abbreviation as a Try") {
       Direction.getFromAbbreviation('n') shouldBe Success(north)
